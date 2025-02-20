@@ -1,0 +1,36 @@
+ p {
+    line-height:35px;
+ }
+
+#navbar {
+    position:static;
+}
+
+#artist-photo {
+    width:100vw;
+    height:100vh;
+    background-position: center center;
+    overflow:hidden;
+    margin:auto;
+}
+
+#artist-biography, #artist-purpose {
+    margin:1% 5%;
+}
+
+#artist-young {
+    display:flow-root;
+    float:left;
+    width:40%;
+    margin:0 1%;
+}
+
+#artist-at-work {
+    float:right;
+    width:55%;
+    margin:0 1%;
+}
+
+@media only screen and (min-width:600px) and (max-width:1200px) {
+
+}

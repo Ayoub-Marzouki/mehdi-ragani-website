@@ -1,0 +1,143 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
+
+body {
+    font-family: 'Libre Baskerville', monospace;
+    font-size:medium;
+    color:#666;
+}
+
+main {
+    margin:auto;
+    width:80%;
+}
+
+h1 {
+    font-size:45px;
+    color:rgba(0,0,0,0.8);
+}
+
+
+.clear {
+    clear:both;
+}
+
+.hidden {
+    display:none;
+}
+
+.icons {
+    width:35px;
+    height:35px;
+}
+
+#navbar {
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    z-index:999;
+    position:fixed;
+    top:0;
+    width: 100%;
+}
+
+/* Setting size of each element of navbar */
+.navbar-item, .artwork-name {
+    color:whitesmoke;
+    text-align:center;
+    text-decoration:none;
+    list-style:none;
+    text-shadow:1px 1px 2px black;
+    padding:1%;
+}
+
+/* First element of navbar to the left, rest of elements to the right */
+.navbar-item:first-child {
+    margin-right:auto;
+    font-size:45px;
+}
+
+/* Adding the underline effect for the navbar items except for the first item */
+.navbar-item:not(:first-child):hover {
+    font-weight: 900;
+    color: white;
+}
+
+.navbar-item:not(:first-child)::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: black;
+    transition: width .3s;
+    margin-top: 4px;
+}
+
+.navbar-item:not(:first-child):hover::after {
+    width: 100%;
+}
+
+
+/* !!!!!!!!!!!!!!!! Styling last part of the page !!!!!!!!!!!!!!!*/
+.footer {
+    font-weight:900;
+    font-family:monospace;
+    color:white;
+    /* background-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,1)); */
+    background-color:black;
+    text-align:center;
+}
+
+.footer h3 {
+    color:rgba(255,255,255,0.4);
+    font-size:23px;
+    margin-top:5%;
+    margin-bottom:2%;
+}
+
+.footer a, .footer p {
+    color:whitesmoke;
+    font-size:16px;
+    transition:300ms;
+}
+.footer a {
+    text-decoration:underline;
+    font-weight:900;
+}
+
+.footer a:hover {
+    color:white;
+    transition:300ms;
+}
+
+.footer hr {
+    color:rgba(0,0,0,0.3);
+    width:80%;
+    margin: 2% auto 2% auto;
+}
+
+.footer br {
+    display:block;
+    margin:2%;
+}
+
+/* Changing the display of footer2 to grid */
+.parent {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    }
+    
+    .div1 { grid-area: 1 / 1 / 2 / 2; }
+    .div2 { grid-area: 1 / 2 / 2 / 3; }
+    .div3 { grid-area: 1 / 3 / 2 / 4; }
+    .div4 { grid-area: 1 / 4 / 2 / 5; }
+    .div5 { grid-area: 2 / 2 / 3 / 4; }
+        
