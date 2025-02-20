@@ -1,0 +1,41 @@
+/* Setting size of each element of navbar */
+.artwork-name {
+    color:whitesmoke;
+    text-align:center;
+    text-decoration:none;
+    list-style:none;
+    text-shadow:1px 1px 2px black;
+    padding:1%;
+}
+
+
+/* display:flex here works as the equivalent of background-position (if you remove it you'll notice that the portion of the images of the slider that's visible will change) */
+#slider {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#artworks-names {
+    position:fixed;
+    bottom:50px;
+}
+
+.slider-image, .artwork-name {
+    position: absolute;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.artwork-name {
+    width:150px;
+}
+
+.slider-image.active, .artwork-name.active {
+    opacity: 1;
+}
+
+
