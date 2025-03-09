@@ -1,0 +1,51 @@
+/* Making the items stack horizontally : search bar to the left, artworks to the right */
+#main {
+    margin-top:5%;
+    display:flex;
+    justify-content:space-between;
+    font-size:larger;
+}
+
+
+/* Fixing the search bar to the left */
+#search {
+    padding:1%;
+    border:1px solid black;
+    margin-right:1%;
+}
+#search-items {
+    position:sticky;
+    top:20px;
+    padding:3% 1% 1% 1%;
+}
+
+/* Setting up the layout of the artworks : section 1 | section 2 | section 3 */
+#artworks {
+    display:flex;
+    gap:15px;
+}
+
+/* Setting the max size of the artworks */
+#artworks img {
+    max-width:450px;
+}
+
+/* Adding some bottom space to the artwork blocks */
+.artwork-block {
+    margin-bottom:5%;
+
+}
+
+/* Making some space between the last section and the right border of the screen */
+#artworks section:last-child {
+    margin-right:15px;
+}
+
+.artwork-title {
+    text-align:center;
+    font-weight:900;
+}
+
+.artwork-info {
+    margin-left:10px;
+}

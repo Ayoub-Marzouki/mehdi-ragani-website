@@ -1,0 +1,81 @@
+/* Making the navbar no longer fixed */
+#navbar {
+    position:static;
+}
+
+hr {
+    width:95%;
+    margin:3%;
+    color:rgba(0,0,0,0.3);
+    box-shadow:1px 1px 5px black;
+}
+
+/* Matching all headings' color with the navbar's first item  */
+
+h1 {
+    color:rgba(0,0,0,0.7);
+}
+
+/* Setting some space between lines for better visibility */
+
+p {
+    line-height:35px;
+}
+
+/* Centering the artist's statement  */
+/* #artist-statement {
+    background-image:url(/images/artworks/horses.png);
+    width:100vw;
+    height:150vh;
+    background-size:cover;
+} */
+#artist-statement h1 {
+    text-align:center;
+    margin:5% auto;
+    text-shadow:3px 3px 40px black;
+    /* color:white; */
+    /* background-color:black; */
+}
+
+/* Centering artist's biography, more of the artist, artist's purpose parts */
+
+#more-of-artist, #artist-biography, #artist-purpose {
+    margin:1% 5%;
+}
+
+/* Positioning the artist's photos */
+
+#artist-young {
+    display:flow-root;
+    float:left;
+    width:40%;
+    margin:0 1%;
+}
+
+#artist-at-work {
+    float:right;
+    width:55%;
+    margin:0 1%;
+}
+
+/* Setting up the style of the additional artist images */
+#more-of-artist-images {
+    text-align:center; /* centers the images (using margin:auto won't work) */
+    margin:1%;
+    padding:1%;
+    
+}
+
+.more-of-artist-image {
+    width:30%;
+    margin:1%;
+    padding:1%;
+}
+
+.more-of-artist-image:hover {
+    cursor:pointer;
+}
+
+@media only screen and (min-width:600px) and (max-width:1200px) {
+
+}

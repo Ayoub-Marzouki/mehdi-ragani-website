@@ -1,0 +1,128 @@
+body {
+    font-size:20px;
+    color:rgba(0,0,0,0.7);
+}
+
+a {
+    transition:300ms;
+}
+
+summary, p {
+    font-weight:900;
+    margin:3% 0;
+}
+p {
+    margin:1%;
+}
+summary {
+    color:black;
+    font-size:27px;
+}
+
+summary:hover {
+    cursor:pointer;
+    color:#212a2f;
+}
+
+details {
+    border-bottom:1px solid rgba(0,0,0,0.4);
+}
+
+details:last-child {
+    border:none;
+}
+
+
+
+
+/* Modifying the border of google maps */
+iframe {
+    border-radius:1%;
+    width:600px;
+    height:450px;
+    display:block;
+    margin:auto;
+    
+}
+
+.contact-container {
+    padding-right:5%;
+}
+
+/* Style form labels */
+.contact-container label {
+    font-weight:900;
+    display: block; /* Make labels display as block elements */
+    margin-bottom: 1%; /* Add margin bottom for spacing */
+}
+
+/* Style form inputs and buttons */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+textarea {
+    width: 100%; /* Make inputs and buttons fill their container */
+    height:4vh;
+}
+.contact-container textarea {
+    height:auto;
+}
+
+.button {
+    display:block;
+    color:white;
+    font-weight:900;
+    font-size:17px;
+    width:18%;
+    background-color:#212a2f;
+    margin:2% auto;
+    padding:1.5% 0;
+    text-align:center;
+    transition:300ms;
+    border-radius:10px;
+}
+
+.button:hover {
+    cursor:pointer;
+    background-color:black;
+    transition:300ms;
+}
+
+/* Adjust form select */
+select {
+    width: 100%; /* Make select fill its container */
+    height:4vh;
+    margin-bottom:3%;
+}
+
+/* Style newsletter section */
+#newsletter-signup {
+    margin-top: 20px; /* Add margin top for spacing */
+}
+
+/* Style social media links */
+#find-us {
+    margin-top: 20px; /* Add margin top for spacing */
+}
+
+
+/* Making the page mobile friendly */
+
+@media only screen and (max-width:600px) {
+    iframe {
+        width:80vw;
+        height:50vh;
+    }
+}
+@media only screen and (min-width:600px) {
+    iframe {
+        width:80vw;
+        height:50vh;
+    }
+}
+@media only screen and (min-width:1200px) {
+    iframe {
+        width:40vw;
+        height:50vh;
+    }
+}
