@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Artworks</title>
+</head>
+<body>
+    <h1>Artworks : </h1>
+    <ul>
+        <li th:each="art : ${artworks}">
+          <h2 th:text="${art.title}"></h2>
+          <p>Price: <span th:text="${art.price}"></span></p>
+        </li>
+      </ul>
+      
+</body>
+</html>
