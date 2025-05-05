@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/sharedstyle.css">
+    <link rel="stylesheet" href="/css/admin-dashboard.css">
+    <script src="/js/admin-dashboard.js" defer></script>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+    <br>
+    <h1>Tables</h1>
+    <br>
+    <section id="tables">
+        <div class="table" th:each="table : ${tables}">
+            <a class="table-name" th:href="@{|/admin/${table}s|}" th:text="${table}"></a>
+            <a class="add" th:href="@{|/admin/${table}s/add|}">Add</a>
+            <a class="change" th:href="@{|/admin/${table}s|}">Change</a>
+        </div>    
+    </section>
+
+</body>
+</html>

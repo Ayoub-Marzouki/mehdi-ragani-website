@@ -1,0 +1,51 @@
+h1 {
+    text-align:center;
+}
+
+#tables {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.table {
+    margin:1%;
+    padding:1%;
+    box-shadow:1px 1px 10px grey;
+    width:40%;
+    display:flex;
+}
+
+.table a {
+    padding:1%;
+    text-decoration:none;
+    color:rgba(0, 0, 255, 0.7);
+    font-weight:bolder;
+}
+
+.table-name {
+    margin-right:auto;
+}
+
+.table .add,.table .change {
+    color:white;
+    text-shadow:1px 1px 1px black;
+    transition:300ms;
+}
+
+.add {
+    background-color:lightgreen;
+}
+
+.add:hover {
+    background-color:rgb(120, 200, 120);
+}
+
+.change {
+    background-color:lightseagreen;
+}
+
+.change:hover {
+    transition: 300ms;
+    background-color:darkcyan;
+}

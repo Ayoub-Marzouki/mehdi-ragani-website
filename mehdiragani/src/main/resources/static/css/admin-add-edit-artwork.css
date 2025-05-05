@@ -1,0 +1,78 @@
+.form {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+}
+
+.form h1 {
+    text-align: center;
+    margin-bottom: 1.25rem;
+    color: #333;
+}
+
+.form div.field {
+    margin-bottom: 1rem;
+}
+
+.field label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-weight: bold;
+    color: #555;
+}
+
+.field input[type="text"],
+.field input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+.form input::placeholder {
+    color: #888;
+}
+
+.form .error {
+    margin-top: 0.25rem;
+    color: #e74c3c;
+    font-size: 0.875rem;
+}
+
+.form button[type="submit"],.form #add-secondary-images  {
+    display: block;
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.form #add-secondary-images {
+    width:50%;
+    margin:auto;
+    background-color:#218838;
+    color:white;
+    text-align:center;
+}
+
+.form #add-secondary-images {
+    background-color:green;
+}
+
+.form button[type="submit"]:hover {
+    background-color: #2980b9;
+}
+
+.star {
+    color:red;
+}

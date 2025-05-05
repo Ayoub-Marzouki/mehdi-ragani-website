@@ -1,0 +1,104 @@
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+.flex {
+    margin:1%;
+    padding:1%;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    font-size:18px;
+}
+
+#dashboard {
+    text-decoration: none;
+    margin-left:5%;
+    font-size:larger;
+    color:darkslateblue;
+    font-weight: 600;
+}
+
+#dashboard:hover {
+    color:darkblue;
+    font-weight:900;
+}
+
+#add-artwork {
+    padding:1%;
+    border-radius:4px;
+    background-color:#218838;
+    color:white;
+    text-decoration: none;
+}
+
+#add-artwork:hover {
+    background-color:green;
+}
+
+.artwork-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin-bottom: 1.5rem;
+    border-bottom:2px solid lightgrey;
+}
+  
+.artwork-table thead th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-weight: bold;
+    padding: 0.75rem;
+    border-right:2px solid lightgrey;
+    border-bottom: 2px solid #ddd;
+    text-align: center;
+}
+  
+.artwork-table tbody td {
+    padding: 0.65rem;
+    border-bottom: 1px solid #eee;
+    border-right:2px solid lightgrey;
+    text-align:center;
+}
+  
+.artwork-table tbody tr:nth-child(even) {
+    background-color: #fafafa;
+}
+  
+.artwork-table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+  
+.artwork-table img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Delete / Change buttons */
+
+#delete, #change {
+    background-color: #e74c3c;
+    border: none;
+    color: #fff;
+    padding: 2% 4%;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+#delete:hover {
+    background-color: #c0392b;
+}
+
+#change {
+    text-decoration: none;
+    background-color: lightseagreen;
+}
+
+#change:hover {
+    background-color: darkcyan;
+}

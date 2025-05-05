@@ -4,16 +4,60 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin-artworks.css">
     <title>Admin - Artworks</title>
 </head>
 <body>
-    <h1>Artworks : </h1>
-    <ul>
-        <li th:each="art : ${artworks}">
-          <h2 th:text="${art.title}"></h2>
-          <p>Price: <span th:text="${art.price}"></span></p>
-        </li>
-      </ul>
-      
+  
+  <div class="flex">
+    <h1>Artworks</h1>
+    <a id="add-artwork" href="/admin/artworks/add">Add an artwork</a>
+  </div>
+
+  <p><a id="dashboard" th:href="@{/admin}">Back to Dashboard</a></p>
+  <br>
+  <br>
+
+    <table class="artwork-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Main Image</th>
+          <th>Price</th>
+          <th>Secondary Images</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="artwork : ${artworks}">
+          <td th:text="${artwork.title}">Artwork Title</td>
+
+          <td>
+            <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" width="130"/>
+          </td>
+
+          <td th:text="${artwork.price}">0.00</td>
+
+          <td>
+            <div th:each="path : ${artwork.secondaryImagesPaths}">
+              <img th:src="@{${path}}"
+                   alt="Secondary Image"
+                   width="50"/>
+            </div>
+          </td>
+
+          <td>
+            <form th:action="@{/admin/artworks/{id}/delete(id=${artwork.id})}"
+                  method="post"
+                  onsubmit="return confirm('You sure you wanna delete this artwork?');">
+              <button id="delete" type="submit">Delete</button>
+            </form>
+            <br>
+            <a th:href="@{/admin/artworks/{id}/change(id=${artwork.id})}"
+              id="change">Change</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
 </body>
 </html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin-add-edit-artwork.css">
+    <script src="/js/admin-add-edit-artwork.js" defer></script>
+    <title>Add an artwork</title>
+</head>
+<body>
+    <section class="form">
+        <h1>Add New Artwork</h1>
+        <form th:action="@{/admin/artworks/add}" th:object="${artwork}" method="post">
+            <div class="field">
+                <label for="title">Title: <span class="star">*</span></label>
+                <input type="text" th:field="*{title}" id="title"/>
+                <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
+            </div>
+    
+            <div class="field">
+                <label for="price">Price: <span class="star">*</span></label>
+                <input type="number" step="0.1" th:field="*{price}" id="price"/>
+                <div class="error" th:if="${#fields.hasErrors('price')}"
+                th:errors="*{price}">Error</div>
+            </div>
+    
+            <div class="field">
+                <label for="mainImagePath">Main Image Path: <span class="star">*</span></label>
+                <input type="text" th:field="*{mainImagePath}" id="mainImagePath"  placeholder="/images/artworks/..."/>
+                <div class="error" th:if="${#fields.hasErrors('mainImagePath')}"
+                th:errors="*{mainImagePath}">Error</div>
+            </div>
+
+            <div id="secondary-images">
+                <div class="field">
+                  <label for="secondaryImage0">Secondary Image Path:</label>
+                  <input type="text" name="secondaryImagesPaths[0]" id="secondaryImage0" placeholder="/images/artworks/…"/>
+                </div>
+            </div>
+              
+            <br>
+            <!-- If we use button instead, it'll be counted Submit the artwork, so it won't work as intended -->
+            <div id="add-secondary-images">Add Secondary Images</div>
+            <br><br>
+
+            <div>
+            <button type="submit">Submit</button>
+            </div>
+        </form>
+    </section>
+</body>
+</html>

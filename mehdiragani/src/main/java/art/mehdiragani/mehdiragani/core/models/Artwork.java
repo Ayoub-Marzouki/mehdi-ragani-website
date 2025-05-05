@@ -25,7 +25,7 @@ import lombok.Setter;
 public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Setter(AccessLevel.NONE) // Disables the setter for this specific field (Lombok)
+    // @Setter(AccessLevel.NONE) // Disables the setter for this specific field (Lombok)
     private UUID id;
 
     @NotBlank(message = "Title cannot be null, nor entirely blank (at least a whitespace)")
@@ -42,7 +42,7 @@ public class Artwork {
 
     @ElementCollection
     @CollectionTable(
-        name = "secondary_images",
+        name = "secondary_image",
         joinColumns = @JoinColumn(name = "artwork_id")
     )
     @Column(name = "secondary_image_path")
