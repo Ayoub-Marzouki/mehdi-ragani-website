@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{css/home.css}">
+    <script th:src="@{js/home.js}" defer></script>
+    <title>Home</title>
+</head>
+<body>
+    <header>
+        <section th:replace="fragments/header :: header"></section>
+        <section class="slider" th:each="artwork : ${artworks}">
+            <img class="slider-image" th:src="${artwork.mainImagePath}" alt="">
+        </section>
+        <section id="artworks-names" th:each="artwork : ${artworks}">
+            <a class="artwork-name" href="#" th:text="${artwork.title}">Artwork name1</a> <br> 
+            <span class="artwork-year" th:text="${artwork.year}">2024</span>
+        </section>
+    </header>
+</body>
+</html>

@@ -24,6 +24,13 @@
                 <div class="error" th:if="${#fields.hasErrors('price')}"
                 th:errors="*{price}">Error</div>
             </div>
+
+            <div class="field">
+                <label for="year">Year: <span class="star">*</span></label>
+                <input type="number" th:field="*{year}" id="year"/>
+                <div class="error" th:if="${#fields.hasErrors('year')}"
+                th:errors="*{year}">Error</div>
+            </div>
     
             <div class="field">
                 <label for="mainImagePath">Main Image Path: <span class="star">*</span></label>

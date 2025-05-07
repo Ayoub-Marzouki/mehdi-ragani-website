@@ -1,48 +1,46 @@
-// Get the user's screen dimensions
-var screenWidth = window.innerWidth;
-var screenHeight = window.innerHeight;
+document.addEventListener('DOMContentLoaded', () => {
+	const screenWidth  = window.innerWidth;
+	const screenHeight = window.innerHeight;
 
-var sliderImages = document.getElementsByClassName("slider-image");
-var artworkNames = document.getElementsByClassName("artwork-name");
-var validImages = [];
+	// live HTMLCollections → arrays
+	const sliderImages  = Array.from(document.getElementsByClassName("slider-image"));
+	const artworkNames  = Array.from(document.getElementsByClassName("artwork-name"));
+	const artworkYears  = Array.from(document.getElementsByClassName("artwork-year"));
 
+	sliderImages.forEach(img => {
+		img.addEventListener('load', () => {
+			const aspectRatio   = img.naturalWidth / img.naturalHeight;
+			const adjustedWidth = Math.max(screenWidth, screenHeight * aspectRatio);
+			img.style.width     = adjustedWidth + "px";
+			img.style.height    = (adjustedWidth / aspectRatio) + "px";
+		});
+		// trigger if already cached
+		if (img.complete) img.dispatchEvent(new Event('load'));
+	});
 
-Array.from(sliderImages).forEach(function (image) {
-    image.onload = function () {
-        var aspectRatio = image.naturalWidth / image.naturalHeight;
-
-        // Resize dimensions to cover the screen while keeping the aspect ratio
-        var adjustedWidth = Math.max(screenWidth, screenHeight * aspectRatio);
-        var adjustedHeight = adjustedWidth / aspectRatio;
-
-        image.style.width = adjustedWidth + "px";
-        image.style.height = adjustedHeight + "px";
-
-        validImages.push(image);
-
-        if (validImages.length === sliderImages.length) {
-            initSlider(validImages, artworkNames);
-        }
-    };
+	// 4) initialize slider immediately
+	initSlider(sliderImages, artworkNames, artworkYears);
 });
 
-function initSlider(images, names) {
-    let currentIndex = 0;
+function initSlider(images, names, years) {
+	let currentIndex = 0;
 
-    // Show the first valid image and name
-    images[currentIndex].classList.add('active');
-    names[currentIndex].classList.add('active');
+	// show first slide & name
+	images[currentIndex].classList.add('active');
+	names[currentIndex].classList.add('active');
+	years[currentIndex].classList.add('active');
 
-    // Switch images and artwork names
-    function changeSlide() {
-        images[currentIndex].classList.remove('active');
-        names[currentIndex].classList.remove('active');
+	function changeSlide() {
+		images[currentIndex].classList.remove('active');
+		names[currentIndex].classList.remove('active');
+		years[currentIndex].classList.remove('active');
+		
+		currentIndex = (currentIndex + 1) % images.length;
 
-        currentIndex = (currentIndex + 1) % images.length;
+		images[currentIndex].classList.add('active');
+		names[currentIndex].classList.add('active');
+		years[currentIndex].classList.add('active');
+	}
 
-        images[currentIndex].classList.add('active');
-        names[currentIndex].classList.add('active');
-    }
-
-    setInterval(changeSlide, 5000);
+	setInterval(changeSlide, 5000);
 }

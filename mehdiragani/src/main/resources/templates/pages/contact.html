@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{css/contact.css}">
+    <title>Contact</title>
+</head>
+
+<body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
+    <main>
+        <header>
+            <p>Your questions and comments are important to us! Please use the form below or send us an email, and note that the more information you provide, the better we can serve you.</p>
+            <br>
+            <div class="contact-container">
+                <!-- Combined Problem/Comment Form -->
+                <details>
+                    <summary>Have Feedback or an Issue? Let Us Know!</summary>
+                    <section id="feedback">
+                        <form id="feedback-form">
+                            <label for="inquiry-type">Inquiry Type *</label>
+                            <select name="inquiry" id="inquiry-type">
+                                <option value="problem">Problem</option>
+                                <option value="comment">Comment</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <label for="message">Your Message *</label>
+                            <textarea id="message" name="message" cols="4" rows="8"></textarea>
+                            <p class="button">Submit</p>
+                        </form>
+                        <br>
+                        <p>(Or contact us via our email : test@gmail.com)</p>
+                    </section>
+                    <br><br>
+                </details>
+                
+                <!-- Find Us Section -->
+                <details>
+                    <summary>Where can you find us?</summary>
+                    <p>We're currently located here : <br> <br>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3306.129508682563!2d-5.0143111177123965!3d34.0405488491638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd9f8b2f9d46585f%3A0xf1b710775053bbc6!2sFlamenco%20cafe!5e0!3m2!1sen!2sma!4v1691324448356!5m2!1sen!2sma" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        
+                        <br><br>We also have several social media pages. <br> Feel free to take a tour!
+                    </p>
+                    <header class="icons">
+                        <a href="https://www.facebook.com/elkharbili1/" target="_blank" title="Facebook page"><img src="images/icons/facebook-icon.png" alt=""></a>
+                        <a href="" title="Instagram page"><img src="images/icons/instagram-icon.png" alt=""></a>
+                    </header>
+                    <br><br>
+                </details>
+                
+                <!-- Newsletter Signup Section -->
+                <details open>
+                    <summary>Stay Informed with Our Newsletter</summary>
+                    <section id="newsletter-signup">
+                        <p>Get the latest on new artworks, artist features, and exclusive offers.</p>
+                        <form id="newsletter-form">
+                            <label for="newsletter-email">Your Email</label>
+                            <input type="email" id="newsletter-email" name="newsletter-email">
+                            <p class="button">Sign up</p>
+                        </form>
+                    </section>
+                    <br><br>
+                </details>
+                <br><br>
+            </div>    
+        </header>
+    </main>
+</body>
+</html>

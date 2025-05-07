@@ -14,14 +14,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Data // Lombok
 @NoArgsConstructor // Lombok
 @Entity // JPA
+@AllArgsConstructor
 public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,6 +36,10 @@ public class Artwork {
     @Column(nullable = false)
     private double price;
 
+    @Positive(message = "Year cannot be negative!")
+    @Column
+    private int year;
+
     @NotNull(message = "Main image is required")
     @Column(name = "main_image_path")
     private String mainImagePath;
@@ -47,12 +51,4 @@ public class Artwork {
     )
     @Column(name = "secondary_image_path")
     private List<String> secondaryImagesPaths;
-
-
-    public Artwork(String title, double price, String mainImagePath, List<String> secondaryImagesPaths) {
-        this.title = title;
-        this.price = price;
-        this.mainImagePath = mainImagePath;
-        this.secondaryImagesPaths = secondaryImagesPaths;
-    }
 }

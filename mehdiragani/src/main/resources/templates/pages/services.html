@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{css/services.css}">
+    <script th:src="@{js/services.js}" defer></script>
+    <title>Home</title>
+</head>
+<body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
+    <h1>Want to see yourself in an artistic manner? <br> Perhaps a gift for your beloved ones too?</h1>
+    <header class="slider header-overlay">
+        <img class="slider-image" src="/images/services/1.jpg" alt="Services">
+        <img class="slider-image" src="/images/services/2.jpg" alt="Services">
+        <img class="slider-image" src="/images/services/3.jpg" alt="Services">
+        <img class="slider-image" src="/images/services/4.webp" alt="Services">
+    </header>
+
+    <main>
+        <h2>We are at your services!</h2>
+        <p>Browse the styles to find your perfect match. From vibrant caricatures to elegant sketches, discover a range of options, choose your favorite style, and let us turn your photos into stunning art pieces.</p>
+        <br>
+
+        <header class="styles">
+            <div class="style-item">
+                <img class="styles-image left" src="/images/services/styles/1.png" alt="Scumbling art" loading="lazy">
+                <p class="type-writer">Scrumbling is a painting technique that involves applying thin, translucent layers of paint over an already painted surface to create texture and depth. This method is often used to soften colors and transitions, adding visual richness and complexity to the artwork.</p>
+            </div>
+
+            <header class="clear"></header>
+            <p class="choose">Choose</p>
+
+            <div class="style-item">
+                <img class="styles-image right" src="/images/services/styles/2.png" alt="" loading="lazy">
+                <p class="type-writer">Doodle art is characterized by overlapping and intertwined lines that create a chaotic and abstract texture. It’s a creative and often spontaneous way to express oneself, and it can take various forms—from simple lines and shapes to intricate patterns and designs.</p>
+            </div>
+
+            <header class="clear"></header>
+            <p class="choose">Choose</p>
+
+            <div class="style-item">
+                <img class="styles-image left" src="/images/services/styles/4.png" alt="Hyperrealism" loading="lazy">
+                <p class="type-writer">Line art is a form of artistic expression that relies on one of the simplest types of marks: lines. These lines can be drawn, painted, or sculpted, and they depict illustrated lines in various forms.</p>
+            </div>
+
+            <header class="clear"></header>
+            <p class="choose">Choose</p>
+
+            <div class="style-item">
+                <img class="styles-image right" src="/images/services/styles/5.jpeg" alt="" loading="lazy">
+                <p class="type-writer">Hyperrealistic art, especially when created with oil paint, is an extremely detailed and realistic form of art that aims to resemble a photograph. Hyperrealist artists use precise and meticulous techniques to faithfully reproduce every detail, texture, and nuance of light, creating works that appear almost lifelike.</p>
+            </div>
+            <header class="clear"></header>
+            <p class="choose">Choose</p>
+            <div class="style-item">
+                <img class="styles-image left" src="/images/services/styles/6.png" alt="" loading="lazy">
+                <p class="type-writer">Surrealism is an artistic movement characterized by its focus on the subconscious mind, dreamlike imagery, and unexpected combinations. Surrealist artworks often challenge conventional reality and invite viewers to explore the depths of imagination.</p>
+            </div>
+            <header class="clear"></header>
+            <p class="choose">Choose</p>
+            <div class="style-item">
+                <img class="styles-image right" src="/images/services/styles/7.jpeg" alt="" loading="lazy">
+                <p class="type-writer">Also a type of line art using a different technique. It is a form of artistic expression that relies on one of the simplest types of marks: lines. These lines can be drawn, painted, or sculpted, and they depict illustrated lines in various forms.</p>
+            </div>
+            <header class="clear"></header>
+            <p class="choose">Choose</p>
+        </header>
+    </main> 
+</body>
+</html>

@@ -24,6 +24,7 @@
           <th>Title</th>
           <th>Main Image</th>
           <th>Price</th>
+          <th>Year</th>
           <th>Secondary Images</th>
           <th>Actions</th>
         </tr>
@@ -37,6 +38,8 @@
           </td>
 
           <td th:text="${artwork.price}">0.00</td>
+          
+          <td th:text="${artwork.year}">2000</td>
 
           <td>
             <div th:each="path : ${artwork.secondaryImagesPaths}">

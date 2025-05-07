@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{css/artworks.css}">
+    <title>Store</title>
+</head>
+<body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
+    <!-- Added that div so that position:sticky works; if you directly use position:sticky, it'll be overriden by display:flex of its container -->
+    <header id="main">
+        <section id="search" class="flex-item">
+            <div id="search-items">
+                <p>
+                    <b>Theme</b>
+                    <ul>
+                        <li>Paintings</li>
+                        <li>Prints</li>
+                    </ul>
+                </p>
+                <p>
+                    <b>Size</b>
+                    <ul>
+                        <li>Paintings</li>
+                        <li>Prints</li>
+                    </ul>
+                </p>
+                <p>
+                    <b>Price</b>
+                    <ul>
+                        <li>Paintings</li>
+                        <li>Prints</li>
+                    </ul>
+                </p>
+                <p>
+                    <b>Medium</b>
+                    <ul>
+                        <li>Paintings</li>
+                        <li>Prints</li>
+                    </ul>
+                </p>
+                <p>
+                    <b>Category</b>
+                    <ul>
+                        <li>Paintings</li>
+                        <li>Prints</li>
+                    </ul>
+                </p>
+            </div>
+        </section>
+
+        <!-- <section>
+            <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
+            <p class="artwork-title" th:text="${artwork.title}">Title</p>
+            <p class="artwork-info">Info</p>
+            <p th:text="${artwork.price}">Status | Price</p>
+        </section> -->
+        <section id="artworks">
+            <section th:each="column : ${columns}">
+                <div class="artwork-block" th:each="artwork : ${column}">
+                    <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
+                    <p class="artwork-title" th:text="${artwork.title}">Title</p>
+                    <p class="artwork-info">More info</p>
+                    <p> <span>Status</span> | <span th:text="${artwork.price}"></span> DH</p>
+                </div>
+            </section>
+        </section>
+            
+    </header>
+</body>
+</html>

@@ -11,7 +11,7 @@
 #search {
     padding:1%;
     border:1px solid black;
-    margin-right:1%;
+    padding-right:1%;
 }
 #search-items {
     position:sticky;
@@ -38,7 +38,7 @@
 
 /* Making some space between the last section and the right border of the screen */
 #artworks section:last-child {
-    margin-right:15px;
+    padding-right:15px;
 }
 
 .artwork-title {
