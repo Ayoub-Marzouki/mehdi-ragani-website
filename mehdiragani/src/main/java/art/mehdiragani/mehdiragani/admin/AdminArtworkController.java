@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import art.mehdiragani.mehdiragani.core.models.Artwork;
+import art.mehdiragani.mehdiragani.core.models.ArtworkFeel;
+import art.mehdiragani.mehdiragani.core.models.ArtworkStatus;
+import art.mehdiragani.mehdiragani.core.models.ArtworkTheme;
 import art.mehdiragani.mehdiragani.core.services.ArtworkService;
 import jakarta.validation.Valid;
 
@@ -39,6 +42,10 @@ public class AdminArtworkController {
     public String showAddForm(Model model) {
         // Supply an empty Artwork for data-binding
         model.addAttribute("artwork", new Artwork());
+        model.addAttribute("allThemes",  List.of(ArtworkTheme.values()));
+        model.addAttribute("allFeels",   List.of(ArtworkFeel.values()));
+        model.addAttribute("allStatuses",List.of(ArtworkStatus.values()));
+        
         return "admin/add-artwork";
     }
  
@@ -74,6 +81,10 @@ public class AdminArtworkController {
     public String showEditForm(@PathVariable("id") UUID id, Model model) {
         Artwork art = artworkService.getArtworkById(id);
         model.addAttribute("artwork", art);
+        model.addAttribute("allThemes",  List.of(ArtworkTheme.values()));
+        model.addAttribute("allFeels",   List.of(ArtworkFeel.values()));
+        model.addAttribute("allStatuses",List.of(ArtworkStatus.values()));
+
         return "admin/edit-artwork";
     }
 

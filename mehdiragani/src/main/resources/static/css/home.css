@@ -38,6 +38,7 @@
 .slider-image, .artwork-name, .artwork-year {
     position: absolute;
     opacity: 0;
+    z-index:1;
     transition: opacity 2s ease-in-out;
 }
 
@@ -50,6 +51,7 @@
 
 .slider-image.active, .artwork-name.active, .artwork-year.active {
     opacity: 1;
+    z-index:10;
 }
 
 

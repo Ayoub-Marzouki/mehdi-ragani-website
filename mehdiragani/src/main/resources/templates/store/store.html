@@ -8,62 +8,80 @@
     <link rel="stylesheet" th:href="@{css/artworks.css}">
     <title>Store</title>
 </head>
-<body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
-    <!-- Added that div so that position:sticky works; if you directly use position:sticky, it'll be overriden by display:flex of its container -->
+<body th:replace="~{layouts/main-layout :: main-layout(~{::body/content()})}">
+
+    <!-- Added <div id="search-items"> so that position:sticky works; if you directly use position:sticky, it'll be overriden by display:flex of its container -->
     <header id="main">
         <section id="search" class="flex-item">
             <div id="search-items">
-                <p>
-                    <b>Theme</b>
-                    <ul>
-                        <li>Paintings</li>
-                        <li>Prints</li>
-                    </ul>
-                </p>
-                <p>
-                    <b>Size</b>
-                    <ul>
-                        <li>Paintings</li>
-                        <li>Prints</li>
-                    </ul>
-                </p>
-                <p>
-                    <b>Price</b>
-                    <ul>
-                        <li>Paintings</li>
-                        <li>Prints</li>
-                    </ul>
-                </p>
-                <p>
-                    <b>Medium</b>
-                    <ul>
-                        <li>Paintings</li>
-                        <li>Prints</li>
-                    </ul>
-                </p>
-                <p>
-                    <b>Category</b>
-                    <ul>
-                        <li>Paintings</li>
-                        <li>Prints</li>
-                    </ul>
-                </p>
+                <form th:action="@{/store}" method="get" id="filter-form">
+                    <details>
+                        <summary><b>Price</b></summary>
+                        <input type="number" name="minPrice" step="0.01" th:value="${minPrice}" placeholder="Min Price"/>
+                        <input type="number" name="maxPrice" step="0.01" th:value="${maxPrice}" placeholder="Max Price"/>
+                    </details>
+                    
+                    <details>
+                        <summary><b>Size</b></summary>
+                        <input type="number" name="minWidth" step="0.01" th:value="${minWidth}" placeholder="Min Width (in cm)"/>
+                        <input type="number" name="maxWidth" step="0.01" th:value="${maxWidth}" placeholder="Max Width (in cm)"/>
+
+                        <input type="number" name="minHeight" step="0.01" th:value="${minHeight}" placeholder="Min Height (in cm)"/>
+                        <input type="number" name="maxHeight" step="0.01" th:value="${maxHeight}" placeholder="Max Height (in cm)"/>
+                    </details>
+
+                    <details>
+                        <summary><b>Theme</b></summary>
+                        <select name="theme">
+                            <option value="" th:if="${theme == null}">Themes</option>
+                            <option th:each="t : ${allThemes}"
+                                    th:value="${t}"
+                                    th:text="${t}"
+                                    th:selected="${t} == ${theme}">
+                            </option>
+                        </select>
+                    </details>
+
+                    <details>
+                        <summary><b>Feel</b></summary>
+                        <select name="feel">
+                            <option value="" th:if="${feel == null}">Feels</option>
+                            <option th:each="f : ${allFeels}"
+                                    th:value="${f}"
+                                    th:text="${f}"
+                                    th:selected="${f} == ${feel}">
+                            </option>
+                        </select>
+                    </details>
+
+                    <details>
+                        <summary><b>Status</b></summary>
+                        <select name="status">
+                            <option value="" th:if="${status == null}">Status</option>
+                            <option th:each="s : ${allStatus}"
+                                    th:value="${s}"
+                                    th:text="${s}"
+                                    th:selected="${s} == ${status}">
+                            </option>
+                        </select>
+                    </details>
+                    
+                    <button type="submit">Go</button>
+                </form>
+                
+            <a th:href="@{/store}">Reset Filters</a>
             </div>
         </section>
-
-        <!-- <section>
-            <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
-            <p class="artwork-title" th:text="${artwork.title}">Title</p>
-            <p class="artwork-info">Info</p>
-            <p th:text="${artwork.price}">Status | Price</p>
-        </section> -->
+        
         <section id="artworks">
             <section th:each="column : ${columns}">
                 <div class="artwork-block" th:each="artwork : ${column}">
-                    <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
-                    <p class="artwork-title" th:text="${artwork.title}">Title</p>
-                    <p class="artwork-info">More info</p>
-                    <p> <span>Status</span> | <span th:text="${artwork.price}"></span> DH</p>
+                    <a th:href="@{/store/{id}(id=${artwork.id})}">
+                        <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
+                        <p class="artwork-title" th:text="${artwork.title}">Title</p>
+                        <p class="artwork-info">More info</p>
+                        <p> <span th:text="${artwork.status}"></span> | <span th:text="${artwork.price}"></span> DH</p>
+                    </a>
                 </div>
             </section>
         </section>

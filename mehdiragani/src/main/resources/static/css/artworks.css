@@ -4,35 +4,147 @@
     display:flex;
     justify-content:space-between;
     font-size:larger;
+    gap:20px;
 }
 
 
 /* Fixing the search bar to the left */
+/* ---------- Filter Panel Container ---------- */
 #search {
-    padding:1%;
-    border:1px solid black;
-    padding-right:1%;
+    width: 100%;
+    max-width:15vw;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius:10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-family:serif;
 }
 #search-items {
     position:sticky;
-    top:20px;
-    padding:3% 1% 1% 1%;
+    top:0;
+}
+
+#search-items details {
+    margin-bottom: 15%;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+#search-items summary {
+    background: #f5f5f5;
+    padding: 5%;
+    cursor: pointer;
+    list-style: none; /* remove default arrow in some browsers */
+    display:flex;
+    justify-content: space-between;
+}
+
+#search-items summary::after {
+    content: '▸';
+    transition: transform 0.2s;
+}
+
+#search-items details[open] summary::after {
+    transform: rotate(90deg);
+}
+
+/* ---------- Input Fields ---------- */
+#filter-form label {
+    display: block;
+    margin-left:20px;
+}
+
+#filter-form input[type="number"] {
+    width: 100%;
+    padding: 0.4rem 0.5rem;
+    margin-top: 0.25rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+}
+
+#search-items select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    background-color: #fff;
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23333" viewBox="0 0 16 16"><path d="M8 11L3 6h10l-5 5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 12px;
+    padding-right: 2rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
+
+#search-items select:focus {
+    outline: none;
+    border-color: #4dabf7;
+    box-shadow: 0 0 0 3px rgba(77, 171, 247, 0.1);
+}
+
+/* ---------- Submit Button ---------- */
+#filter-form button {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0;
+    margin-top: 1rem;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#filter-form button:hover {
+    background-color: #0056b3;
+}
+
+/* ---------- Reset Link ---------- */
+#search-items > a {
+    display: block;
+    margin-top: 0.75rem;
+    text-align: center;
+    color: #007BFF;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+#search-items > a:hover {
+    text-decoration: underline;
 }
 
 /* Setting up the layout of the artworks : section 1 | section 2 | section 3 */
 #artworks {
     display:flex;
     gap:15px;
+    padding-right:1%;
+    text-align:center;
+}
+
+#artworks a {
+    color:inherit;
+    text-decoration:none;
 }
 
 /* Setting the max size of the artworks */
 #artworks img {
-    max-width:450px;
+    max-width:400px;
 }
 
 /* Adding some bottom space to the artwork blocks */
 .artwork-block {
     margin-bottom:5%;
+    width:100%;
 
 }
 

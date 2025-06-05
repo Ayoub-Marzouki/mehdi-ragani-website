@@ -13,17 +13,29 @@
     font-size:18px;
 }
 
-#dashboard {
+.links {
     text-decoration: none;
-    margin-left:5%;
     font-size:larger;
     color:darkslateblue;
     font-weight: 600;
 }
 
-#dashboard:hover {
+.links:first-of-type {
+    margin-left:5%;
+}
+
+.links:hover {
     color:darkblue;
     font-weight:900;
+}
+
+.links::selection {
+    color:darkblue;
+}
+
+.dot {
+    font-size:larger;
+    margin:0 1%;
 }
 
 #add-artwork {

@@ -14,7 +14,7 @@
     <a id="add-artwork" href="/admin/artworks/add">Add an artwork</a>
   </div>
 
-  <p><a id="dashboard" th:href="@{/admin}">Back to Dashboard</a></p>
+  <p><a class="links" th:href="@{/admin}">Back to Dashboard</a> <span class="dot">•</span> <a class="links" th:href="@{/}">Back Home</a></p>
   <br>
   <br>
 
@@ -25,6 +25,10 @@
           <th>Main Image</th>
           <th>Price</th>
           <th>Year</th>
+          <th>Width x Height</th>
+          <th>Status</th>
+          <th>Theme</th>
+          <th>Feel</th>
           <th>Secondary Images</th>
           <th>Actions</th>
         </tr>
@@ -40,6 +44,14 @@
           <td th:text="${artwork.price}">0.00</td>
           
           <td th:text="${artwork.year}">2000</td>
+
+          <td><span th:text="${artwork.height}">Width</span> x <span th:text="${artwork.width}"></span> cm</td>
+
+          <td th:text="${artwork.status}">Status</td>
+          
+          <td th:text="${artwork.theme}">Theme</td>
+
+          <td th:text="${artwork.feel}">Feel</td>
 
           <td>
             <div th:each="path : ${artwork.secondaryImagesPaths}">

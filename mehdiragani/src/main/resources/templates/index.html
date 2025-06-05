@@ -16,7 +16,7 @@
             <img class="slider-image" th:src="${artwork.mainImagePath}" alt="">
         </section>
         <section id="artworks-names" th:each="artwork : ${artworks}">
-            <a class="artwork-name" href="#" th:text="${artwork.title}">Artwork name1</a> <br> 
+            <a class="artwork-name" th:href="@{/store/{id}(id=${artwork.id})}" th:text="${artwork.title}" target="_blank"></a> <br> 
             <span class="artwork-year" th:text="${artwork.year}">2024</span>
         </section>
     </header>

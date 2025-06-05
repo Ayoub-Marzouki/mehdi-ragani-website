@@ -7,6 +7,8 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,11 +36,31 @@ public class Artwork {
 
     @Positive(message = "Price must strictly be > 0")
     @Column(nullable = false)
-    private double price;
+    private double price = 1.00;
 
     @Positive(message = "Year cannot be negative!")
     @Column
     private int year;
+
+    @Positive(message = "Width cannot be negative!")
+    @Column
+    private Double width;
+
+    @Positive(message = "Height cannot be negative!")
+    @Column
+    private Double height;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private ArtworkTheme theme;
+
+    @Enumerated(EnumType.STRING)
+    @Column
+    private ArtworkFeel feel;
+    
+    @Enumerated(EnumType.STRING)
+    @Column
+    private ArtworkStatus status;
 
     @NotNull(message = "Main image is required")
     @Column(name = "main_image_path")

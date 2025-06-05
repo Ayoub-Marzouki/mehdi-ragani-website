@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		if (img.complete) img.dispatchEvent(new Event('load'));
 	});
 
-	// 4) initialize slider immediately
+	// initialize slider immediately
 	initSlider(sliderImages, artworkNames, artworkYears);
 });
 
