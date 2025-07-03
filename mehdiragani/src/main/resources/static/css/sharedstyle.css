@@ -7,10 +7,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap');
 
 body {
-    font-family: 'Libre Baskerville', monospace;
+    font-family: 'Libre Baskerville';
     font-size:medium;
-    color:rgba(0, 0, 0, 0.8);
-    background-color:rgb(240, 240, 240);
+    color:#4a311d;
+    background-color:#f6f0e4;
 }
 
 main {
@@ -19,7 +19,7 @@ main {
 }
 
 h1 {
-    font-size:45px;
+    font-size:35px;
     color:rgba(0,0,0,0.8);
 }
 
@@ -33,8 +33,8 @@ h1 {
 }
 
 .icons {
-    width:35px;
-    height:35px;
+    width:30px;
+    height:30px;
 }
 
 #navbar {
@@ -55,13 +55,13 @@ h1 {
     list-style:none;
     text-shadow:1px 1px 2px black;
     padding:1%;
-    font-size:20px;
+    font-size:17px;
 }
 
 /* First element of navbar to the left, rest of elements to the right */
 .navbar-item:first-child {
     margin-right:auto;
-    font-size:45px;
+    font-size:40px;
     color:rgba(0,0,0,0.7);
     text-shadow:none;
     font-weight:bolder;

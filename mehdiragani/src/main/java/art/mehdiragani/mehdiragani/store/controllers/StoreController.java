@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import art.mehdiragani.mehdiragani.core.models.Artwork;
-import art.mehdiragani.mehdiragani.core.models.ArtworkFeel;
-import art.mehdiragani.mehdiragani.core.models.ArtworkStatus;
-import art.mehdiragani.mehdiragani.core.models.ArtworkTheme;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkStatus;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
 import art.mehdiragani.mehdiragani.core.services.ArtworkService;
 
 @Controller

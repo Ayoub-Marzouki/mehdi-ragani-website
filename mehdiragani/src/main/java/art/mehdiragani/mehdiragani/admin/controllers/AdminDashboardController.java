@@ -1,4 +1,4 @@
-package art.mehdiragani.mehdiragani.admin;
+package art.mehdiragani.mehdiragani.admin.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

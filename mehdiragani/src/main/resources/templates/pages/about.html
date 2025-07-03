@@ -4,33 +4,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{css/sharedstyle.css}">
-    <link rel="stylesheet" th:href="@{css/about.css}">
-    <script th:src="@{js/about.js}" defer></script>
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/about.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <script th:src="@{/js/about.js}" defer></script>
     <title>About</title>
 </head>
 <body th:replace="layouts/main-layout :: main-layout( ~{::body/content()} )">
-    <!-- <header th:insert="fragments/header :: header"></header> -->
     <header id="artist">
-        <!-- <hr> -->
         <section  id="artist-statement">
             <h1>In the silence the art talks</h1>
         </section>
-        <!-- <hr> -->
-
-
-        <!-- <hr> 
-         <section  id="artist-statement">
-            <h1>In the silence the art talks</h1>
-        </section>
-        <hr> -->
 
         <br><br><br><br>
 
         <section id="artist-biography">
             <h1>Biography</h1>
             <br>
-            <img id="artist-young" src="/images/artist/artist-coolest.jpg" alt="Photo of the artist as a young">
+            <img id="artist-young" th:src="@{/images/artist/artist-coolest.jpg}" alt="Photo of the artist as a young">
             <p>Born in Fes, Morocco, Mehdi Ragani is a distinguished self-taught artist whose creative journey spans several years. Initially focused on drawing, Mehdi’s passion for art has evolved significantly, leading him to explore the rich textures and expressive potential of painting. Specializing in expressionism, his artistic evolution is marked by a deep commitment to capturing and conveying profound emotions and complex ideas through his work.
                 <br> <br>
                 Mehdi's art reflects his conviction that creativity holds the power to transform the world into a more beautiful and harmonious place. His paintings, rooted in the expressionist tradition, are imbued with the essence of Moroccan culture, rich with the vibrant colors and intricate details that characterize his homeland. Through his art, Mehdi aims to offer viewers a window into Morocco’s heritage, celebrating its antique spirit and timeless beauty.
@@ -45,7 +38,7 @@
         <section id="artist-purpose">
             <h1>Purpose</h1>
             <br>
-            <img id="artist-at-work" src="/images/artist/artist-at-work.jpg" alt="">
+            <img id="artist-at-work" th:src="@{/images/artist/artist-at-work.jpg}" alt="">
             <p>Born in Fes, Morocco, Mehdi Ragani is a distinguished self-taught artist whose creative journey spans several years. Initially focused on drawing, Mehdi’s passion for art has evolved significantly, leading him to explore the rich textures and expressive potential of painting. Specializing in expressionism, his artistic evolution is marked by a deep commitment to capturing and conveying profound emotions and complex ideas through his work.
                 <br> <br>
                 Mehdi's art reflects his conviction that creativity holds the power to transform the world into a more beautiful and harmonious place. His paintings, rooted in the expressionist tradition, are imbued with the essence of Moroccan culture, rich with the vibrant colors and intricate details that characterize his homeland. Through his art, Mehdi aims to offer viewers a window into Morocco’s heritage, celebrating its antique spirit and timeless beauty.
@@ -65,9 +58,9 @@
             </p>
 
             <section id="more-of-artist-images">
-                <img class="more-of-artist-image" src="/images/artist/artist-working.jpg" alt="">
-                <img class="more-of-artist-image" src="/images/artist/artist-cooler.jpg" alt="">
-                <img class="more-of-artist-image" src="/images/artist/artist-joker.jpg" alt="">
+                <img class="more-of-artist-image" th:src="@{/images/artist/artist-working.jpg}" alt="">
+                <img class="more-of-artist-image" th:src="@{/images/artist/artist-cooler.jpg}" alt="">
+                <img class="more-of-artist-image" th:src="@{/images/artist/artist-joker.jpg}" alt="">
             </section>
         </section>        
     </header>

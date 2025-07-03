@@ -4,73 +4,73 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/admin-artworks.css">
+    <link rel="stylesheet" th:href="@{/css/admin-artworks.css}">
     <title>Admin - Artworks</title>
 </head>
 <body>
   
-  <div class="flex">
-    <h1>Artworks</h1>
-    <a id="add-artwork" href="/admin/artworks/add">Add an artwork</a>
-  </div>
+    <div class="flex">
+        <h1>Artworks</h1>
+        <a id="add-artwork" th:href="@{/admin/artworks/add}">Add an artwork</a>
+    </div>
 
-  <p><a class="links" th:href="@{/admin}">Back to Dashboard</a> <span class="dot">•</span> <a class="links" th:href="@{/}">Back Home</a></p>
-  <br>
-  <br>
+    <p><a class="links" th:href="@{/admin}">Back to Dashboard</a> <span class="dot">•</span> <a class="links" th:href="@{/}">Back Home</a></p>
+    <br><br>
 
     <table class="artwork-table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Main Image</th>
-          <th>Price</th>
-          <th>Year</th>
-          <th>Width x Height</th>
-          <th>Status</th>
-          <th>Theme</th>
-          <th>Feel</th>
-          <th>Secondary Images</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
+        <thead>
+            <tr>
+            <th>Title</th>
+            <th>Main Image</th>
+            <th>Price</th>
+            <th>Year</th>
+            <th>Width x Height</th>
+            <th>Status</th>
+            <th>Theme</th>
+            <th>Feel</th>
+            <th>Secondary Images</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
         <tr th:each="artwork : ${artworks}">
-          <td th:text="${artwork.title}">Artwork Title</td>
+            <td th:text="${artwork.title}">Artwork Title</td>
 
-          <td>
+            <td>
             <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" width="130"/>
-          </td>
+            </td>
 
-          <td th:text="${artwork.price}">0.00</td>
-          
-          <td th:text="${artwork.year}">2000</td>
+            <td th:text="${artwork.price}">0.00</td>
+            
+            <td th:text="${artwork.year}">2000</td>
 
-          <td><span th:text="${artwork.height}">Width</span> x <span th:text="${artwork.width}"></span> cm</td>
+            <td><span th:text="${artwork.height}">Width</span> x <span th:text="${artwork.width}"></span> cm</td>
 
-          <td th:text="${artwork.status}">Status</td>
-          
-          <td th:text="${artwork.theme}">Theme</td>
+            <td th:text="${artwork.status}">Status</td>
+            
+            <td th:text="${artwork.theme}">Theme</td>
 
-          <td th:text="${artwork.feel}">Feel</td>
+            <td th:text="${artwork.feel}">Feel</td>
 
-          <td>
+            <td>
             <div th:each="path : ${artwork.secondaryImagesPaths}">
-              <img th:src="@{${path}}"
-                   alt="Secondary Image"
-                   width="50"/>
+                <img th:src="@{${path}}"
+                    alt="Secondary Image"
+                    width="50"/>
             </div>
-          </td>
+            </td>
 
-          <td>
+            <td>
             <form th:action="@{/admin/artworks/{id}/delete(id=${artwork.id})}"
-                  method="post"
-                  onsubmit="return confirm('You sure you wanna delete this artwork?');">
-              <button id="delete" type="submit">Delete</button>
+                    method="post"
+                    onsubmit="return confirm('You sure you wanna delete this artwork?');">
+                <button id="delete" type="submit">Delete</button>
             </form>
             <br>
             <a th:href="@{/admin/artworks/{id}/change(id=${artwork.id})}"
-              id="change">Change</a>
-          </td>
+                id="change">Change</a>
+            </td>
         </tr>
       </tbody>
     </table>

@@ -1,10 +1,7 @@
 <div th:fragment="main-layout(content)">
-    <!-- Insert the header fragment -->
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
 
-    <!--Render the page’s own <body> content here -->
     <div th:replace="${content}"></div>
 
-    <!-- Insert the footer fragment -->
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div>

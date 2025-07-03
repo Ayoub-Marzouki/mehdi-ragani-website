@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/admin-add-edit-artwork.css}">
+    <title>Register</title>
+</head>
+
+<body>
+    <section class="form">
+    <form th:action="@{/user/register}" th:object="${registerForm}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div class="field">
+            <label for="username">Username: <span class="star">*</span></label>
+            <input id="username" th:field="*{username}" placeholder="Username"/>
+            <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
+        </div>
+        <div class="field">
+            <label for="email">Email: <span class="star">*</span></label>
+            <input id="email" th:field="*{email}" placeholder="you@example.com" />
+            <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email error</div>
+        </div>
+
+        <div class="field">
+            <label for="password">Password: <span class="star">*</span></label>
+            <input id="password" type="password" th:field="*{password}" placeholder="••••••••" />
+            <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
+        </div>
+
+        <div class="field">
+            <label for="firstName">First Name:</label>
+            <input id="firstName" th:field="*{firstName}" placeholder="First name (optional)" />
+            <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">First name error</div>
+        </div>
+
+        <div class="field">
+            <label for="lastName">Last Name:</label>
+            <input id="lastName" th:field="*{lastName}" placeholder="Last name (optional)" />
+            <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Last name error</div>
+        </div>
+
+        <div class="field">
+            <label for="phoneNumber">Phone Number:</label>
+            <input id="phoneNumber" th:field="*{phoneNumber}" placeholder="Phone (optional)" />
+            <div th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Phone number error</div>
+        </div>
+        
+        <button type="submit">Register</button>
+    </form>
+    
+    <br><br>
+    <p>Already have an account? <a th:href="@{/user/login}">Login here</a>.</p>
+    </section>
+</body>
+
+</html>

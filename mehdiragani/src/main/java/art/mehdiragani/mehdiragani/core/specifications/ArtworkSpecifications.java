@@ -3,9 +3,9 @@ package art.mehdiragani.mehdiragani.core.specifications;
 import java.math.BigDecimal;
 import org.springframework.data.jpa.domain.Specification;
 import art.mehdiragani.mehdiragani.core.models.Artwork;
-import art.mehdiragani.mehdiragani.core.models.ArtworkFeel;
-import art.mehdiragani.mehdiragani.core.models.ArtworkStatus;
-import art.mehdiragani.mehdiragani.core.models.ArtworkTheme;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkStatus;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
 
 public class ArtworkSpecifications {
 

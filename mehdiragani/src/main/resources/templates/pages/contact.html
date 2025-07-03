@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{css/sharedstyle.css}">
-    <link rel="stylesheet" th:href="@{css/contact.css}">
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/contact.css}">
     <title>Contact</title>
 </head>
 
@@ -44,9 +44,9 @@
                         
                         <br><br>We also have several social media pages. <br> Feel free to take a tour!
                     </p>
-                    <header class="icons">
-                        <a href="https://www.facebook.com/elkharbili1/" target="_blank" title="Facebook page"><img src="images/icons/facebook-icon.png" alt=""></a>
-                        <a href="" title="Instagram page"><img src="images/icons/instagram-icon.png" alt=""></a>
+                    <header>
+                        <a href="https://www.facebook.com/elkharbili1/" target="_blank" title="Facebook page"><img class="icons" th:src="@{images/icons/facebook-icon.png}" alt="Facebook Link"></a>
+                        <a href="" title="Instagram page"><img class="icons" th:src="@{images/icons/instagram-icon.png}" alt="Instagram Link"></a>
                     </header>
                     <br><br>
                 </details>

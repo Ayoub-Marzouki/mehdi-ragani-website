@@ -52,20 +52,20 @@
                 <input type="hidden" class="product-id" value="{{product.id}}" name="" id="">
                 <input type="hidden" class="product-title" value="{{product.title}}" name="" id="">
                 <button class="button cart-button" id="cart-button" type="submit">
-                    <img class="icons" src="/images/icons/white-cart.png" alt="">
+                    <img class="icons" th:src="@{/images/icons/white-cart.png}" alt="Cart">
                     <span>Add to Cart</span>
                 </button>
             </div>
 
-            <a style="text-decoration:none;" href="{% url 'home:make-offer' product.pid %}">
+            <a style="text-decoration:none;">
                 <div class="button offer"> 
-                    <img class="icons" src="/images/icons/bid.png" alt="">
+                    <img class="icons" th:src="@{/images/icons/bid.png}" alt="">
                     <span>Make an Offer!</span>
                 </div>
             </a>
 
             <div class="button wishlist add-to-wishlist" data-product-item=""> 
-                <img class="icons" src="/images/icons/heart.png" alt="">
+                <img class="icons" th:src="@{/images/icons/heart.png}" alt="">
                 <span>Add to Wishlist</span>
             </div>
         </section>
@@ -81,18 +81,18 @@
             {% endif %}
         </div> -->
         <div class="extra-info">
-            <img class="icons" src="/images/icons/happiness.png" alt="Happiness!"> <br>
+            <img class="icons" th:src="@{/images/icons/happiness.png}" alt="Happiness!"> <br>
             <p>10-day return policy</p>
         </div>
         <div class="extra-info">
-            <img class="icons" src="/images/icons/box.png" alt="Shipping"> <br>
+            <img class="icons" th:src="@{/images/icons/box.png}" alt="Shipping"> <br>
             <p>Shipping across Morocco</p>
         </div>
-        <div class="extra-info"><img class="icons" src="/images/icons/credit-card.png" alt="Secure transaction"> <br>
+        <div class="extra-info"><img class="icons" th:src="@{/images/icons/credit-card.png}" alt="Secure transaction"> <br>
             <p>100% secure transaction</p>
         </div>
         <div class="extra-info">
-            <img style="width:50px;height:50px;" src="/images/icons/returns.png" alt="Returns"> <br>
+            <img style="width:50px;height:50px;" th:src="@{/images/icons/returns.png}" alt="Returns"> <br>
             <p>Free Returns</p>
         </div>
     </header>

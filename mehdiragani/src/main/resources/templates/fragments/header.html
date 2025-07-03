@@ -5,5 +5,12 @@
         <a class="navbar-item" th:href="@{/services}">Services</a>
         <a class="navbar-item" th:href="@{/contact}">Contact</a>
         <a class="navbar-item" th:href="@{/about}">About</a>
+        <a class="navbar-item" th:href="@{/cart}">
+            <img class="icons" th:src="@{/images/icons/cart.png}" alt="Cart">
+        </a>
+        <form class="navbar-item" th:action="@{/user/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>          
+            <button type="submit"s>Logout</button>
+        </form>
     </nav>
 </header>

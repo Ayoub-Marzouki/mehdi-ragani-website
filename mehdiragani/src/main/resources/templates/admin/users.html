@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/admin-artworks.css}">
+    <title>Admin - Users</title>
+</head>
+<body>
+  
+    <div class="flex">
+        <h1>Users</h1>
+        <a id="add-artwork" th:href="@{/admin/users/add}">Add a user</a>
+    </div>
+
+    <p><a class="links" th:href="@{/admin}">Back to Dashboard</a> <span class="dot">•</span> <a class="links" th:href="@{/}">Back Home</a></p>
+    <br><br>
+
+    <table class="artwork-table">
+        <thead>
+            <tr>
+            <th>Date Created</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>Role</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.dateCreated}">Date Created</td>
+
+            <td th:text="${user.username}">Username</td>
+
+            <td th:text="${user.email}">Email</td>
+
+            <td th:text="${user.firstName}">First Name</td>
+
+            <td th:text="${user.lastName}">Last Name</td>
+
+            <td th:text="${user.role}">Role</td>
+
+            <td>
+                <form th:action="@{/admin/users/{id}/delete(id=${user.id})}"
+                        method="post"
+                        onsubmit="return confirm('You sure you wanna delete this user?');">
+                    <button id="delete" type="submit">Delete</button>
+                </form>
+                
+                <br>
+                <a th:href="@{/admin/users/{id}/change(id=${user.id})}"
+                id="change">Change</a>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+</body>
+</html>

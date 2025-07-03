@@ -1,4 +1,4 @@
-package art.mehdiragani.mehdiragani.admin;
+package art.mehdiragani.mehdiragani.admin.controllers;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import art.mehdiragani.mehdiragani.core.models.Artwork;
-import art.mehdiragani.mehdiragani.core.models.ArtworkFeel;
-import art.mehdiragani.mehdiragani.core.models.ArtworkStatus;
-import art.mehdiragani.mehdiragani.core.models.ArtworkTheme;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkStatus;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
 import art.mehdiragani.mehdiragani.core.services.ArtworkService;
 import jakarta.validation.Valid;
 
@@ -37,7 +37,6 @@ public class AdminArtworkController {
         return "admin/artworks";
     }
 
-    // “Add Artwork” form
     @GetMapping("/add")
     public String showAddForm(Model model) {
         // Supply an empty Artwork for data-binding
@@ -49,11 +48,9 @@ public class AdminArtworkController {
         return "admin/add-artwork";
     }
  
-    // 2) Handle the form submission
     @PostMapping("/add")
     public String handleAdd(@Valid @ModelAttribute("artwork") Artwork artwork, BindingResult binding) {
         if (binding.hasErrors()) {
-            // If validation fails, redisplay the form with error messages
             return "admin/add-artwork";
         }
 
@@ -63,20 +60,18 @@ public class AdminArtworkController {
         }
 
         artworkService.createArtwork(artwork);
-        // Redirect back to the listing page on success
         return "redirect:/admin/artworks";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteArtwork(@PathVariable("id") UUID id) {
-        // 1) Load or at least check it exists
+        // Load or at least check it exists
         Artwork artwork = artworkService.getArtworkById(id);
 
         artworkService.deleteArtwork(artwork);
         return "redirect:/admin/artworks";
     }
 
-    // Show the edit form, pre‑loading the Artwork by its fields
     @GetMapping("/{id}/change")
     public String showEditForm(@PathVariable("id") UUID id, Model model) {
         Artwork art = artworkService.getArtworkById(id);
@@ -88,7 +83,6 @@ public class AdminArtworkController {
         return "admin/edit-artwork";
     }
 
-    // Handle the update submission
     @PostMapping("/{id}/change")
     public String updateArtwork(
             @PathVariable("id") UUID id,
@@ -103,7 +97,7 @@ public class AdminArtworkController {
         if (binding.hasErrors()) {
             return "admin/edit-artwork";
         }
-        artwork.setId(id);
+        artwork.setId(id); // artwork coming from the form is new, and id isn't part of the form inputs
         artworkService.updateArtwork(artwork);
         return "redirect:/admin/artworks";
     }

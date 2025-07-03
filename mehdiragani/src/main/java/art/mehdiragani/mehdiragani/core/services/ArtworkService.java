@@ -11,9 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import art.mehdiragani.mehdiragani.core.models.Artwork;
-import art.mehdiragani.mehdiragani.core.models.ArtworkFeel;
-import art.mehdiragani.mehdiragani.core.models.ArtworkStatus;
-import art.mehdiragani.mehdiragani.core.models.ArtworkTheme;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkStatus;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
 import art.mehdiragani.mehdiragani.core.repositories.ArtworkRepository;
 import art.mehdiragani.mehdiragani.core.specifications.ArtworkSpecifications;
 import jakarta.validation.Valid;
@@ -45,7 +45,6 @@ public class ArtworkService {
         artworkRepository.delete(artwork);
     }
 
-    // Retrieve a single artwork by its unique ID.
     public Artwork getArtworkById(UUID id) {
         return artworkRepository.findById(id)
                .orElseThrow(() -> new RuntimeException("Artwork not found"));

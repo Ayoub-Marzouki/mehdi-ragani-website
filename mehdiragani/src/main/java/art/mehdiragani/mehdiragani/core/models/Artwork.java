@@ -3,6 +3,9 @@ package art.mehdiragani.mehdiragani.core.models;
 import java.util.List;
 import java.util.UUID;
 
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkStatus;
+import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
