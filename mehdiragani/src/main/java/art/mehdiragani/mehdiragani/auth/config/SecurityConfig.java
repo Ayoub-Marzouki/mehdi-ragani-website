@@ -19,9 +19,9 @@ public class SecurityConfig {
         this.userService = userService;
     }
 
-    // to encode passwords
+    // to encode passwords, static to avoid circular references (dependency cycle between beans)
     @Bean
-    public PasswordEncoder passwordEncoder() {
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -31,8 +31,8 @@ public class SecurityConfig {
         http
         .userDetailsService(userService)
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/admin/**").hasRole("Admin")
-            .anyRequest().permitAll()
+        .requestMatchers("/admin/**").hasRole("Admin")
+        .anyRequest().permitAll()
         )
         .formLogin(form -> form
             .loginPage("/user/login")

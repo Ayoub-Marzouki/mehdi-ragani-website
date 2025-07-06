@@ -62,9 +62,8 @@
             </td>
 
             <td>
-            <form th:action="@{/admin/artworks/{id}/delete(id=${artwork.id})}"
-                    method="post"
-                    onsubmit="return confirm('You sure you wanna delete this artwork?');">
+            <form th:action="@{/admin/artworks/{id}/delete(id=${artwork.id})}" method="post" onsubmit="return confirm('You sure you wanna delete this artwork?');">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <button id="delete" type="submit">Delete</button>
             </form>
             <br>

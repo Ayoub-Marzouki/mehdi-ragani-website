@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import art.mehdiragani.mehdiragani.admin.dto.UserForm;
 import art.mehdiragani.mehdiragani.auth.models.User;
 import art.mehdiragani.mehdiragani.auth.models.enums.UserRole;
 import art.mehdiragani.mehdiragani.auth.services.UserService;
@@ -44,10 +45,10 @@ public class AdminUserController {
     }
     
     @PostMapping("/add")
-    public String handleAdd(@Valid @ModelAttribute("user") User user, BindingResult binding) {
+    public String handleAdd(@Valid @ModelAttribute("userForm") UserForm userForm, BindingResult binding) {
         if (binding.hasErrors()) return "admin/add-user";
 
-        userService.createUser(user);
+        userService.createUser(userForm);
 
         return "redirect:/admin/users";
     }
@@ -56,8 +57,17 @@ public class AdminUserController {
     @GetMapping("/{id}/change")
     public String showEditForm(@PathVariable("id") UUID id, Model model) {
         User user = userService.getUserById(id);
+
+        UserForm userForm = new UserForm();
+        userForm.setId(user.getId());
+        userForm.setUsername(user.getUsername());
+        userForm.setEmail(user.getEmail());
+        userForm.setFirstName(user.getFirstName());
+        userForm.setLastName(user.getLastName());
+        userForm.setPhoneNumber(user.getPhoneNumber());
+        userForm.setRole(user.getRole());
         
-        model.addAttribute("user", user);
+        model.addAttribute("userForm", userForm);
         model.addAttribute("allRoles", List.of(UserRole.values()));
 
         return "admin/edit-user";
@@ -65,11 +75,11 @@ public class AdminUserController {
 
     @PostMapping("/{id}/change")
     public String updateUser(@PathVariable("id") UUID id, 
-        @Valid @ModelAttribute("user") User user, BindingResult binding) {
+        @Valid @ModelAttribute("userForm") UserForm userForm, BindingResult binding) {
         if (binding.hasErrors()) return "admin/users";
         
-        user.setId(id);
-        userService.updateUser(user);
+        userForm.setId(id);
+        userService.updateUser(userForm);
 
         return "redirect:/admin/users";
     }

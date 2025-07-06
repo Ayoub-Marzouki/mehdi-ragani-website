@@ -8,31 +8,68 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import art.mehdiragani.mehdiragani.admin.dto.UserForm;
+import art.mehdiragani.mehdiragani.auth.dto.RegisterForm;
 import art.mehdiragani.mehdiragani.auth.models.User;
+import art.mehdiragani.mehdiragani.auth.models.enums.UserRole;
 import art.mehdiragani.mehdiragani.auth.repositories.UserRepository;
-import jakarta.validation.Valid;
 
 
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    public User createUser(@Valid User user) {
+    public User registerUser(RegisterForm registerForm) {
+        User user = new User();
+        user.setUsername(registerForm.getUsername());
+        user.setEmail(registerForm.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(registerForm.getPassword()));
+        user.setFirstName(registerForm.getFirstName());
+        user.setLastName(registerForm.getLastName());
+        user.setPhoneNumber(registerForm.getPhoneNumber());
+        user.setRole(UserRole.Customer);
+        
+        return userRepository.save(user);    
+    }
+    
+
+    public User createUser(UserForm userForm) {
+        User user = new User();
+        user.setUsername(userForm.getUsername());
+        user.setEmail(userForm.getEmail());
+        user.setPasswordHash(passwordEncoder.encode("customUser"));
+        user.setFirstName(userForm.getFirstName());
+        user.setLastName(userForm.getLastName());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setRole(userForm.getRole());
+
         return userRepository.save(user);
     }
 
-    public User updateUser(@Valid User user) {
+    public User updateUser(UserForm userForm) {
+        User user = userRepository.findById(userForm.getId()).get();
+
+        user.setUsername(userForm.getUsername());
+        user.setEmail(userForm.getEmail());
+        user.setFirstName(userForm.getFirstName());
+        user.setLastName(userForm.getLastName());
+        user.setPhoneNumber(userForm.getPhoneNumber());
+        user.setRole(userForm.getRole());
+
         return userRepository.save(user);
     }
 

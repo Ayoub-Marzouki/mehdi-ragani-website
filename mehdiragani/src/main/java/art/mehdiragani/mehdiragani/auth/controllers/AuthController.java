@@ -1,7 +1,6 @@
 package art.mehdiragani.mehdiragani.auth.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,8 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import art.mehdiragani.mehdiragani.auth.dto.RegisterForm;
-import art.mehdiragani.mehdiragani.auth.models.User;
-import art.mehdiragani.mehdiragani.auth.models.enums.UserRole;
 import art.mehdiragani.mehdiragani.auth.services.UserService;
 import jakarta.validation.Valid;
 
@@ -21,12 +18,10 @@ import jakarta.validation.Valid;
 @RequestMapping("/user")
 public class AuthController {
     private final UserService userService;
-    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AuthController(UserService userService, PasswordEncoder passwordEncoder) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/register")
@@ -40,16 +35,7 @@ public class AuthController {
     public String handleRegister(@Valid @ModelAttribute RegisterForm registerForm, BindingResult binding) {
         if (binding.hasErrors()) return "auth/register";
 
-        User user = new User();
-        user.setUsername(registerForm.getUsername());
-        user.setEmail(registerForm.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(registerForm.getPassword()));
-        user.setFirstName(registerForm.getFirstName());
-        user.setLastName(registerForm.getLastName());
-        user.setPhoneNumber(registerForm.getPhoneNumber());
-        user.setRole(UserRole.Customer);
-        
-        userService.createUser(user);
+        userService.registerUser(registerForm);
 
         return "redirect:/user/login?registered";
     }
