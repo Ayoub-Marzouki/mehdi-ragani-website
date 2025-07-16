@@ -12,7 +12,7 @@
     <script th:src="@{/js/about.js}" defer></script>
     <title>About</title>
 </head>
-<body th:replace="layouts/main-layout :: main-layout( ~{::body/content()} )">
+<body th:replace="~{layouts/main-layout :: main-layout( ~{::body/content()} )}">
     <header id="artist">
         <section  id="artist-statement">
             <h1>In the silence the art talks</h1>

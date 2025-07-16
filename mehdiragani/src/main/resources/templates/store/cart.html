@@ -5,9 +5,74 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/cart.css}">
     <title>Cart</title>
 </head>
 <body th:replace="~{layouts/main-layout :: main-layout(~{::body/content()})}">
+    <div id="updated-cart">
+        <header id="added-artworks">
+            <h1>Cart</h1>
     
+            <div th:if="${cart.items.empty}">
+                <h1>Your cart is empty for now.</h1>
+                <a th:href="@{/store}">Continue shopping</a>
+            </div>
+    
+            <div th:if="${!cart.items.empty}">
+                <div th:each="item, iterStat : ${cart.items}">
+                    <section class="flex">
+                        <figure>
+                            <a th:href="@{/artworks/{id}(id=${item.artwork.id})}">
+                                <img class="artwork-image" th:src="${item.artwork.mainImagePath}" alt="Artwork Image">
+                                <figcaption class="artwork-title" th:text="${item.artwork.title}">Artwork Title</figcaption>
+                            </a>
+                        </figure>
+    
+                        <div>
+                            <h2 class="flex">Price <span class="shipping">Shipping to Location Included</span></h2>
+                            <h3 th:text="${item.artwork.price}">0.00</h3>
+                        </div>
+    
+                        <form th:action="@{/cart/remove/{id}(id=${item.artwork.id})}" method="post">
+                            <button type="submit" class="remove">
+                                <img class="icon" th:src="@{/images/icons/x-mark.png}" alt="Remove item">
+                            </button>
+                        </form>
+                    </section>
+    
+                    <th:block th:if="${!iterStat.last}">
+                        <br><br><br>
+                        <hr>
+                        <br><br><br>
+                    </th:block>
+                </div>
+            </div>
+        </header>
+    
+        <br><br><br><br>
+    
+        <div th:if="${!cart.items.empty}">
+            <section class="total">
+                <h3>Total (in dh)</h3>
+                <h2 id="total-price" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2> 
+            </section>
+            <!-- <header id="checkout">
+                <section class="total">
+                    <h3>Total (in dh)</h3>
+                    <h2 id="total-price" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2>
+                </section>
+    
+                <section class="checkout">
+                    <sec:authorize access="isAuthenticated()">
+                        <a href="/checkout" id="checkout-button">Checkout</a>
+                    </sec:authorize>
+                    <sec:authorize access="!isAuthenticated()">
+                        <a th:href="@{/login}" id="checkout-button">Login to Checkout</a>
+                    </sec:authorize>
+                    <p id="return-p">Buyer has 10 days to <a id="return-a" href="#" title="Learn more about return policy">return</a> his purchase</p>
+                </section>
+            </header> -->
+        </div>    
+    </div>
 </body>
 </html>

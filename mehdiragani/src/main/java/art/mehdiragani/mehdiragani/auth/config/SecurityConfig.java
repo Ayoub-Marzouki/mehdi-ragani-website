@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import art.mehdiragani.mehdiragani.auth.services.UserService;
+import art.mehdiragani.mehdiragani.store.config.CartAuthenticationSuccessHandler;
 
 @Configuration
 @EnableMethodSecurity
@@ -27,7 +28,7 @@ public class SecurityConfig {
 
     // Lock down URLs and wire in form‑login
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, CartAuthenticationSuccessHandler cartSuccessHandler) throws Exception {
         http
         .userDetailsService(userService)
         .authorizeHttpRequests(auth -> auth
@@ -38,6 +39,7 @@ public class SecurityConfig {
             .loginPage("/user/login")
             .loginProcessingUrl("/user/login")
             .defaultSuccessUrl("/", true)
+            .successHandler(cartSuccessHandler) // to merge carts
             .permitAll()
         )
         .logout(logout -> logout

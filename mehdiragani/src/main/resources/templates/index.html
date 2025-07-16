@@ -12,7 +12,7 @@
 </head>
 <body>
     <header>
-        <section th:replace="fragments/header :: header"></section>
+        <section th:replace="~{fragments/header :: header}"></section>
         <section class="slider" th:each="artwork : ${artworks}">
             <img class="slider-image" th:src="${artwork.mainImagePath}" alt="">
         </section>
