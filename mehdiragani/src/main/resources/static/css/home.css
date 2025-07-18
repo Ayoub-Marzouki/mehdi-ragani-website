@@ -3,7 +3,13 @@
     position:fixed;
 }
 
-.navbar-item:first-child {
+.navbar-item, .authentication {
+    color:whitesmoke;
+    text-shadow:1px 1px 2px black;
+
+}
+
+#navbar .navbar-item:first-child {
     color:whitesmoke;
     text-shadow:1px 1px 2px black;
 }

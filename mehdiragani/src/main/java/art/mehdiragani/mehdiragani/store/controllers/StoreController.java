@@ -51,6 +51,9 @@ public class StoreController {
 
         model.addAttribute("columns", columns);
 
+        // For phone screens
+        model.addAttribute("artworks", artworks);
+
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
 

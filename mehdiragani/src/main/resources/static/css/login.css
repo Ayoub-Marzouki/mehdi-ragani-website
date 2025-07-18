@@ -1,0 +1,12 @@
+body {
+    background-image:url("/images/background-images/rg-gallery.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    height:100%;
+}
+
+.form {
+    margin-top:100px;
+}

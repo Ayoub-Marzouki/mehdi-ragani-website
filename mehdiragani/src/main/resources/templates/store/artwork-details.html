@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
     <link rel="stylesheet" th:href="@{/css/artwork-details.css}">
+    <link rel="stylesheet" href="https://use.typekit.net/bpx8uhs.css">
     <script th:src="@{/js/artwork-details.js}" defer></script>
+    <script th:src="@{/js/shared-js.js}" defer></script>
     <title>Artwork details</title>
 </head>
 <body th:replace="~{layouts/main-layout :: main-layout(~{::body/content()})}">
@@ -60,17 +62,17 @@
                 </button>
             </form>
 
-            <a style="text-decoration:none;">
+            <!-- <a style="text-decoration:none;">
                 <div class="button offer"> 
                     <img class="icons" th:src="@{/images/icons/bid.png}" alt="">
                     <span>Make an Offer!</span>
                 </div>
-            </a>
+            </a> -->
 
-            <div class="button wishlist add-to-wishlist" data-product-item=""> 
+            <!-- <div class="button wishlist add-to-wishlist" data-product-item=""> 
                 <img class="icons" th:src="@{/images/icons/heart.png}" alt="">
                 <span>Add to Wishlist</span>
-            </div>
+            </div> -->
         </section>
     </header>
 

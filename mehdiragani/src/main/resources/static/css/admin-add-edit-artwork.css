@@ -1,17 +1,30 @@
+body {
+    background-image:url("/images/background-images/behind-the-scenes-question-mark-also-settings.png");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height:100%;
+}
+
 .form {
     max-width: 500px;
+    height:auto;
     margin: 2rem auto;
     padding: 1.5rem;
-    background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+    background-color:rgba(0, 0, 0, 0.5);
+    color:#f6f0e4;
+    text-shadow: 1px 1px 2px black;
+}
+
+.form a {
+    color:#f6f0e4;
 }
 
 .form h1 {
     text-align: center;
     margin-bottom: 1.25rem;
-    color: #333;
 }
 
 .form div.field {
@@ -22,18 +35,35 @@
     display: block;
     margin-bottom: 0.25rem;
     font-weight: bold;
-    color: #555;
+    font-size:20px;
 }
 
-.field input[type="text"],
-.field input[type="number"] {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    box-sizing: border-box;
+.field input[type="text"], .field input, .field input[type="number"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #4a311d;            /* brown border */
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+
+  background-color: #f6f0e4;             /* beige background */
+  color: #4a311d;                        /* brown text */
+  transition: border-color 0.3s ease,
+              box-shadow 0.3s ease;
 }
+
+.field input[type="text"]::placeholder, .field input,
+.field input[type="number"]::placeholder {
+  color: rgba(74, 49, 29, 0.5);          /* semi‑transparent brown */
+}
+
+.field input[type="text"]:focus, .field input, 
+.field input[type="number"]:focus { 
+  outline: none;
+  border-color: #f6f0e4;                 /* invert to beige on focus */
+  box-shadow: 0 0 0 3px rgba(246, 240, 228, 0.5);
+}
+
 
 .form input::placeholder {
     color: #888;
@@ -49,13 +79,14 @@
     display: block;
     width: 100%;
     padding: 0.6rem;
-    background-color: #3498db;
-    color: #fff;
+    background-color:#f6f0e4;
+    color:#4a311c;
     font-size: 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
+
 
 .form select {
     width: 100%;
@@ -95,10 +126,6 @@
     background-color:green;
 }
 
-.form button[type="submit"]:hover {
-    background-color: #2980b9;
-}
-
 .star {
-    color:red;
+    color:#e74c3c;
 }

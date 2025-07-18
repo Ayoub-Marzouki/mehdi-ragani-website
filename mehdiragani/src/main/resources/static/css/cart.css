@@ -1,9 +1,6 @@
 body {
     font-size:larger;
 }
-a {
-    color:black;
-}
 
 h1 {
     text-align:center;
@@ -14,17 +11,16 @@ h2 {
     font-size:30px;
 }
 
-main {
-    width:90%;
-    box-shadow:-10px 10px 10px rgba(0,0,0,0.4), 10px 10px 10px rgba(0,0,0,0.4);
+#updated-cart {
+    padding:3%;
 }
-
 
 .flex {
     display:flex;
     align-items:center;
     justify-content:space-between;
     flex-wrap:wrap;
+    padding:3%;
 }
 
 .artwork-image {
@@ -44,11 +40,6 @@ main {
     font-weight:500;
 }
 
-.artwork-title:hover, .artwork-artist:hover, #return-a:hover {
-    text-shadow:1px 1px rgba(0,0,0,0.5);
-    color:lightseagreen;
-    transition:300ms;
-}
 
 .shipping {
     color:rgba(0,0,0,0.5);
@@ -84,6 +75,7 @@ hr {
     display:flex;
     align-items:center;
     justify-content:space-between;
+    padding:3%;
 }
 
 #total-price {

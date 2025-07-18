@@ -6,9 +6,90 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
     <link rel="stylesheet" th:href="@{/css/artworks.css}">
+    <script th:src="@{/js/shared-js.js}" defer></script>
+    <script th:src="@{/js/store.js}" defer></script>
+    <link rel="stylesheet" href="https://use.typekit.net/bpx8uhs.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.0/nouislider.min.js"></script>
+
     <title>Store</title>
 </head>
 <body th:replace="~{layouts/main-layout :: main-layout(~{::body/content()})}">
+
+    <!-- Phone search filters, visible only in smaall screens -->
+    <section id="phone-search" class="flex-item">
+        <div id="phone-search-items">
+            <form th:action="@{/store}" method="get" id="phone-filter-form">
+                <details>
+                    <summary><b>Price</b></summary>
+                    
+                    <br>
+                    <div class="price-slider"></div>
+                    <br>
+                    
+                    <input type="hidden" name="minPrice" id="minPrice" th:value="${minPrice}">
+                    <input type="hidden" name="maxPrice" id="maxPrice" th:value="${maxPrice}">
+                </details>
+                
+                <details>
+                    <summary><b>Size (Width x Height)</b></summary>
+                        <br><div class="width-slider"></div><br>
+                        <input type="hidden" name="minWidth" id="minWidth" th:value="${minWidth}">
+                        <input type="hidden" name="maxWidth" id="maxWidth" th:value="${maxWidth}">
+                        
+                        <br><div class="height-slider"></div><br>
+                        <input type="hidden" name="minHeight" id="minHeight" th:value="${minHeight}">
+                        <input type="hidden" name="maxHeight" id="maxHeight" th:value="${maxHeight}">
+                </details>
+
+                <details>
+                    <summary><b>Theme</b></summary>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="theme" value="" th:checked="${theme == null}">
+                            <span>All Themes</span>
+                        </label>
+                        <label class="radio-label" th:each="t : ${allThemes}">
+                            <input type="radio" name="theme" th:value="${t}" th:checked="${t} == ${theme}">
+                            <span th:text="${t}"></span>
+                        </label>
+                    </div>
+                </details>
+    
+                <details>
+                    <summary><b>Feel</b></summary>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="feel" value="" th:checked="${feel == null}">
+                            <span>All Feels</span>
+                        </label>
+                        <label class="radio-label" th:each="f : ${allFeels}">
+                            <input type="radio" name="feel" th:value="${f}" th:checked="${f} == ${feel}">
+                            <span th:text="${f}"></span>
+                        </label>
+                    </div>
+                </details>
+    
+                <details>
+                    <summary><b>Status</b></summary>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="" th:checked="${status == null}">
+                            <span>All Statuses</span>
+                        </label>
+                        <label class="radio-label" th:each="s : ${allStatus}">
+                            <input type="radio" name="status" th:value="${s}" th:checked="${s} == ${status}">
+                            <span th:text="${s}"></span>
+                        </label>
+                    </div>
+                </details>
+                
+                <button type="submit">Search</button>
+            </form>
+            
+        <a th:href="@{/store}">Reset Filters</a>
+        </div>
+    </section>
 
     <!-- Added <div id="search-items"> so that position:sticky works; if you directly use position:sticky, it'll be overriden by display:flex of its container -->
     <header id="main">
@@ -17,56 +98,69 @@
                 <form th:action="@{/store}" method="get" id="filter-form">
                     <details>
                         <summary><b>Price</b></summary>
-                        <input type="number" name="minPrice" step="0.01" th:value="${minPrice}" placeholder="Min Price"/>
-                        <input type="number" name="maxPrice" step="0.01" th:value="${maxPrice}" placeholder="Max Price"/>
+                        
+                        <br>
+                        <div class="price-slider"></div>
+                        <br>
+                        
+                        <input type="hidden" name="minPrice" id="minPrice" th:value="${minPrice}">
+                        <input type="hidden" name="maxPrice" id="maxPrice" th:value="${maxPrice}">
                     </details>
                     
                     <details>
-                        <summary><b>Size</b></summary>
-                        <input type="number" name="minWidth" step="0.01" th:value="${minWidth}" placeholder="Min Width (in cm)"/>
-                        <input type="number" name="maxWidth" step="0.01" th:value="${maxWidth}" placeholder="Max Width (in cm)"/>
-
-                        <input type="number" name="minHeight" step="0.01" th:value="${minHeight}" placeholder="Min Height (in cm)"/>
-                        <input type="number" name="maxHeight" step="0.01" th:value="${maxHeight}" placeholder="Max Height (in cm)"/>
+                        <summary><b>Size (Width x Height)</b></summary>
+                            <br><div class="width-slider"></div><br>
+                            <input type="hidden" name="minWidth" id="minWidth" th:value="${minWidth}">
+                            <input type="hidden" name="maxWidth" id="maxWidth" th:value="${maxWidth}">
+                            
+                            <br><div class="height-slider"></div><br>
+                            <input type="hidden" name="minHeight" id="minHeight" th:value="${minHeight}">
+                            <input type="hidden" name="maxHeight" id="maxHeight" th:value="${maxHeight}">
                     </details>
 
                     <details>
                         <summary><b>Theme</b></summary>
-                        <select name="theme">
-                            <option value="" th:if="${theme == null}">Themes</option>
-                            <option th:each="t : ${allThemes}"
-                                    th:value="${t}"
-                                    th:text="${t}"
-                                    th:selected="${t} == ${theme}">
-                            </option>
-                        </select>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="theme" value="" th:checked="${theme == null}">
+                                <span>All Themes</span>
+                            </label>
+                            <label class="radio-label" th:each="t : ${allThemes}">
+                                <input type="radio" name="theme" th:value="${t}" th:checked="${t} == ${theme}">
+                                <span th:text="${t}"></span>
+                            </label>
+                        </div>
                     </details>
-
+        
                     <details>
                         <summary><b>Feel</b></summary>
-                        <select name="feel">
-                            <option value="" th:if="${feel == null}">Feels</option>
-                            <option th:each="f : ${allFeels}"
-                                    th:value="${f}"
-                                    th:text="${f}"
-                                    th:selected="${f} == ${feel}">
-                            </option>
-                        </select>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="feel" value="" th:checked="${feel == null}">
+                                <span>All Feels</span>
+                            </label>
+                            <label class="radio-label" th:each="f : ${allFeels}">
+                                <input type="radio" name="feel" th:value="${f}" th:checked="${f} == ${feel}">
+                                <span th:text="${f}"></span>
+                            </label>
+                        </div>
                     </details>
-
+        
                     <details>
                         <summary><b>Status</b></summary>
-                        <select name="status">
-                            <option value="" th:if="${status == null}">Status</option>
-                            <option th:each="s : ${allStatus}"
-                                    th:value="${s}"
-                                    th:text="${s}"
-                                    th:selected="${s} == ${status}">
-                            </option>
-                        </select>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="status" value="" th:checked="${status == null}">
+                                <span>All Statuses</span>
+                            </label>
+                            <label class="radio-label" th:each="s : ${allStatus}">
+                                <input type="radio" name="status" th:value="${s}" th:checked="${s} == ${status}">
+                                <span th:text="${s}"></span>
+                            </label>
+                        </div>
                     </details>
                     
-                    <button type="submit">Go</button>
+                    <button type="submit">Search</button>
                 </form>
                 
             <a th:href="@{/store}">Reset Filters</a>
@@ -79,9 +173,19 @@
                     <a th:href="@{/store/{id}(id=${artwork.id})}">
                         <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
                         <p class="artwork-title" th:text="${artwork.title}">Title</p>
-                        <p class="artwork-info">More info</p>
                         <p> <span th:text="${artwork.status}"></span> | <span th:text="${artwork.price}"></span> DH</p>
                     </a>
+                </div>
+            </section>
+
+            <section id="phone-artworks">
+                <div class="artwork-block" th:each="artwork : ${artworks}">
+                    <a th:href="@{/store/{id}(id=${artwork.id})}">
+                        <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
+                        <p class="artwork-title" th:text="${artwork.title}">Title</p>
+                        <p> <span th:text="${artwork.status}"></span> | <span th:text="${artwork.price}"></span> DH</p>
+                    </a>
+                    <br><br>
                 </div>
             </section>
         </section>
