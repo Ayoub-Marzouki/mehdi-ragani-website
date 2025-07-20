@@ -58,22 +58,17 @@
                 <h3>Total (in dh)</h3>
                 <h2 id="total-price" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2> 
             </section>
-            <!-- <header id="checkout">
+            <header id="checkout">
                 <section class="total">
                     <h3>Total (in dh)</h3>
                     <h2 id="total-price" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2>
                 </section>
     
                 <section class="checkout">
-                    <sec:authorize access="isAuthenticated()">
-                        <a href="/checkout" id="checkout-button">Checkout</a>
-                    </sec:authorize>
-                    <sec:authorize access="!isAuthenticated()">
-                        <a th:href="@{/login}" id="checkout-button">Login to Checkout</a>
-                    </sec:authorize>
+                    <a th:href="@{/checkout}" id="checkout-button">Checkout</a>
                     <p id="return-p">Buyer has 10 days to <a id="return-a" href="#" title="Learn more about return policy">return</a> his purchase</p>
                 </section>
-            </header> -->
+            </header>
         </div>    
     </div>
 </body>

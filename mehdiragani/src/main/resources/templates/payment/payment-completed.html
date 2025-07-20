@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Completed</title>
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/payment-completed.css}">
+    <link rel="stylesheet" href="https://use.typekit.net/bpx8uhs.css">
+</head>
+<body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
+    <div class="success-container">
+        <img class="icons success-icon" th:src="@{/images/icons/checked.png}" alt="">
+        
+        <h1>Payment Completed Successfully!</h1>
+        <p>Thank you for your purchase. Your order has been confirmed.</p>
+        
+        <div class="order-details">
+            <h2>Order Details</h2>
+            <div class="order-item">
+                <strong>Order ID:</strong>
+                <span th:text="${orderId}">Order ID</span>
+            </div>
+            <div class="order-item">
+                <strong>Total Amount:</strong>
+                <span th:text="${#numbers.formatDecimal(order.total, 1, 2)} + ' ' + ${order.currency}">Total</span>
+            </div>
+            <div class="order-item">
+                <strong>Payment Status:</strong>
+                <span id="payment-status" th:text="${order.paymentStatus}">Completed</span>
+            </div>
+            <div class="order-item">
+                <strong>Order Date:</strong>
+                <span th:text="${#temporals.format(order.createdAt, 'dd/MM/yyyy HH:mm')}">Date</span>
+            </div>
+            
+            <h3 style="margin-top: 30px;">Items Ordered:</h3>
+            <div th:each="item : ${order.items}" class="order-item">
+                <div>
+                    <strong th:text="${item.artwork.title}">Artwork Title</strong>
+                    <br>
+                    <small>Quantity: <span th:text="${item.quantity}">1</span></small>
+                </div>
+                <span th:text="${#numbers.formatDecimal(item.lineTotal, 1, 2)} + ' ' + ${order.currency}">Price</span>
+            </div>
+        </div>
+        
+        <div style="margin-top: 40px;">
+                            <a href="/store" class="btn">Continue Shopping</a>
+                <a href="/account/orders" class="btn btn-secondary">View My Orders</a>
+        </div>
+        
+        <p style="margin-top: 30px; color: #6c757d; font-size: 14px;">
+            You will receive an email confirmation shortly. If you have any questions, please contact our support team.
+        </p>
+    </div>
+</body>
+</html>

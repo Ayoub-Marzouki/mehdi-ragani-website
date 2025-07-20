@@ -5,6 +5,7 @@
         <!-- <a class="navbar-item" th:href="@{/services}">Services</a>
         <a class="navbar-item" th:href="@{/contact}">Contact</a> -->
         <a class="navbar-item" th:href="@{/about}">About</a>
+        <a class="navbar-item" th:href="@{/account}">Account</a>
 
         <!-- if authenticated -->
         <div class="navbar-item" sec:authorize="!isAuthenticated()">
@@ -41,6 +42,7 @@
             <!-- <a class="navbar-item" th:href="@{/services}">Services</a>
             <a class="navbar-item" th:href="@{/contact}">Contact</a> -->
             <a class="navbar-item" th:href="@{/about}">About</a>
+            <a class="navbar-item" th:href="@{/account}">Account</a>
 
             <div class="navbar-item" sec:authorize="!isAuthenticated()">
                 <a class="authentication" th:href="@{/user/login}">Login</a>

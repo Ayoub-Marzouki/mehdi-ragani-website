@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Failed</title>
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/payment-failed.css}">
+    <link rel="stylesheet" href="https://use.typekit.net/bpx8uhs.css">
+</head>
+<body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
+    <div class="error-container">
+        <img class="icons error-icon" th:src="@{/images/icons/unchecked.png}" alt="">
+        
+        <h1>Payment Failed</h1>
+        <p>We're sorry, but your payment could not be processed at this time.</p>
+        
+        <div class="error-message">
+            <strong>Error:</strong>
+            <span th:text="${errorMessage}">Payment processing failed. Please try again.</span>
+        </div>
+        
+        <div class="help-section">
+            <h3>What you can do:</h3>
+            <ul>
+                <li>Check that your payment information is correct</li>
+                <li>Ensure you have sufficient funds in your account</li>
+                <li>Try using a different payment method</li>
+                <li>Contact your bank if the issue persists</li>
+                <li>Contact our support team for assistance</li>
+            </ul>
+        </div>
+        
+        <div style="margin-top: 40px;">
+            <a href="/checkout" class="btn">Try Again</a>
+            <a href="/cart" class="btn btn-secondary">Return to Cart</a>
+            <a href="/store" class="btn btn-secondary">Continue Shopping</a>
+        </div>
+        
+        <p style="margin-top: 30px; color: #6c757d; font-size: 14px;">
+            If you continue to experience issues, please contact our support team at 
+            <a href="mailto:mehdirg165@gmail.com">support@mehdiragani.com</a>
+        </p>
+    </div>
+</body>
+</html>
