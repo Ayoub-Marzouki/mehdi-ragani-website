@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -110,4 +112,18 @@ public class UserService implements UserDetailsService {
             .disabled(!user.isEnabled())
             .build();
     } 
+
+    /**
+     * Given a Spring Security Authentication, look up (and return) the corresponding
+     * application User entity, or return null if the principal is anonymous.
+     */
+    public User currentUser(Authentication auth) {
+        if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
+            return null;
+        }
+        String username = auth.getName();
+        return getUserByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+    }
+
 }

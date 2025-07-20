@@ -1,0 +1,273 @@
+/* Account Page Styles */
+.account-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.account-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 30px;
+    background-color: #f6f0e4;
+    border: 2px solid #4a311d;
+    border-radius: 10px;
+}
+
+.account-header h1 {
+    color: #4a311d;
+    margin-bottom: 10px;
+}
+
+.account-header p {
+    color: rgba(74, 49, 29, 0.8);
+    font-size: 18px;
+}
+
+.account-content {
+    display: grid;
+    gap: 30px;
+}
+
+/* Profile Section */
+.profile-section {
+    background-color: #f6f0e4;
+    padding: 30px;
+    border: 2px solid #4a311d;
+    border-radius: 10px;
+}
+
+.profile-section h2 {
+    color: #4a311d;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.profile-details {
+    display: grid;
+    gap: 15px;
+}
+
+.profile-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: white;
+    border-radius: 8px;
+    border: 1px solid rgba(74, 49, 29, 0.2);
+}
+
+.profile-item strong {
+    color: #4a311d;
+    font-weight: bold;
+}
+
+/* Orders Overview */
+.orders-overview {
+    background-color: #f6f0e4;
+    padding: 30px;
+    border: 2px solid #4a311d;
+    border-radius: 10px;
+}
+
+.orders-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.orders-header h2 {
+    color: #4a311d;
+    font-size: 24px;
+}
+
+.view-all-btn {
+    color: #4a311d;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: 2px solid #4a311d;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.view-all-btn:hover {
+    background-color: #4a311d;
+    color: #f6f0e4;
+}
+
+.no-orders {
+    text-align: center;
+    padding: 40px;
+}
+
+.no-orders img {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 20px;
+    opacity: 0.5;
+}
+
+.no-orders h2 {
+    color: #4a311d;
+    margin-bottom: 10px;
+}
+
+.no-orders p {
+    color: rgba(74, 49, 29, 0.7);
+    margin-bottom: 20px;
+}
+
+.orders-list {
+    display: grid;
+    gap: 20px;
+}
+
+.order-card {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    border: 1px solid rgba(74, 49, 29, 0.2);
+    transition: transform 0.2s;
+}
+
+.order-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 49, 29, 0.1);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(74, 49, 29, 0.1);
+}
+
+.order-info strong {
+    color: #4a311d;
+}
+
+.order-status {
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.status-completed {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.status-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.status-failed {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.order-details {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.order-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.order-item strong {
+    color: #4a311d;
+}
+
+.order-actions {
+    text-align: right;
+}
+
+/* Quick Actions */
+.quick-actions {
+    background-color: #f6f0e4;
+    padding: 30px;
+    border: 2px solid #4a311d;
+    border-radius: 10px;
+}
+
+.quick-actions h2 {
+    color: #4a311d;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #4a311d;
+    color: #f6f0e4;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s;
+    border: 2px solid #4a311d;
+}
+
+.btn:hover {
+    background-color: rgba(74, 49, 29, 0.8);
+    color: #f6f0e4;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #4a311d;
+    border: 2px solid #4a311d;
+}
+
+.btn-secondary:hover {
+    background-color: #4a311d;
+    color: #f6f0e4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .account-container {
+        padding: 10px;
+    }
+    
+    .profile-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .order-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .orders-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+} 
