@@ -35,9 +35,6 @@ public class SecurityConfig {
         .requestMatchers("/admin/**").hasRole("Admin")
         .anyRequest().permitAll()
         )
-
-        .csrf(csrf -> csrf.ignoringRequestMatchers("/api/paypal/**"))
-        
         .formLogin(form -> form
             .loginPage("/user/login")
             .loginProcessingUrl("/user/login")

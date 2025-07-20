@@ -65,13 +65,10 @@ hr {
 }
 
 #checkout {
-    background-color:#f6f0e4;
+    background-color:lightblue;
     padding:5%;
     display:flex;
     justify-content:space-between;
-    border: 2px solid #4a311d;
-    border-radius: 10px;
-    margin-top: 20px;
 }
 
 .total {
@@ -90,21 +87,19 @@ hr {
     text-align:center;
 }
 #checkout-button {
-    color:#f6f0e4;
-    background-color: #4a311d;
+    color:whitesmoke;
+    background-color: #198754;
     padding:30px 200px;
     border-radius:5px;
     cursor:pointer;
     font-size:20px;
     font-weight:bold;
-    font-family:'playfair-display';
+    font-family:monospace;
     transition:300ms;
-    text-decoration: none;
-    display: inline-block;
 }
 #checkout-button:hover {
-    background-color:rgba(74, 49, 29, 0.8);
-    color:#f6f0e4;
+    background-color:#198754d7;
+    color:white;
 }
 
 

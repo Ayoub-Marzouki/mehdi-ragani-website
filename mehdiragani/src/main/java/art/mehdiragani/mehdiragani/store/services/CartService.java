@@ -2,6 +2,7 @@ package art.mehdiragani.mehdiragani.store.services;
 
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,7 @@ public class CartService {
     private final ArtworkRepository artworkRepository;
     private final UserRepository userRepository;
 
+    @Autowired
     public CartService(CartRepository cartRepository, ArtworkRepository artworkRepository, UserRepository userRepository) {
         this.cartRepository = cartRepository;
         this.artworkRepository = artworkRepository;
@@ -157,10 +159,6 @@ public class CartService {
         Cart cart = getOrCreateCart(session, authentication);
         cart.updateQuantity(artworkId, newQuantity);
         cartRepository.save(cart);
-    }
-
-    public Cart saveCart(Cart cart) {
-        return cartRepository.save(cart);
     }
 
 }
