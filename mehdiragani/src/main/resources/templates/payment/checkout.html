@@ -11,14 +11,13 @@
 </head>
 
 <body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
+    <div id="messages"></div>
     <div class="flex-main">
         <header id="checkout">
             <h1>Checkout</h1>
             <p>Currently: <span th:text="${cart.items.size()}"></span> product(s) in your cart.</p>
             
             <div id="paypal-buttons-container"></div>
-
-            <div id="payment-message" style="color: red; margin-top: 10px;"></div>
         </header>
 
         <div id="cart-items">
@@ -39,11 +38,42 @@
                         </figcaption>
                     </figure>
                 </section>
+                <!-- Prints Section -->
+                <h1>Prints</h1>
+                <section class="flex" th:each="item : ${cart.printItems}">
+                    <figure>
+                        <img class="artwork-image" th:src="${item.print.mainImagePath}" alt="Print Image">
+                        <figcaption class="artwork-title" th:text="${item.print.title}"></figcaption>
+                        <figcaption class="artwork-price">
+                            <span th:text="${#numbers.formatDecimal(item.lineTotal, 1, 2)}"></span>
+                            <span th:text="${currency}"></span>
+                        </figcaption>
+                        <div class="print-details">
+                            <p><b>Type:</b> <span th:text="${item.type}"></span></p>
+                            <p><b>Size:</b> <span th:text="${item.size}"></span></p>
+                            <p><b>Framing:</b> <span th:text="${item.framing}"></span></p>
+                            <p><b>Quantity:</b> <span th:text="${item.quantity}"></span></p>
+                        </div>
+                    </figure>
+                </section>
             </header>
         </div>
     </div>
 
 <script th:inline="javascript">
+    // Message display logic
+    function showMessage(text, tag = 'info') {
+        const messagesDiv = document.getElementById('messages');
+        const msg = document.createElement('div');
+        msg.className = 'message';
+        msg.setAttribute('data-tags', tag);
+        msg.textContent = text;
+        messagesDiv.appendChild(msg);
+        setTimeout(() => { msg.style.opacity = 1; }, 0);
+        setTimeout(() => { msg.style.opacity = 0; }, 4000);
+        setTimeout(() => { msg.remove(); }, 5000);
+    }
+
     // Storing our internal orderId after it's created
     let ourOrderId = null; 
 
@@ -59,34 +89,25 @@
         // 1. CREATE ORDER: Called when the user clicks the PayPal button
         // ----------------------------------------------------------------
         createOrder: function() {
-            console.log("Creating order...");
-            const messageDiv = document.getElementById('payment-message');
-            messageDiv.innerText = "Connecting to PayPal...";
-
-            // Use the modern 'fetch' API to call your Spring Boot backend
+            showMessage('Connecting to PayPal...', 'info');
             return fetch('/api/paypal/create-order', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({})
             })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Backend could not create the order.");
+            .then(response => response.json().then(data => ({ status: response.status, data })))
+            .then(({ status, data }) => {
+                if (status !== 200 || !data.paypalOrderId) {
+                    const errorMsg = data && data.error ? data.error : 'Could not initiate PayPal Checkout. Please try again.';
+                    showMessage(errorMsg, 'error');
+                    throw new Error(errorMsg);
                 }
-                return response.json();
-            })
-            .then(order => {
-                console.log("Order created on our backend:", order);
-                // Store our internal order ID for the capture step
-                ourOrderId = order.ourOrderId; 
-                // Return PayPal's order ID to the PayPal SDK
-                return order.paypalOrderId; 
+                ourOrderId = data.ourOrderId;
+                return data.paypalOrderId;
             })
             .catch(error => {
-                console.error("Error during createOrder:", error);
-                messageDiv.innerText = "Could not initiate PayPal Checkout. Please try again.";
+                // Error already shown above
+                return undefined; // Do not return an order id to PayPal
             });
         },
 
@@ -95,12 +116,7 @@
         //    PayPal popup.
         // -----------------------------------------------------------------
         onApprove: function(data, actions) {
-            console.log("Payment approved by user. Capturing transaction...");
-            const messageDiv = document.getElementById('payment-message');
-            messageDiv.innerText = "Finalizing your payment, please wait...";
-
-            // 'data.orderID' is the PayPal order ID from the approval
-            // 'ourOrderId' is the one we stored in the createOrder step
+            showMessage('Finalizing your payment, please wait...', 'info');
             const paypalOrderId = data.orderID;
             
             // Call your Spring Boot backend to capture the order
@@ -117,22 +133,25 @@
                 return response.json();
             })
             .then(captureData => {
-                console.log("Capture successful:", captureData);
-
+                showMessage('Payment successful! Redirecting...', 'success');
                 window.location.href = '/payment/payment-completed?orderId=' + ourOrderId;
             })
             .catch(error => {
-                console.error("Error during onApprove:", error);
-                messageDiv.innerText = "Payment failed. Please try again or contact support.";
-                window.location.href = '/payment/payment-failed';
+                showMessage('Payment failed. Please try again or contact support.', 'error');
+                // Use flash attribute via POST, not query parameter
+                fetch('/payment/store-failure', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: 'errorMsg=' + encodeURIComponent(error && error.message ? error.message : 'Payment failed')
+                }).then(() => {
+                    window.location.href = '/payment/payment-failed';
+                });
             });
         },
         
         // Optional: Handle errors during the PayPal flow
         onError: function(err) {
-            console.error('An error occurred with the PayPal button:', err);
-            const messageDiv = document.getElementById('payment-message');
-            messageDiv.innerText = "An error occurred. Please refresh the page and try again.";
+            showMessage('An error occurred. Please refresh the page and try again.', 'error');
         }
 
     }).render('#paypal-buttons-container'); // Render the button in our container div

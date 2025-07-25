@@ -29,11 +29,11 @@
                     </div>
                     <div class="summary-item">
                         <strong>Payment Status:</strong>
-                        <span class="status-badge" th:class="${order.paymentStatus == 'Completed' ? 'status-completed' : order.paymentStatus == 'Pending' ? 'status-pending' : 'status-failed'}" th:text="${order.paymentStatus}">Status</span>
+                        <span class="status-badge" th:class="${order.paymentStatus.name() == 'COMPLETED' ? 'status-completed' : order.paymentStatus.name() == 'PENDING' ? 'status-pending' : 'status-failed'}" th:text="${order.paymentStatus.displayName}">Status</span>
                     </div>
                     <div class="summary-item">
                         <strong>Order Status:</strong>
-                        <span class="status-badge" th:class="${order.orderStatus == 'Confirmed' ? 'status-completed' : order.orderStatus == 'Pending' ? 'status-pending' : 'status-failed'}" th:text="${order.orderStatus}">Status</span>
+                        <span class="status-badge" th:class="${order.orderStatus.name() == 'CONFIRMED' ? 'status-completed' : order.orderStatus.name() == 'PENDING' ? 'status-pending' : 'status-failed'}" th:text="${order.orderStatus.displayName}">Status</span>
                     </div>
                     <div class="summary-item" th:if="${order.paymentReference}">
                         <strong>Payment Reference:</strong>
@@ -48,18 +48,28 @@
                 <div class="items-list">
                     <div th:each="item : ${order.items}" class="item-card">
                         <div class="item-image">
-                            <img th:src="${item.artwork.mainImagePath}" th:alt="${item.artwork.title}">
+                            <img th:if="${item.artwork != null}" th:src="${item.artwork.mainImagePath}" th:alt="${item.artwork.title}">
+                            <img th:if="${item.print != null}" th:src="${item.print.mainImagePath}" th:alt="${item.print.title}">
                         </div>
                         <div class="item-details">
-                            <h3 th:text="${item.artwork.title}">Artwork Title</h3>
+                            <h3 th:if="${item.artwork != null}" th:text="${item.artwork.title}">Artwork Title</h3>
+                            <h3 th:if="${item.print != null}" th:text="${item.print.title}">Print Title</h3>
                             <div class="item-info">
-                                <p><strong>Dimensions:</strong> <span th:text="${item.artwork.width}">W</span> x <span th:text="${item.artwork.height}">H</span> cm</p>
-                                <p><strong>Theme:</strong> <span th:text="${item.artwork.theme}">Theme</span></p>
-                                <p><strong>Feel:</strong> <span th:text="${item.artwork.feel}">Feel</span></p>
+                                <div th:if="${item.artwork != null}">
+                                    <p><strong>Dimensions:</strong> <span th:text="${item.artwork.width}">W</span> x <span th:text="${item.artwork.height}">H</span> cm</p>
+                                    <p><strong>Theme:</strong> <span th:text="${item.artwork.theme.displayName}">Theme</span></p>
+                                    <p><strong>Feel:</strong> <span th:text="${item.artwork.feel.displayName}">Feel</span></p>
+                                </div>
+                                <div th:if="${item.print != null}">
+                                    <p><strong>Type:</strong> <span th:text="${item.printType.displayName}"></span></p>
+                                    <p><strong>Size:</strong> <span th:text="${item.printSize.displayName}"></span></p>
+                                    <p><strong>Framing:</strong> <span th:text="${item.framing.displayName}"></span></p>
+                                </div>
                             </div>
                             <div class="item-pricing">
                                 <p><strong>Quantity:</strong> <span th:text="${item.quantity}">1</span></p>
-                                <p><strong>Unit Price:</strong> <span th:text="${#numbers.formatDecimal(item.artwork.price, 1, 2)} + ' ' + ${order.currency}">Price</span></p>
+                                <p th:if="${item.artwork != null}"><strong>Unit Price:</strong> <span th:text="${#numbers.formatDecimal(item.artwork.price, 1, 2)} + ' ' + ${order.currency}">Price</span></p>
+                                <p th:if="${item.print != null}"><strong>Unit Price:</strong> <span th:text="${#numbers.formatDecimal(item.print.basePrice, 1, 2)} + ' ' + ${order.currency}">Price</span></p>
                                 <p class="line-total"><strong>Line Total:</strong> <span th:text="${#numbers.formatDecimal(item.lineTotal, 1, 2)} + ' ' + ${order.currency}">Total</span></p>
                             </div>
                         </div>

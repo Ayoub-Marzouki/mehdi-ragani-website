@@ -39,46 +39,41 @@ public class PayPalController {
      * 3) Persist PayPal’s orderId in paymentReference
      */
     @PostMapping("/create-order")
-    public Map<String, String> createOrder(HttpSession session, Authentication auth) {
-        // 1. Load or create the cart
-        Cart cart = cartService.getOrCreateCart(session, auth);
-
-        // 2. Create a pending Order in DB
-        Order order = orderService.createPendingOrder(cart);
-
-        // 3. Hit PayPal to create an order for that amount
-        String paypalOrderId = paypalService.createOrder(order.getTotal(), order.getCurrency());
-
-        // 4. Store PayPal orderId in your Order.paymentReference
-        orderService.updatePaymentStatus(order.getId(), PaymentStatus.Pending, paypalOrderId);
-        
-        return Map.of(
-          "paypalOrderId", paypalOrderId,
-          "ourOrderId",        order.getId().toString()
-        );
-
+    public ResponseEntity<?> createOrder(HttpSession session, Authentication auth) {
+        try {
+            Cart cart = cartService.getOrCreateCart(session, auth);
+            if (cart.getTotalPrice() == null || cart.getTotalPrice().doubleValue() <= 0) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Cart total must be greater than zero."));
+            }
+            Order order = orderService.createPendingOrder(cart);
+            String paypalOrderId = paypalService.createOrder(order.getTotal(), order.getCurrency());
+            orderService.updatePaymentStatus(order.getId(), PaymentStatus.PENDING, paypalOrderId);
+            return ResponseEntity.ok(Map.of(
+                "paypalOrderId", paypalOrderId,
+                "ourOrderId", order.getId().toString()
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Failed to create PayPal order: " + e.getMessage()));
+        }
     }
 
-    // Much cleaner and safer!
     @PostMapping("/capture-order")
     public ResponseEntity<?> captureOrder(@RequestParam String paypalOrderId, @RequestParam UUID ourOrderId, HttpSession session, Authentication auth) {
-        // 1. Capture on PayPal
-        PayPalCaptureResponse captureResponse = paypalService.captureOrder(paypalOrderId);
-
-        // 2. Extract the capture ID using our helper method
-        String captureId = captureResponse.findCompletedCaptureId();
-        
-        // 3. Check for successful capture
-        if (captureId == null) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to find completed capture ID.");
+        try {
+            PayPalCaptureResponse captureResponse = paypalService.captureOrder(paypalOrderId);
+            String captureId = captureResponse.findCompletedCaptureId();
+            if (captureId == null) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Failed to find completed capture ID."));
+            }
+            orderService.completeOrder(ourOrderId, captureId, session, auth);
+            return ResponseEntity.ok(Map.of(
+                "status", "COMPLETED",
+                "captureId", captureId
+            ));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Failed to capture PayPal order: " + e.getMessage()));
         }
-
-        // 4. Finalize our Order and clear the cart
-        orderService.completeOrder(ourOrderId, captureId, session, auth);
-
-        return ResponseEntity.ok(Map.of(
-            "status",    "COMPLETED",
-            "captureId", captureId
-        ));
-}
+    }
 }

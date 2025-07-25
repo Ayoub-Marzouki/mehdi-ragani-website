@@ -307,3 +307,44 @@
         padding: 20px;
     }
 } 
+
+/* Admin Orders Page Styles */
+.orders-table {
+    width: 90%;
+    margin: 2rem auto;
+    border-collapse: separate;
+    border-spacing: 0 0.5rem;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border-radius: 10px;
+}
+.orders-table th, .orders-table td {
+    padding: 1rem 1.5rem;
+    text-align: left;
+}
+.orders-table th {
+    background: #f5f5f5;
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+}
+.orders-table tr {
+    transition: background 0.2s;
+}
+.orders-table tr:hover {
+    background: #f0f8ff;
+}
+.orders-header {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 2.2rem;
+    letter-spacing: 0.08em;
+}
+.orders-table a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: bold;
+}
+.orders-table a:hover {
+    text-decoration: underline;
+} 

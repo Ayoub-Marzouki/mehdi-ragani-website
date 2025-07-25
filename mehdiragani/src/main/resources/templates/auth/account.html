@@ -55,8 +55,8 @@
                                 <strong>Order #</strong>
                                 <span th:text="${order.id}">Order ID</span>
                             </div>
-                            <div class="order-status" th:class="${order.paymentStatus == 'Completed' ? 'status-completed' : 'status-pending'}">
-                                <span th:text="${order.paymentStatus}">Status</span>
+                            <div class="order-status" th:class="${order.paymentStatus.name() == 'COMPLETED' ? 'status-completed' : 'status-pending'}">
+                                <span th:text="${order.paymentStatus.displayName}">Status</span>
                             </div>
                         </div>
                         

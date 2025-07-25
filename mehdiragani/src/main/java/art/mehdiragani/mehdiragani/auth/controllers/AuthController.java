@@ -1,6 +1,5 @@
 package art.mehdiragani.mehdiragani.auth.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,7 +18,6 @@ import jakarta.validation.Valid;
 public class AuthController {
     private final UserService userService;
 
-    @Autowired
     public AuthController(UserService userService) {
         this.userService = userService;
     }
@@ -32,11 +30,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(@Valid @ModelAttribute RegisterForm registerForm, BindingResult binding) {
+    public String handleRegister(@Valid @ModelAttribute RegisterForm registerForm, BindingResult binding, Model model) {
         if (binding.hasErrors()) return "auth/register";
-
-        userService.registerUser(registerForm);
-
+        try {
+            userService.registerUser(registerForm);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("registerForm", registerForm);
+            model.addAttribute("registrationError", e.getMessage());
+            return "auth/register";
+        }
         return "redirect:/user/login?registered";
     }
 

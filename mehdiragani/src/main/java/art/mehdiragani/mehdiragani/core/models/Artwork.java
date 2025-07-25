@@ -6,6 +6,7 @@ import java.util.UUID;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkStatus;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
+import art.mehdiragani.mehdiragani.payment.models.OrderItem;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -16,12 +17,15 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import java.util.ArrayList;
 
 @Data // Lombok
 @NoArgsConstructor // Lombok
@@ -76,4 +80,13 @@ public class Artwork {
     )
     @Column(name = "secondary_image_path")
     private List<String> secondaryImagesPaths;
+
+    @OneToMany(mappedBy = "artwork", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude // Prevents recursion in Lombok's equals/hashCode
+    private List<OrderItem> orderItems = new ArrayList<>();
+
+    public Double getAspectRatio() {
+        if (width == null || height == null || height == 0) return null;
+        return width / height;
+    }
 }

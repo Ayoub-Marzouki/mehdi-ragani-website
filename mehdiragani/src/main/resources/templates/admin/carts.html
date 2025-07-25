@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Carts</title>
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/cart.css}">
+</head>
+<body>
+    <h1 class="carts-header">Carts</h1>
+    <table class="carts-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Session</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="cart : ${carts}">
+                <td th:text="${cart.id}"></td>
+                <td th:text="${cart.user != null ? cart.user.username : 'Guest'}"></td>
+                <td th:text="${cart.sessionId}"></td>
+                <td th:text="${#temporals.format(cart.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td th:text="${#temporals.format(cart.updatedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <a th:href="@{'/admin/carts/' + ${cart.id}}">View</a>
+                    <form th:action="@{'/admin/carts/' + ${cart.id} + '/delete'}" method="post" style="display:inline;">
+                        <button type="submit" onclick="return confirm('Delete this cart?')">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html> 

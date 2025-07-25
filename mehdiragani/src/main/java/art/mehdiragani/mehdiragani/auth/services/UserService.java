@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,7 +24,6 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -36,6 +34,9 @@ public class UserService implements UserDetailsService {
     }
 
     public User registerUser(RegisterForm registerForm) {
+        if (userRepository.findByUsername(registerForm.getUsername()).isPresent()) {
+            throw new IllegalArgumentException("Username already exists. Please choose another.");
+        }
         User user = new User();
         user.setUsername(registerForm.getUsername());
         user.setEmail(registerForm.getEmail());
@@ -43,7 +44,7 @@ public class UserService implements UserDetailsService {
         user.setFirstName(registerForm.getFirstName());
         user.setLastName(registerForm.getLastName());
         user.setPhoneNumber(registerForm.getPhoneNumber());
-        user.setRole(UserRole.Customer);
+        user.setRole(UserRole.CUSTOMER);
         
         return userRepository.save(user);    
     }

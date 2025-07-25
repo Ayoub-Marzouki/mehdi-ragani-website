@@ -10,3 +10,10 @@ body {
 .form {
     margin-top:100px;
 }
+
+
+@media (max-width: 768px) {
+    .form {
+        margin-top: 175px;
+    }
+}

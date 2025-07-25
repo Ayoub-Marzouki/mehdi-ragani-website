@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/artwork-details.css}">
+    <link rel="stylesheet" href="https://use.typekit.net/bpx8uhs.css">
+    <title>Print details</title>
+    <script th:src="@{/js/artwork-details.js}" defer></script>
+    <script th:src="@{/js/shared-js.js}" defer></script>
+    <script th:src="@{/js/print-details.js}" defer></script>
+</head>
+<body th:replace="~{layouts/main-layout :: main-layout(~{::body/content()})}">
+    <header id="artwork-overview" class="flex">
+        <section id="artwork-images-container">
+            <img id="artwork-image" th:src="@{${print.mainImagePath}}" th:alt="${print.title}">
+        </section>
+        <section id="info">
+            <div class="info-sections">
+                <h1 th:text="${print.title}"></h1>
+            </div>
+            <br><br><br>
+            <div class="info-sections">
+                <ul id="artwork-info" class="flex">
+                    <div id="first-list">
+                        <li>Year : <span th:text="${print.year}"></span></li>
+                        <li>Dimensions : <span th:text="${print.width}"></span> W x <span th:text="${print.height}"></span> H cm</li>
+                    </div>
+                    <div>
+                        <li>Theme : <span th:text="${print.theme}"></span></li>
+                        <li>Feel : <span th:text="${print.feel}"></span></li>
+                    </div>
+                </ul>
+            </div>
+            <br><br>
+            <form th:action="@{/cart/add-print}" method="post" class="cart-div" id="print-cart-form">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <input type="hidden" name="printId" th:value="${print.id}" />
+                <div class="info-sections">
+                    <div class="print-option-group">
+                        <label for="printType">Type:</label>
+                        <select id="printType" name="type" required>
+                            <option th:each="type : ${printTypes}" th:value="${type}" th:text="${type}"></option>
+                        </select>
+                    </div>
+                    <div class="print-option-group">
+                        <label for="printSize">Size:</label>
+                        <select id="printSize" name="size" required>
+                            <option th:each="size : ${printSizes}" th:value="${size}" th:text="${size}"></option>
+                        </select>
+                    </div>
+                    <div class="print-option-group">
+                        <label for="framing">Framing:</label>
+                        <select id="framing" name="framing" required>
+                            <option th:each="f : ${framings}" th:value="${f}" th:text="${f}"></option>
+                        </select>
+                    </div>
+                    <div class="print-option-group">
+                        <label for="quantity">Quantity:</label>
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" th:attr="max=${print.stock != null ? print.stock : null}" required />
+                    </div>
+                    <div class="print-price-display">
+                        <span id="print-price-text" th:text="${print.basePrice} + ' DH (base price, final price may vary)'">Price will be calculated</span>
+                    </div>
+                </div>
+                <br>
+                <button type="submit" id="cart-button" class="button">
+                    <img class="icons" th:src="@{/images/icons/white-cart.png}" alt="Cart">
+                    <span>Add to Cart</span>
+                </button>
+            </form>
+        </section>
+    </header>
+    <header id="extra" class="flex">
+        <div class="extra-info">
+            <img class="icons" th:src="@{/images/icons/happiness.png}" alt="Happiness!"> <br>
+            <p>10-day return policy</p>
+        </div>
+        <div class="extra-info">
+            <img class="icons" th:src="@{/images/icons/box.png}" alt="Shipping"> <br>
+            <p>Shipping across Morocco</p>
+        </div>
+        <div class="extra-info"><img class="icons" th:src="@{/images/icons/credit-card.png}" alt="Secure transaction"> <br>
+            <p>100% secure transaction</p>
+        </div>
+        <div class="extra-info">
+            <img style="width:50px;height:50px;" th:src="@{/images/icons/returns.png}" alt="Returns"> <br>
+            <p>Free Returns</p>
+        </div>
+    </header>
+    <br>
+</body>
+</html> 

@@ -13,6 +13,9 @@
     <section class="form">
     <form th:action="@{/user/register}" th:object="${registerForm}" method="post">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <div th:if="${registrationError}" class="error-message" style="color: red; margin-bottom: 1em;">
+            <span th:text="${registrationError}"></span>
+        </div>
         <div class="field">
             <label for="username">Username: <span class="star">*</span></label>
             <input id="username" th:field="*{username}" placeholder="Username"/>

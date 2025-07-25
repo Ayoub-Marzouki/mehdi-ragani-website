@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Order Details</title>
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/order-details.css}">
+</head>
+<body>
+    <div class="order-details-container">
+        <div class="order-details-header">Order Details</div>
+        <div class="order-meta">
+            <strong>ID:</strong> <span th:text="${order.id}"></span><br>
+            <strong>User:</strong> <span th:text="${order.user != null ? order.user.username : 'Guest'}"></span><br>
+            <strong>Order Status:</strong> <span th:text="${order.orderStatus}"></span><br>
+            <strong>Payment Status:</strong> <span th:text="${order.paymentStatus}"></span><br>
+            <strong>Total:</strong> <span th:text="${order.total}"></span><br>
+            <strong>Created:</strong> <span th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}"></span><br>
+        </div>
+        <div class="order-items-section">
+            <div class="section-title">Items</div>
+            <table class="order-items-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Title</th>
+                        <th>Quantity</th>
+                        <th>Line Total</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${order.items}">
+                        <td th:text="${item.artwork != null ? 'Artwork' : 'Print'}"></td>
+                        <td th:text="${item.artwork != null ? item.artwork.title : item.print.title}"></td>
+                        <td th:text="${item.quantity}"></td>
+                        <td th:text="${item.lineTotal}"></td>
+                        <td>
+                            <span th:if="${item.print != null}">
+                                <span th:text="'Type: ' + ${item.printType}"></span>,
+                                <span th:text="'Size: ' + ${item.printSize}"></span>,
+                                <span th:text="'Framing: ' + ${item.framing}"></span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <a th:href="@{/admin/orders}" class="back-link">&larr; Back to Orders</a>
+    </div>
+</body>
+</html> 

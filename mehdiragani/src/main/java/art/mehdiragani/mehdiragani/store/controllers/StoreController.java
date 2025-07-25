@@ -5,28 +5,43 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import art.mehdiragani.mehdiragani.core.models.Artwork;
+import art.mehdiragani.mehdiragani.core.models.Print;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkStatus;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
+import art.mehdiragani.mehdiragani.core.models.enums.Framing;
+import art.mehdiragani.mehdiragani.core.models.enums.PrintType;
+import art.mehdiragani.mehdiragani.core.models.enums.PrintSize;
+import art.mehdiragani.mehdiragani.core.services.PrintService;
 import art.mehdiragani.mehdiragani.core.services.ArtworkService;
+import art.mehdiragani.mehdiragani.store.dto.ProductDTO;
+import art.mehdiragani.mehdiragani.store.models.Cart;
+import art.mehdiragani.mehdiragani.store.services.CartService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.security.web.csrf.CsrfToken;
 
 @Controller
 @RequestMapping("/store")
 public class StoreController {
     private final ArtworkService artworkService;
+    private final CartService cartService;
+    private final PrintService printService;
 
-    @Autowired
-    public StoreController(ArtworkService artworkService) {
+    public StoreController(ArtworkService artworkService, CartService cartService, PrintService printService) {
         this.artworkService = artworkService;
+        this.cartService = cartService;
+        this.printService = printService;
     }
     
     @GetMapping
@@ -39,49 +54,111 @@ public class StoreController {
     @RequestParam(name = "maxHeight", required = false) Double maxHeight,
     @RequestParam(name = "theme", required = false) ArtworkTheme theme,
     @RequestParam(name = "feel", required = false) ArtworkFeel feel,
-    @RequestParam(name = "status", required = false) ArtworkStatus status
+    @RequestParam(name = "status", required = false) ArtworkStatus status,
+    @RequestParam(name = "type", required = false, defaultValue = "ALL") String type
     ) {
-        
         List<Artwork> artworks = artworkService.findByCriteria(
             minPrice, maxPrice, minWidth, maxWidth, minHeight, maxHeight, theme, feel, status
         );
 
-        // Follow Pinterest Style in the view by dividing artworks into 3 parallel vertical sections
-        List<List<Artwork>> columns = splitIntoColumns(artworks, 3);
+        List<Print> filteredPrints = printService.findByCriteria(
+            minPrice, maxPrice, minWidth, maxWidth, minHeight, maxHeight, theme, feel
+        );
 
+        // Combine and filter by type using ProductDTO
+        List<ProductDTO> combined = new ArrayList<>();
+        if (type.equals("ALL") || type.isEmpty()) {
+            for (Artwork a : artworks) {
+                combined.add(new ProductDTO("ARTWORK", a.getId(), a.getTitle(), a.getMainImagePath(), a.getPrice(), null, a.getStatus() != null ? a.getStatus().name() : null, a.getYear()));
+            }
+            for (Print p : filteredPrints) {
+                combined.add(new ProductDTO("PRINT", p.getId(), p.getTitle(), p.getMainImagePath(), null, p.getBasePrice(), null, null));
+            }
+        } else if (type.equals("ORIGINAL")) {
+            for (Artwork a : artworks) {
+                combined.add(new ProductDTO("ARTWORK", a.getId(), a.getTitle(), a.getMainImagePath(), a.getPrice(), null, a.getStatus() != null ? a.getStatus().name() : null, a.getYear()));
+            }
+        } else if (type.equals("PRINT")) {
+            for (Print p : filteredPrints) {
+                combined.add(new ProductDTO("PRINT", p.getId(), p.getTitle(), p.getMainImagePath(), null, p.getBasePrice(), null, null));
+            }
+        }
+        // Sort by title for consistency
+        combined.sort((a, b) -> a.getTitle().compareToIgnoreCase(b.getTitle()));
+        // Pinterest-style columns
+        List<List<ProductDTO>> columns = splitIntoColumns(combined, 3);
         model.addAttribute("columns", columns);
-
-        // For phone screens
-        model.addAttribute("artworks", artworks);
-
+        model.addAttribute("artworks", combined); // for phone
         model.addAttribute("minPrice", minPrice);
         model.addAttribute("maxPrice", maxPrice);
-
         model.addAttribute("minWidth", minWidth);
         model.addAttribute("minHeight", minHeight);
-        
         model.addAttribute("maxWidth", maxWidth);
         model.addAttribute("maxHeight", maxHeight);
-
         model.addAttribute("theme", theme);
         model.addAttribute("feel", feel);
         model.addAttribute("status", status);
-
+        model.addAttribute("type", type);
         model.addAttribute("allThemes", List.of(ArtworkTheme.values()));
         model.addAttribute("allFeels",  List.of(ArtworkFeel.values()));
         model.addAttribute("allStatus", List.of(ArtworkStatus.values()));
-        
         return "store/store";
     }
 
     @GetMapping("/{id}")
-    public String artworkDetails (Model model, @PathVariable("id") UUID id) {
+    public String artworkDetails (Model model, @PathVariable("id") UUID id, HttpSession session, Authentication authentication) {
         
         Artwork artwork = artworkService.getArtworkById(id);
 
         model.addAttribute("artwork", artwork);
+        // Add cart data for header
+        Cart cart = cartService.getOrCreateCart(session, authentication);
+        model.addAttribute("cart", cart);
 
         return "store/artwork-details";
+    }
+
+    @GetMapping("/print/{id}")
+    public String printDetails(Model model, @PathVariable("id") UUID id, CsrfToken csrfToken) {
+        Print print = printService.getPrintById(id);
+        model.addAttribute("print", print);
+        model.addAttribute("printSizes", PrintSize.values());
+        model.addAttribute("printTypes", PrintType.values());
+        model.addAttribute("framings", Framing.values());
+        model.addAttribute("_csrf", csrfToken);
+        return "store/print-details";
+    }
+
+    @PostMapping("/print/price")
+    @ResponseBody
+    public String calculatePrintPrice(@RequestParam("printId") UUID printId,
+                                      @RequestParam("type") PrintType type,
+                                      @RequestParam("size") PrintSize size,
+                                      @RequestParam("framing") Framing framing,
+                                      @RequestParam("quantity") int quantity) {
+        Print print = printService.getPrintById(printId);
+        double price = print.getBasePrice();
+        switch (size) {
+            case LARGE_60x80: price *= 1.5; break;
+            case LARGE_50x70: price *= 1.35; break;
+            case MEDIUM_40x40: price *= 1.15; break;
+            case MEDIUM_30x40: price *= 1.10; break;
+            case SMALL_20x20: price *= 1.0; break;
+            default: price *= 1.0; break;
+        }
+        switch (type) {
+            case CANVAS: price += 100; break;
+            case FINE_ART_PAPER: price += 50; break;
+            case PHOTO_PAPER: price += 30; break;
+            case VINYL: price += 20; break;
+        }
+        switch (framing) {
+            case BLACK: price += 80; break;
+            case WHITE: price += 80; break;
+            case NONE: break;
+        }
+        double total = price * quantity;
+        return String.format("%.2f DH", total);
     }
 
     // Helper methods

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/admin-add-edit-artwork.css}">
+    <title>Edit Print</title>
+</head>
+<body>
+    <section class="form">
+        <h1>Edit Print</h1>
+        <form th:action="@{/admin/prints/{id}/change(id=${print.id})}" th:object="${print}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div class="field">
+                <label for="title">Title: <span class="star">*</span></label>
+                <input type="text" th:field="*{title}" id="title"/>
+                <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
+            </div>
+            <div class="field">
+                <label for="mainImagePath">Main Image Path: <span class="star">*</span></label>
+                <input type="text" th:field="*{mainImagePath}" id="mainImagePath" placeholder="/images/prints/..."/>
+                <div class="error" th:if="${#fields.hasErrors('mainImagePath')}" th:errors="*{mainImagePath}">Error</div>
+            </div>
+            <div class="field">
+                <label for="width">Width (cm): <span class="star">*</span></label>
+                <input type="number" th:field="*{width}" id="width" step="0.01"/>
+                <div class="error" th:if="${#fields.hasErrors('width')}" th:errors="*{width}">Error</div>
+            </div>
+            <div class="field">
+                <label for="height">Height (cm): <span class="star">*</span></label>
+                <input type="number" th:field="*{height}" id="height" step="0.01"/>
+                <div class="error" th:if="${#fields.hasErrors('height')}" th:errors="*{height}">Error</div>
+            </div>
+            <div class="field">
+                <label for="basePrice">Base Price: <span class="star">*</span></label>
+                <input type="number" th:field="*{basePrice}" id="basePrice" step="0.01"/>
+                <div class="error" th:if="${#fields.hasErrors('basePrice')}" th:errors="*{basePrice}">Error</div>
+            </div>
+            <div class="field">
+                <label for="stock">Stock (leave blank for unlimited):</label>
+                <input type="number" th:field="*{stock}" id="stock"/>
+                <div class="error" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}">Error</div>
+            </div>
+            <div class="field">
+                <label for="printType">Print Type: <span class="star">*</span></label>
+                <select th:field="*{printType}" id="printType">
+                    <option th:each="type : ${printTypes}" th:value="${type}" th:text="${type}"></option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('printType')}" th:errors="*{printType}">Error</div>
+            </div>
+            <div class="field">
+                <label for="printSize">Print Size: <span class="star">*</span></label>
+                <select th:field="*{printSize}" id="printSize">
+                    <option th:each="size : ${printSizes}" th:value="${size}" th:text="${size}"></option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('printSize')}" th:errors="*{printSize}">Error</div>
+            </div>
+            <div class="field">
+                <label for="framing">Framing: <span class="star">*</span></label>
+                <select th:field="*{framing}" id="framing">
+                    <option th:each="f : ${framings}" th:value="${f}" th:text="${f}"></option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('framing')}" th:errors="*{framing}">Error</div>
+            </div>
+            <div class="field">
+                <label for="year">Year:</label>
+                <input type="number" th:field="*{year}" id="year"/>
+                <div class="error" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Error</div>
+            </div>
+            <div class="field">
+                <label for="theme">Theme:</label>
+                <select th:field="*{theme}" id="theme">
+                    <option th:each="t : ${themes}" th:value="${t}" th:text="${t}"></option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('theme')}" th:errors="*{theme}">Error</div>
+            </div>
+            <div class="field">
+                <label for="feel">Feel:</label>
+                <select th:field="*{feel}" id="feel">
+                    <option th:each="f : ${feels}" th:value="${f}" th:text="${f}"></option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('feel')}" th:errors="*{feel}">Error</div>
+            </div>
+            <br>
+            <div>
+                <button type="submit">Save Changes</button>
+            </div>
+        </form>
+    </section>
+</body>
+</html> 

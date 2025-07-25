@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/admin-artworks.css}">
+    <title>Admin - Prints</title>
+</head>
+<body>
+    <div class="flex">
+        <h1>Prints</h1>
+        <a id="add-artwork" th:href="@{/admin/prints/add}">Add a print</a>
+    </div>
+    <p><a class="links" th:href="@{/admin}">Back to Dashboard</a> <span class="dot">•</span> <a class="links" th:href="@{/}">Back Home</a></p>
+    <br><br>
+    <table class="artwork-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Main Image</th>
+                <th>Base Price</th>
+                <th>Year</th>
+                <th>Theme</th>
+                <th>Feel</th>
+                <th>Width x Height</th>
+                <th>Print Type</th>
+                <th>Print Size</th>
+                <th>Framing</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="print : ${prints}">
+                <td th:text="${print.title}">Print Title</td>
+                <td><img th:src="@{${print.mainImagePath}}" th:alt="${print.title}" width="130"/></td>
+                <td th:text="${print.basePrice}">0.00</td>
+                <td th:text="${print.year}">Year</td>
+                <td th:text="${print.theme.displayName}">Theme</td>
+                <td th:text="${print.feel.displayName}">Feel</td>
+                <td><span th:text="${print.width}"></span> x <span th:text="${print.height}"></span> cm</td>
+                <td th:text="${print.printType.displayName}">Type</td>
+                <td th:text="${print.printSize.displayName}">Size</td>
+                <td th:text="${print.framing.displayName}">Framing</td>
+                <td th:text="${print.stock != null ? print.stock : 'Unlimited'}">Stock</td>
+                <td>
+                    <form th:action="@{/admin/prints/{id}/delete(id=${print.id})}" method="post" onsubmit="return confirm('You sure you wanna delete this print?');">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button id="delete" type="submit">Delete</button>
+                    </form>
+                    <br>
+                    <a th:href="@{/admin/prints/{id}/change(id=${print.id})}" id="change">Change</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html> 

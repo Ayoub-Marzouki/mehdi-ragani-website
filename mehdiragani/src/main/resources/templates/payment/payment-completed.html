@@ -36,8 +36,19 @@
             
             <h3 style="margin-top: 30px;">Items Ordered:</h3>
             <div th:each="item : ${order.items}" class="order-item">
-                <div>
+                <div th:if="${item.artwork != null}">
                     <strong th:text="${item.artwork.title}">Artwork Title</strong>
+                    <br>
+                    <small>Quantity: <span th:text="${item.quantity}">1</span></small>
+                </div>
+                <div th:if="${item.print != null}">
+                    <strong th:text="${item.print.title}">Print Title</strong>
+                    <br>
+                    <small>Type: <span th:text="${item.printType}"></span></small>
+                    <br>
+                    <small>Size: <span th:text="${item.printSize}"></span></small>
+                    <br>
+                    <small>Framing: <span th:text="${item.framing}"></span></small>
                     <br>
                     <small>Quantity: <span th:text="${item.quantity}">1</span></small>
                 </div>

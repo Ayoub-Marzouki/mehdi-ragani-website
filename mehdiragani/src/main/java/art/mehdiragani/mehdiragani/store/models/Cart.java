@@ -23,6 +23,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -37,19 +38,28 @@ public class Cart {
     // Optional association (guest carts won't have a user)
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @EqualsAndHashCode.Exclude
     private User user;
     
     // Unique session ID for guest carts
     @Column(name = "session_id", unique = true)
     private String sessionId;
     
-    // Bidirectional relationship with orphan removal
+    // Bidirectional relationship with orphan removal for artwork items
     @OneToMany(
         mappedBy = "cart",
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
     private List<CartItem> items = new ArrayList<CartItem>(); 
+    
+    @OneToMany(
+        mappedBy = "cart",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<PrintCartItem> printItems = new ArrayList<>();
+    
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
@@ -61,23 +71,24 @@ public class Cart {
     // ========== RICH DOMAIN MODEL BEHAVIOR ========== //
     
     /**
-     * Adds artwork to cart or updates quantity if already present
+     * Adds artwork to cart (unique items only)
      * Enforces business rules:
      *  - Artwork must not be sold
      *  - Quantity must be positive
+     *  - Artworks are unique - cannot add the same artwork twice
      *  - Automatic timestamp update
      */
     public void addItem(Artwork artwork, int quantity) {
         validateArtwork(artwork);
         validateQuantity(quantity);
         
-        // If item exists increase its quantity, otherwise add it
-        findItemByArtwork(artwork.getId())
-            .ifPresentOrElse(
-                item -> item.increaseQuantity(quantity),
-                () -> items.add(new CartItem(artwork, quantity, this))
-            );
+        // Check if artwork is already in cart
+        if (findItemByArtwork(artwork.getId()).isPresent()) {
+            throw new IllegalStateException("Artwork is already in cart. Artworks are unique items.");
+        }
         
+        // Add the artwork to cart
+        items.add(new CartItem(artwork, quantity, this));
         markUpdated();
     }
     
@@ -95,10 +106,13 @@ public class Cart {
     
     /**
      * Updates quantity for specific artwork
-     * Throws exception if item not found
+     * Note: For unique artworks, quantity should always be 1
+     * Throws exception if item not found or if trying to set quantity != 1
      */
     public void updateQuantity(UUID artworkId, int newQuantity) {
-        validateQuantity(newQuantity);
+        if (newQuantity != 1) {
+            throw new IllegalArgumentException("Artworks are unique items. Quantity must be 1.");
+        }
         CartItem item = findItemByArtwork(artworkId)
             .orElseThrow(() -> new IllegalStateException("Artwork not in cart"));
         item.setQuantity(newQuantity);
@@ -110,9 +124,21 @@ public class Cart {
      */
     @Transient
     public BigDecimal getTotalPrice() {
-        return items.stream()
+        BigDecimal artworkTotal = items.stream()
             .map(CartItem::getLineTotal)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal printTotal = printItems.stream()
+            .map(item -> BigDecimal.valueOf(item.getLineTotal()))
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return artworkTotal.add(printTotal);
+    }
+
+    /**
+     * Returns true if both artworks and prints are empty
+     */
+    @Transient
+    public boolean isEmpty() {
+        return (items == null || items.isEmpty()) && (printItems == null || printItems.isEmpty());
     }
     
     // ========== INTERNAL HELPERS ========== //
@@ -128,8 +154,8 @@ public class Cart {
     }
     
     private void validateArtwork(Artwork artwork) {
-        if (artwork.getStatus() == ArtworkStatus.Sold) {
-            throw new IllegalStateException("Cannot add sold artwork to cart");
+        if (artwork.getStatus() == ArtworkStatus.SOLD) {
+            throw new IllegalStateException("Cannot add " + ArtworkStatus.SOLD.getDisplayName().toLowerCase() + " artwork to cart");
         }
     }
     

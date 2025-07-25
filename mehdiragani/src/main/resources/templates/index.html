@@ -15,12 +15,14 @@
 <body>
     <header>
         <section th:replace="~{fragments/header :: header}"></section>
-        <section class="slider" th:each="artwork : ${artworks}">
-            <img class="slider-image" th:src="${artwork.mainImagePath}" alt="">
+        <section class="slider" th:each="product : ${products}">
+            <img class="slider-image" th:src="${product.mainImagePath}" th:alt="${product.title}">
         </section>
-        <section id="artworks-names" th:each="artwork : ${artworks}">
-            <a class="artwork-name" th:href="@{/store/{id}(id=${artwork.id})}" th:text="${artwork.title}" target="_blank"></a> <br> 
-            <span class="artwork-year" th:text="${artwork.year}">2024</span>
+        <section id="artworks-names" th:each="product : ${products}">
+            <a class="artwork-name"
+               th:href="${product.type == 'ARTWORK' ? '/store/' + product.id : '/store/print/' + product.id}"
+               th:text="${product.title}" target="_blank"></a> <br>
+               <span class="artwork-year" th:text="${product.year}">2024</span>
         </section>
     </header>
 </body>

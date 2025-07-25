@@ -17,6 +17,8 @@ import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Data
 @NoArgsConstructor
@@ -29,6 +31,7 @@ public class CartItem {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "artwork_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Artwork artwork;
     
     @Column(nullable = false)
@@ -44,18 +47,27 @@ public class CartItem {
 
     public CartItem(Artwork artwork, int quantity, Cart cart) {
         this.artwork = artwork;
-        this.quantity = quantity;
+        // Artworks are unique items, so quantity should always be 1
+        this.quantity = 1;
         this.cart = cart;
     }
     
-    // ========== RICH DOMAIN MODDEL BEHAVIOR ========== //
+    // ========== RICH DOMAIN MODEL BEHAVIOR ========== //
+    
+    /**
+     * Override setter to ensure quantity is always 1 for unique artworks
+     */
+    public void setQuantity(int quantity) {
+        // Artworks are unique items, so quantity should always be 1
+        this.quantity = 1;
+    }
     
     /**
      * Safely increases quantity with validation
+     * Note: For unique artworks, this method is not applicable
      */
     public void increaseQuantity(int amount) {
-        validateAmount(amount);
-        quantity += amount;
+        throw new UnsupportedOperationException("Cannot increase quantity for unique artwork items");
     }
     
     /**
@@ -77,8 +89,9 @@ public class CartItem {
      */
     @Transient
     public BigDecimal getLineTotal() {
-        BigDecimal lineTotal = new BigDecimal(artwork.getPrice() * quantity);
-        return lineTotal;
+        BigDecimal price = BigDecimal.valueOf(artwork.getPrice());
+        BigDecimal qty = BigDecimal.valueOf(quantity);
+        return price.multiply(qty);
     }
     
     // ========== INTERNAL VALIDATION ========== //

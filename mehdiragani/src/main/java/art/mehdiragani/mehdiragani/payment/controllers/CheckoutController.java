@@ -1,6 +1,5 @@
 package art.mehdiragani.mehdiragani.payment.controllers;
 
-import java.util.List;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import art.mehdiragani.mehdiragani.payment.config.PayPalConfig;
 
-import art.mehdiragani.mehdiragani.payment.services.PayPalService;
 import art.mehdiragani.mehdiragani.store.models.Cart;
 import art.mehdiragani.mehdiragani.store.services.CartService;
 import jakarta.servlet.http.HttpSession;
@@ -19,13 +17,11 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/checkout")
 public class CheckoutController {
     private final CartService cartService;
-    private final PayPalConfig payPalConfig;
-    private final PayPalService paypalService; 
+    private final PayPalConfig payPalConfig; 
 
-    public CheckoutController(CartService cartService, PayPalConfig payPalConfig, PayPalService paypalService) {
+    public CheckoutController(CartService cartService, PayPalConfig payPalConfig) {
         this.cartService = cartService;
         this.payPalConfig = payPalConfig;
-        this.paypalService = paypalService;
     }
 
     @GetMapping
@@ -36,13 +32,6 @@ public class CheckoutController {
         model.addAttribute("paypalClientId", payPalConfig.getId());
         model.addAttribute("currency","USD");
 
-        System.out.println("\n\n\nAccess token: " + paypalService.getAccessToken());
-
         return "payment/checkout";
     }
-
-    
-
-
-
 }

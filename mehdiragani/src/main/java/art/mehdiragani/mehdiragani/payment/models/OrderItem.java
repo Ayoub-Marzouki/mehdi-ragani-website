@@ -4,8 +4,14 @@ import java.util.UUID;
 import java.math.BigDecimal;
 
 import art.mehdiragani.mehdiragani.core.models.Artwork;
+import art.mehdiragani.mehdiragani.core.models.Print;
+import art.mehdiragani.mehdiragani.core.models.enums.Framing;
+import art.mehdiragani.mehdiragani.core.models.enums.PrintSize;
+import art.mehdiragani.mehdiragani.core.models.enums.PrintType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +37,24 @@ public class OrderItem {
     private Order order;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artwork_id", nullable = false)
+    @JoinColumn(name = "artwork_id")
     private Artwork artwork;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "print_id")
+    private Print print;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "print_type")
+    private PrintType printType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "print_size")
+    private PrintSize printSize;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "framing")
+    private Framing framing;
 
     @Column(nullable = false)
     private int quantity;

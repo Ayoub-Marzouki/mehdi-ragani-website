@@ -155,3 +155,41 @@ hr {
 #return-p {
     color:rgba(0,0,0,0.4);
 }
+
+#messages {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 99999999999999999999999999999999;
+    font-size:17px;
+    font-size:medium;
+}
+
+.message {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size:17px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: black;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.message[data-tags="error"] {
+    background-color: #FF6B6B;
+}
+
+.message[data-tags="success"] {
+    background-color: #198754;
+}
+
+.message[data-tags="info"] {
+    background-color: #6CA0DC;
+}
+
+.message[data-tags="warning"] {
+    background-color: #ffef96;
+}

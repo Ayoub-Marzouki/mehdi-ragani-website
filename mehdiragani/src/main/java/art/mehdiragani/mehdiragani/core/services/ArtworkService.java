@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,6 @@ import jakarta.validation.Valid;
 public class ArtworkService {
     private final ArtworkRepository artworkRepository; // final here to guarantee that the injected dependency won’t change unexpectedly, improving thread safety and code clarity. It's a spring boot best practice.
 
-    @Autowired
     public ArtworkService(ArtworkRepository artworkRepository) {
         this.artworkRepository = artworkRepository;
     }

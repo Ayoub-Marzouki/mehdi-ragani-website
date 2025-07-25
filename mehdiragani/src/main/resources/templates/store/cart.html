@@ -12,15 +12,22 @@
 </head>
 <body th:replace="~{layouts/main-layout :: main-layout(~{::body/content()})}">
     <div id="updated-cart">
+        <!-- Error Message -->
+        <div th:if="${error}" class="error-message">
+            <p th:text="${error}"></p>
+        </div>
+        
         <header id="added-artworks">
             <h1>Cart</h1>
     
-            <div th:if="${cart.items.empty}">
+            <div th:if="${cart.isEmpty()}">
                 <h1>Your cart is empty for now.</h1>
                 <a th:href="@{/store}">Continue shopping</a>
             </div>
     
+            <!-- Original Artworks Section -->
             <div th:if="${!cart.items.empty}">
+                <h2 class="section-title">Original Artworks</h2>
                 <div th:each="item, iterStat : ${cart.items}">
                     <section class="flex">
                         <figure>
@@ -29,19 +36,47 @@
                                 <figcaption class="artwork-title" th:text="${item.artwork.title}">Artwork Title</figcaption>
                             </a>
                         </figure>
-    
                         <div>
                             <h2 class="flex">Price <span class="shipping">Shipping to Location Included</span></h2>
-                            <h3 th:text="${item.artwork.price}">0.00</h3>
+                            <h3 th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')}">0.00</h3>
                         </div>
-    
                         <form th:action="@{/cart/remove/{id}(id=${item.artwork.id})}" method="post">
                             <button type="submit" class="remove">
                                 <img class="icon" th:src="@{/images/icons/x-mark.png}" alt="Remove item">
                             </button>
                         </form>
                     </section>
-    
+                    <th:block th:if="${!iterStat.last}">
+                        <br><br>
+                        <hr>
+                        <br><br>
+                    </th:block>
+                </div>
+            </div>
+            <!-- Prints Section -->
+            <div th:if="${!cart.printItems.empty}">
+                <h2 class="section-title">Prints</h2>
+                <div th:each="item, iterStat : ${cart.printItems}">
+                    <section class="flex print-item-section">
+                        <figure>
+                            <a th:href="@{/store/print/{id}(id=${item.print.id})}">
+                                <img class="artwork-image" th:src="${item.print.mainImagePath}" alt="Print Image">
+                                <figcaption class="artwork-title" th:text="${item.print.title}">Print Title</figcaption>
+                            </a>
+                        </figure>
+                        <div class="print-details">
+                            <p><b>Type:</b> <span th:text="${item.type}"></span></p>
+                            <p><b>Size:</b> <span th:text="${item.size}"></span></p>
+                            <p><b>Framing:</b> <span th:text="${item.framing}"></span></p>
+                            <p><b>Quantity:</b> <span th:text="${item.quantity}"></span></p>
+                            <h3 th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')} + ' DH'"></h3>
+                        </div>
+                        <form th:action="@{/cart/remove-print/{id}(id=${item.id})}" method="post">
+                            <button type="submit" class="remove">
+                                <img class="icon" th:src="@{/images/icons/x-mark.png}" alt="Remove item">
+                            </button>
+                        </form>
+                    </section>
                     <th:block th:if="${!iterStat.last}">
                         <br><br>
                         <hr>
@@ -53,7 +88,7 @@
     
         <br><br>
     
-        <div th:if="${!cart.items.empty}">
+        <div th:if="${!cart.isEmpty()}" id="checkout-section">
             <section class="total">
                 <h3>Total (in dh)</h3>
                 <h2 id="total-price" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2> 

@@ -51,7 +51,7 @@
                         </label>
                         <label class="radio-label" th:each="t : ${allThemes}">
                             <input type="radio" name="theme" th:value="${t}" th:checked="${t} == ${theme}">
-                            <span th:text="${t}"></span>
+                            <span th:text="${t.displayName}"></span>
                         </label>
                     </div>
                 </details>
@@ -65,7 +65,7 @@
                         </label>
                         <label class="radio-label" th:each="f : ${allFeels}">
                             <input type="radio" name="feel" th:value="${f}" th:checked="${f} == ${feel}">
-                            <span th:text="${f}"></span>
+                            <span th:text="${f.displayName}"></span>
                         </label>
                     </div>
                 </details>
@@ -79,7 +79,7 @@
                         </label>
                         <label class="radio-label" th:each="s : ${allStatus}">
                             <input type="radio" name="status" th:value="${s}" th:checked="${s} == ${status}">
-                            <span th:text="${s}"></span>
+                            <span th:text="${s.displayName}"></span>
                         </label>
                     </div>
                 </details>
@@ -127,7 +127,7 @@
                             </label>
                             <label class="radio-label" th:each="t : ${allThemes}">
                                 <input type="radio" name="theme" th:value="${t}" th:checked="${t} == ${theme}">
-                                <span th:text="${t}"></span>
+                                <span th:text="${t.displayName}"></span>
                             </label>
                         </div>
                     </details>
@@ -141,7 +141,7 @@
                             </label>
                             <label class="radio-label" th:each="f : ${allFeels}">
                                 <input type="radio" name="feel" th:value="${f}" th:checked="${f} == ${feel}">
-                                <span th:text="${f}"></span>
+                                <span th:text="${f.displayName}"></span>
                             </label>
                         </div>
                     </details>
@@ -155,7 +155,25 @@
                             </label>
                             <label class="radio-label" th:each="s : ${allStatus}">
                                 <input type="radio" name="status" th:value="${s}" th:checked="${s} == ${status}">
-                                <span th:text="${s}"></span>
+                                <span th:text="${s.displayName}"></span>
+                            </label>
+                        </div>
+                    </details>
+                    
+                    <details>
+                        <summary><b>Type</b></summary>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="type" value="ALL" th:checked="${type == null or type == 'ALL'}">
+                                <span>All</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="type" value="ORIGINAL" th:checked="${type == 'ORIGINAL'}">
+                                <span>Original</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="type" value="PRINT" th:checked="${type == 'PRINT'}">
+                                <span>Print</span>
                             </label>
                         </div>
                     </details>
@@ -169,22 +187,31 @@
         
         <section id="artworks">
             <section th:each="column : ${columns}">
-                <div class="artwork-block" th:each="artwork : ${column}">
-                    <a th:href="@{/store/{id}(id=${artwork.id})}">
-                        <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
-                        <p class="artwork-title" th:text="${artwork.title}">Title</p>
-                        <p> <span th:text="${artwork.status}"></span> | <span th:text="${artwork.price}"></span> DH</p>
+                <div class="artwork-block" th:each="item : ${column}">
+                    <a th:if="${item.type == 'ARTWORK'}" th:href="@{/store/{id}(id=${item.id})}">
+                        <img th:src="@{${item.mainImagePath}}" th:alt="${item.title}" />
                     </a>
+                    <a th:if="${item.type == 'PRINT'}" th:href="@{/store/print/{id}(id=${item.id})}">
+                        <img th:src="@{${item.mainImagePath}}" th:alt="${item.title}" />
+                    </a>
+                    <div class="artwork-type-badge" th:text="${item.type == 'ARTWORK' ? 'One of a kind' : 'Print'}"></div>
+                    <p class="artwork-title" th:text="${item.title}">Title</p>
+                    <p th:if="${item.type == 'ARTWORK'}"> <span th:text="${item.status}"></span> | <span th:text="${item.price}"></span> DH</p>
+                    <p th:if="${item.type == 'PRINT'}"> <span th:text="${item.basePrice}"></span> DH</p>
                 </div>
             </section>
-
             <section id="phone-artworks">
-                <div class="artwork-block" th:each="artwork : ${artworks}">
-                    <a th:href="@{/store/{id}(id=${artwork.id})}">
-                        <img th:src="@{${artwork.mainImagePath}}" th:alt="${artwork.title}" />
-                        <p class="artwork-title" th:text="${artwork.title}">Title</p>
-                        <p> <span th:text="${artwork.status}"></span> | <span th:text="${artwork.price}"></span> DH</p>
+                <div class="artwork-block" th:each="item : ${artworks}">
+                    <a th:if="${item.type == 'ARTWORK'}" th:href="@{/store/{id}(id=${item.id})}">
+                        <img th:src="@{${item.mainImagePath}}" th:alt="${item.title}" />
                     </a>
+                    <a th:if="${item.type == 'PRINT'}" th:href="@{/store/print/{id}(id=${item.id})}">
+                        <img th:src="@{${item.mainImagePath}}" th:alt="${item.title}" />
+                    </a>
+                    <div class="artwork-type-badge" th:text="${item.type == 'ARTWORK' ? 'One of a kind' : 'Print'}"></div>
+                    <p class="artwork-title" th:text="${item.title}">Title</p>
+                    <p th:if="${item.type == 'ARTWORK'}"> <span th:text="${item.status}"></span> | <span th:text="${item.price}"></span> DH</p>
+                    <p th:if="${item.type == 'PRINT'}"> <span th:text="${item.basePrice}"></span> DH</p>
                     <br><br>
                 </div>
             </section>

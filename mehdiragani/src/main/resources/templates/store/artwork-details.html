@@ -7,9 +7,9 @@
     <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
     <link rel="stylesheet" th:href="@{/css/artwork-details.css}">
     <link rel="stylesheet" href="https://use.typekit.net/bpx8uhs.css">
+    <title>Artwork details</title>
     <script th:src="@{/js/artwork-details.js}" defer></script>
     <script th:src="@{/js/shared-js.js}" defer></script>
-    <title>Artwork details</title>
 </head>
 <body th:replace="~{layouts/main-layout :: main-layout(~{::body/content()})}">
     <header id="artwork-overview" class="flex">
@@ -27,64 +27,44 @@
             <div class="info-sections">
                 <h1 th:text="${artwork.title}"></h1>
             </div>
-            
-            <br><br><br>
-
-            <div class="info-sections">
-                <ul id="artwork-info" class="flex">
-                    <div id="first-list">
-                        <li>Execution date : <span th:text="${artwork.year}"></span></li>
-                        <li>Availability : <strong th:text="${artwork.status}"></strong></li>
-                        <li>Dimensions : <span th:text="${artwork.width}"></span> W x <span th:text="${artwork.width}"></span> H cm</li>
-                    </div>
-                    <div>
-                        <li>Theme : <span th:text="${artwork.theme}"></span></li>
-                        <li>Feel : <span th:text="${artwork.feel}"></span></li>
-                    </div>
-                </ul>
-            </div>
-
             <br><br><br>
             
-            <div class="info-sections" id="price-section">
-                <h3 style="display:inline-block;margin-bottom:10px;" class="price" th:text="${artwork.price}"></h3> <span>dh</span>
-                <br>
-            </div>
-            <form th:action="@{/cart/add}" method="post" class="cart-div">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-              
-                <input type="hidden" name="artworkId" th:value="${artwork.id}" />
-                <input type="hidden" name="quantity" value="1" />
-              
-                <button type="submit" id="cart-button" class="button cart-button">
-                  <img class="icons" th:src="@{/images/icons/white-cart.png}" alt="Cart">
-                  <span>Add to Cart</span>
-                </button>
-            </form>
-
-            <!-- <a style="text-decoration:none;">
-                <div class="button offer"> 
-                    <img class="icons" th:src="@{/images/icons/bid.png}" alt="">
-                    <span>Make an Offer!</span>
+            <!-- ORIGINAL ARTWORK SECTION -->
+            <div>
+                <div class="info-sections">
+                    <ul id="artwork-info" class="flex">
+                        <div id="first-list">
+                            <li>Execution date : <span th:text="${artwork.year}"></span></li>
+                            <li>Availability : <strong th:text="${artwork.status.displayName}"></strong></li>
+                            <li>Dimensions : <span th:text="${artwork.width}"></span> W x <span th:text="${artwork.height}"></span> H cm</li>
+                        </div>
+                        <div>
+                            <li>Theme : <span th:text="${artwork.theme}"></span></li>
+                            <li>Feel : <span th:text="${artwork.feel}"></span></li>
+                        </div>
+                    </ul>
                 </div>
-            </a> -->
-
-            <!-- <div class="button wishlist add-to-wishlist" data-product-item=""> 
-                <img class="icons" th:src="@{/images/icons/heart.png}" alt="">
-                <span>Add to Wishlist</span>
-            </div> -->
+                <br><br><br>
+                <div class="info-sections" id="price-section">
+                    <h3 class="price"><span th:text="${artwork.price}"></span> DH</h3>
+                    <br>
+                </div>
+                <!-- Only show Add to Cart if artwork is available -->
+                <form th:if="${artwork.status.name() == 'AVAILABLE'}"
+                      th:action="@{/cart/add}" method="post" class="cart-div">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    <input type="hidden" name="artworkId" th:value="${artwork.id}" />
+                    <input type="hidden" name="quantity" value="1" />
+                    <button type="submit" id="cart-button" class="button">
+                        <img class="icons" th:src="@{/images/icons/white-cart.png}" alt="Cart">
+                        <span>Add to Cart</span>
+                    </button>
+                </form>
+            </div>
         </section>
     </header>
 
     <header id="extra" class="flex">
-        <!-- <div class="extra-info">
-            <img class="icons" src="{% static 'images/icons/favorite.png' %}" alt="Wishlist box"> <br>
-            {% if product_wishlist_count > 0 %}
-            <p>This artwork is part of {{product_wishlist_count}} wishlists</p>
-            {% else %}
-            <p>This artwork is not part of any wishlist just yet</p>
-            {% endif %}
-        </div> -->
         <div class="extra-info">
             <img class="icons" th:src="@{/images/icons/happiness.png}" alt="Happiness!"> <br>
             <p>10-day return policy</p>
@@ -101,101 +81,6 @@
             <p>Free Returns</p>
         </div>
     </header>
-
-    <!-- <header>
-        <h1>Comments & reviews</h1> <br>
-        <section id="reviews">
-            {% if not reviews %}
-                <br>
-                <p>No reviews or comments yet.</p>
-                <br>
-            {% else %}
-            <p style="text-align:end">Average rating : {{average_rating.rating|floatformat}}  /5</p>
-            {% for r in reviews %}
-                <div class="flex" id="review">
-                    <img id="user-profile-picture" src="{% static 'images/sign-up/customer.jpg' %}" alt="">
-                    <h3>{{r.user.username|title}}</h3> <br>
-                    <h3>{{r.get_rating_display}}</h3>
-                    <p>{{r.date|date:"F d, Y"}}</p> <br>
-                </div>
-                <p> - {{r.review}}</p> <br>
-            {% endfor %}
-            {% endif %}
-
-            {% if make_review == True %}
-            {% if request.user.is_authenticated %}
-            <div id="hide">
-            <h3>Add a review</h3>
-                <form action="{% url 'home:add-product-review' product.id %}" id="addReview" method="post">
-                    {% csrf_token %}
-                    <p>{{review_form.review}}</p>
-                    <p>{{review_form.rating}}</p>
-                    <button class="button" id="submit" type="submit">Submit</button>
-                </form>
-            </div>
-            {% endif %}
-            {% endif %}
-            <p id="review-message"></p>
-            <br>
-            {% if not request.user.is_authenticated %}
-                <p>You must be logged in to be able to post a comment or a review. 
-                    <a href="{% url 'userauths:login' %}?next={{ current_url }}">Log in</a>
-                </p>
-                <br>
-                <p>Don't have an account yet? <a href="{% url 'userauths:sign-up' %}?next={{ current_url }}">Sign up</a></p>
-            {% endif %}
-        </section>
-        <br>
-        <h1>About the author</h1> <br>
-        <section id="profile">
-            <div class="profile-info">
-                <figure>
-                    <img class="profile-pictures" src="{{product.artist.image.url}}" alt="Profile picture">
-                    <figcaption><a href="{% url 'home:artist-details' product.artist.aid %}">View profile</a></figcaption>
-                </figure>
-                &nbsp;
-                <a id="artist-name" href="{% url 'home:artist-details' product.artist.aid %}">{{product.artist.name}}</a>
-                &nbsp;&nbsp;
-                <p>{{product.artist.views}}</p> &nbsp;
-                <img class="icons" src="{% static 'images/icons/eye.png' %}" alt="Eye Icon">
-                &nbsp;&nbsp;
-                <p>{{product.artist.city}}</p> &nbsp;
-                <img class="icons" src="{% static 'images/icons/location.png' %}" alt="Location Icon">
-                &nbsp;&nbsp;
-                <p>Short Bio : {{product.artist.shortBio}}</p>
-            </div>
-            <h2>Biography</h2> <br>
-            <p>{{product.artist.biography}}</p>
-            <br>
-        </section>
-
-        <br>
-
-        <section>
-        {% if related_products %}
-            <h1>Discover more artworks of the same technique & style</h1> <br>  
-        {% endif %}
-        <header class="store">
-            {% for product in related_products %}
-                <figure>
-                    <a data-product-url="{% url 'home:product-details' product.pid %}" href="{% url 'home:product-details' product.pid %}">
-                        {% if product.image %}
-                            <img class="store-images" src="{{ product.image.url }}" alt="{{ product.title }}">
-                        {% endif %}
-                    </a>
-                    <a data-product-url="{% url 'home:product-details' product.pid %}" href="{% url 'home:product-details' product.pid %}" target="_blank" ><p class="view-more">View More</p></a>
-                    <p>{{ product.title }}</p>
-                    <p class="price">{{ product.price }}</p> <span>dh</span>
-                    <p> By <a id="artist-name" href="{% url 'home:artist-details' product.artist.aid %}">{{product.artist}}</a> </p>
-                    <input type="hidden" class="product-id" value="{{product.id}}" name="" id="">
-                    <input type="hidden" class="product-title" value="{{product.title}}" name="" id="">
-                    <p class="cart-button">Add To Cart</p>
-                    <br>
-                    <p class="add-to-wishlist wish-button" data-product-item="{{product.id}}">Add to Wishlist</p>
-                </figure>
-            {% endfor %}
-        </header> -->
-        <br>
-    </header>
+    <br>
 </body>
 </html>

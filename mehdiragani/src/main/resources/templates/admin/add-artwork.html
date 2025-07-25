@@ -53,7 +53,7 @@
                 <select th:field="*{theme}" id="theme">
                     <option th:each="t : ${allThemes}"
                             th:value="${t}"
-                            th:text="${t}">
+                            th:text="${t.displayName}">
                     </option>
                 </select>
                 <div class="error" th:if="${#fields.hasErrors('theme')}"
@@ -65,7 +65,7 @@
                 <select th:field="*{feel}" id="feel">
                     <option th:each="f : ${allFeels}"
                             th:value="${f}"
-                            th:text="${f}">
+                            th:text="${f.displayName}">
                     </option>
                 </select>
                 <div class="error" th:if="${#fields.hasErrors('feel')}"
@@ -77,7 +77,7 @@
                 <select th:field="*{status}" id="status">
                     <option th:each="s : ${allStatuses}"
                             th:value="${s}"
-                            th:text="${s}">
+                            th:text="${s.displayName}">
                     </option>
                 </select>
                 <div class="error" th:if="${#fields.hasErrors('status')}"

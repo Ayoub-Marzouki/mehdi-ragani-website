@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin - Orders</title>
+    <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
+    <link rel="stylesheet" th:href="@{/css/orders.css}">
+</head>
+<body>
+    <h1 class="orders-header">Orders</h1>
+    <table class="orders-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Total</th>
+                <th>Order Status</th>
+                <th>Payment Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.id}"></td>
+                <td th:text="${order.user != null ? order.user.username : 'Guest'}"></td>
+                <td th:text="${order.total}"></td>
+                <td th:text="${order.orderStatus}"></td>
+                <td th:text="${order.paymentStatus}"></td>
+                <td th:text="${#temporals.format(order.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+                <td>
+                    <a th:href="@{'/admin/orders/' + ${order.id}}">View</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html> 

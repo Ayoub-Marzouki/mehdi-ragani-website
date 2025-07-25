@@ -54,14 +54,14 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)
-    private PaymentStatus paymentStatus = PaymentStatus.Pending;
+    private PaymentStatus paymentStatus = PaymentStatus.PENDING;
 
     @Column(name = "payment_reference", length = 100)
     private String paymentReference;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "order_status", nullable = false)
-    private OrderStatus orderStatus = OrderStatus.Pending;
+    private OrderStatus orderStatus = OrderStatus.PENDING;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderItem> items = new ArrayList<OrderItem>();

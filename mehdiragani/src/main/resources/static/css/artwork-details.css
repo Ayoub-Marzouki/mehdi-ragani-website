@@ -1,6 +1,8 @@
 /* Styling the images of the artwork and whatnot */
 #artwork-overview {
     margin:3% auto 3% auto;
+    padding:3%;
+    align-items:flex-start;
 }
 
 #artwork-images-container {
@@ -32,6 +34,7 @@
     border-radius:10px;
     padding:2% 0;
     text-align:center;
+    min-width:500px;
 }
 
 .price {
@@ -116,4 +119,42 @@ li {
 }
 .extra-info p {
     margin:3%;
+}
+
+/* ========== TABS STYLING ========== */
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #666;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.tab-button:hover {
+    color: #212a2f;
+}
+
+.tab-button.active {
+    color: #212a2f;
+    border-bottom-color: #212a2f;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
 }

@@ -2,7 +2,6 @@ package art.mehdiragani.mehdiragani.store.config;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,6 @@ public class CartAuthenticationSuccessHandler implements AuthenticationSuccessHa
     private final CartService cartService;
     private final UserService userService;
 
-    @Autowired
     public CartAuthenticationSuccessHandler(CartService cartService, UserService userService) {
         this.cartService = cartService;
         this.userService = userService;

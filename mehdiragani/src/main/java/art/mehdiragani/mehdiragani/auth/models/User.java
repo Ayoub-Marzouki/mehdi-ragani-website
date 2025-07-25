@@ -1,18 +1,24 @@
 package art.mehdiragani.mehdiragani.auth.models;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import art.mehdiragani.mehdiragani.auth.models.enums.UserRole;
+import art.mehdiragani.mehdiragani.payment.models.Order;
+import art.mehdiragani.mehdiragani.store.models.Cart;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
@@ -50,6 +56,18 @@ public class User {
     @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
+    @OneToMany(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    private List<Order> orders;
+
+    /**
+     * Exclude the cart field from Lombok's equals() and hashCode() to prevent
+     * infinite recursion and stack overflow. This is necessary because User and Cart
+     * have a bidirectional one-to-one relationship, and including both sides in
+     * equals/hashCode would cause a loop: User -> Cart -> User -> ...
+     */
+    @OneToOne(mappedBy = "user", cascade = jakarta.persistence.CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    private Cart cart;
 
 
     // More info for admin

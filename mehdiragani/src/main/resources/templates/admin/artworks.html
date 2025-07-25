@@ -47,11 +47,11 @@
 
             <td><span th:text="${artwork.height}">Width</span> x <span th:text="${artwork.width}"></span> cm</td>
 
-            <td th:text="${artwork.status}">Status</td>
+            <td th:text="${artwork.status.displayName}">Status</td>
             
-            <td th:text="${artwork.theme}">Theme</td>
+            <td th:text="${artwork.theme.displayName}">Theme</td>
 
-            <td th:text="${artwork.feel}">Feel</td>
+            <td th:text="${artwork.feel.displayName}">Feel</td>
 
             <td>
             <div th:each="path : ${artwork.secondaryImagesPaths}">
