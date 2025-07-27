@@ -63,6 +63,57 @@ h1 {
     cursor:pointer;
 }
 
+/* !!!!!!!!!!!!!!!! Styling the error/warning/success/info messages !!!!!!!!!!!!!!!! */
+#messages {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 99999999999999999999999999999999;
+    font-size:17px;
+    font-size:medium;
+}
+
+.message {
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size:17px;
+    color:black;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.message[data-tags="error"] {
+    background-color: #FF6B6B;
+}
+
+.message[data-tags="success"] {
+    background-color: #198754;
+}
+
+.message[data-tags="info"] {
+    background-color: #6CA0DC;
+}
+
+.message[data-tags="warning"] {
+    background-color: #ffef96;
+}
+
+/* !!!!!!!!!!!!!!!! Styling the field errors !!!!!!!!!!!!!!!! */
+.field-error {
+    background-color: #FF6B6B;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    font-size: 0.95em;
+    display: block;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.07);
+}
+
 
 
 /* !!!!!!!!!!!!!!!! Styling the header !!!!!!!!!!!!!!!! */

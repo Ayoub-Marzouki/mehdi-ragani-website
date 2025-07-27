@@ -252,3 +252,9 @@
         display:block;
     }
 }
+
+@media (max-width:400px) {
+    #artworks img {
+        max-width:250px;
+    }
+}

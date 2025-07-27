@@ -95,6 +95,12 @@ select {
     margin-bottom:3%;
 }
 
+#social-media-icons {
+    display:flex;
+    justify-content:center;
+    gap:10px;
+}
+
 /* Style newsletter section */
 #newsletter-signup {
     margin-top: 20px; /* Add margin top for spacing */

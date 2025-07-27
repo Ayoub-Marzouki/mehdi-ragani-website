@@ -42,8 +42,9 @@ h2 {
 }
 
 .artwork-image {
-    width:300px;
-    height:300px;
+    max-height:300px;
+    width: auto;
+    object-fit: cover;
 }
 
 .artwork-title, .artwork-artist {
@@ -119,6 +120,8 @@ hr {
     transition:300ms;
     text-decoration: none;
     display: inline-block;
+    min-width: 200px;
+    text-align: center;
 }
 #checkout-button:hover {
     background-color:rgba(74, 49, 29, 0.8);
@@ -143,7 +146,6 @@ hr {
     max-width: 900px;
     margin: 2rem auto;
     background: #fff;
-    border-radius: 12px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     padding: 2.5rem 2rem 2rem 2rem;
 }
@@ -162,14 +164,12 @@ hr {
     font-size: 1.3rem;
     margin-top: 2rem;
     margin-bottom: 1rem;
-    color: #1a73e8;
 }
 .cart-item-section {
     display: flex;
     align-items: flex-start;
     gap: 2rem;
     background: #f8fafd;
-    border-radius: 8px;
     margin-bottom: 1.5rem;
     padding: 1.2rem 1rem;
     box-shadow: 0 1px 4px rgba(0,0,0,0.04);
@@ -178,7 +178,6 @@ hr {
     width: 110px;
     height: 110px;
     object-fit: cover;
-    border-radius: 8px;
     border: 1px solid #e0e0e0;
 }
 .cart-item-details {
@@ -250,4 +249,252 @@ hr {
 }
 .carts-table a:hover {
     text-decoration: underline;
+}
+
+
+/* ========== MOBILE RESPONSIVE STYLES ========== */
+
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
+    h1 {
+        font-size: 28px;
+    }
+    
+    h2 {
+        font-size: 24px;
+    }
+    
+    #updated-cart {
+        padding: 2%;
+    }
+
+    .artwork-image {
+        max-height: 250px;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .artwork-title, .artwork-artist {
+        font-size: 16px;
+    }
+    
+    .shipping {
+        font-size: 13px;
+        padding-left: 0;
+        margin-top: 5px;
+    }
+    
+    .remove {
+        align-self: flex-end;
+        margin-right: 0;
+    }
+    
+    .icon {
+        width: 35px;
+        height: 35px;
+    }
+    
+    #checkout {
+        flex-direction: column;
+        gap: 20px;
+        padding: 4%;
+    }
+    
+    .total {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    #total-price {
+        padding-left: 0;
+        font-size: 22px;
+    }
+    
+    #checkout-button {
+        padding: 20px 40px;
+        font-size: 18px;
+        width: 100%;
+        text-align: center;
+    }
+    
+    #return-p {
+        margin-top: 20px;
+        font-size: 14px;
+    }
+    
+    /* Print items - maintain horizontal layout like original artworks */
+    .print-item-section {
+        flex-direction: row !important;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .print-details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        margin:auto;
+        text-align:center;
+    }
+    
+    .print-details p {
+        margin: 0;
+        font-size: 14px;
+    }
+    
+    .print-details h3 {
+        margin: 10px 0 0 0;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 500px) {
+    h1 {
+        font-size: 24px;
+    }
+    
+    h2 {
+        font-size: 20px;
+    }
+    
+    #updated-cart {
+        padding: 1%;
+    }
+    
+    .flex {
+        padding: 1%;
+    }
+    
+    .artwork-image {
+        max-height: 200px;
+    }
+    
+    .artwork-title, .artwork-artist {
+        font-size: 15px;
+    }
+    
+    .icon {
+        width: 30px;
+        height: 30px;
+    }
+    
+    #checkout {
+        padding: 3%;
+    }
+    
+    #checkout-button {
+        padding: 15px 30px;
+        font-size: 16px;
+    }
+    
+    #total-price {
+        font-size: 20px;
+    }
+    
+    /* Admin styles mobile */
+    .cart-details-container {
+        margin: 1rem;
+        padding: 1.5rem 1rem;
+    }
+    
+    .cart-details-header {
+        font-size: 1.5rem;
+    }
+    
+    /* .cart-item-section {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    } */
+    
+    .cart-item-section img.artwork-image {
+        width: 100%;
+        height: 150px;
+    }
+    
+    .carts-table {
+        width: 95%;
+        font-size: 14px;
+    }
+    
+    .carts-table th, .carts-table td {
+        padding: 0.5rem;
+    }
+    
+    /* Print items - maintain horizontal layout on smaller screens */
+    .print-item-section {
+        flex-direction: row !important;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .print-details {
+        flex: 1;
+        gap: 3px;
+    }
+    
+    .print-details p {
+        font-size: 13px;
+    }
+    
+    .print-details h3 {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 400px) {
+    h1 {
+        font-size: 22px;
+    }
+    
+    h2 {
+        font-size: 18px;
+    }
+    
+    .artwork-image {
+        max-height: 180px;
+    }
+    
+    .artwork-title, .artwork-artist {
+        font-size: 14px;
+    }
+    
+    .icon {
+        width: 28px;
+        height: 28px;
+    }
+    
+    #checkout-button {
+        padding: 12px 25px;
+        font-size: 15px;
+    }
+    
+    #total-price {
+        font-size: 18px;
+    }
+    
+    /* Print items - maintain horizontal layout on very small screens */
+    .print-item-section {
+        flex-direction: row !important;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .print-details {
+        flex: 1;
+        gap: 2px;
+    }
+    
+    .print-details p {
+        font-size: 12px;
+    }
+    
+    .print-details h3 {
+        font-size: 16px;
+    }
 }

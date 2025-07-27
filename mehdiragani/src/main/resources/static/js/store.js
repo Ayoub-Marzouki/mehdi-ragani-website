@@ -40,8 +40,8 @@ from: v => Number(v)
 
 // initialize your three sliders (both desktop & phone)
 initRangeSlider('.price-slider',  'minPrice',  'maxPrice', {
-range: { min: 0,    max: 30000 },
-step:  250,
+range: { min: 0,    max: 3000 }, // Updated from 30000 MAD to 3000 EUR
+step:  25, // Updated from 250 to 25 for EUR
 format: intFormatter
 });
 
