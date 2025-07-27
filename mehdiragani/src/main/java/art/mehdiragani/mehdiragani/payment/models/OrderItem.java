@@ -49,7 +49,7 @@ public class OrderItem {
     private PrintType printType;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "print_size")
+    @Column(name = "print_size", length = 15)
     private PrintSize printSize;
 
     @Enumerated(EnumType.STRING)

@@ -69,18 +69,38 @@ public class StoreController {
         List<ProductDTO> combined = new ArrayList<>();
         if (type.equals("ALL") || type.isEmpty()) {
             for (Artwork a : artworks) {
-                combined.add(new ProductDTO("ARTWORK", a.getId(), a.getTitle(), a.getMainImagePath(), a.getPrice(), null, a.getStatus() != null ? a.getStatus().name() : null, a.getYear()));
+                combined.add(new ProductDTO(
+                    "ARTWORK",
+                    a.getId(),
+                    a.getTitle(),
+                    a.getMainImagePath(),
+                    a.getPrice(),
+                    null,
+                    a.getStatus() != null ? a.getStatus().name() : null,
+                    a.getStatus() != null ? a.getStatus().getDisplayName() : null,
+                    a.getYear()
+                ));
             }
             for (Print p : filteredPrints) {
-                combined.add(new ProductDTO("PRINT", p.getId(), p.getTitle(), p.getMainImagePath(), null, p.getBasePrice(), null, null));
+                combined.add(new ProductDTO("PRINT", p.getId(), p.getTitle(), p.getMainImagePath(), null, p.getBasePrice(), null, null, null));
             }
         } else if (type.equals("ORIGINAL")) {
             for (Artwork a : artworks) {
-                combined.add(new ProductDTO("ARTWORK", a.getId(), a.getTitle(), a.getMainImagePath(), a.getPrice(), null, a.getStatus() != null ? a.getStatus().name() : null, a.getYear()));
+                combined.add(new ProductDTO(
+                    "ARTWORK",
+                    a.getId(),
+                    a.getTitle(),
+                    a.getMainImagePath(),
+                    a.getPrice(),
+                    null,
+                    a.getStatus() != null ? a.getStatus().name() : null,
+                    a.getStatus() != null ? a.getStatus().getDisplayName() : null,
+                    a.getYear()
+                ));
             }
         } else if (type.equals("PRINT")) {
             for (Print p : filteredPrints) {
-                combined.add(new ProductDTO("PRINT", p.getId(), p.getTitle(), p.getMainImagePath(), null, p.getBasePrice(), null, null));
+                combined.add(new ProductDTO("PRINT", p.getId(), p.getTitle(), p.getMainImagePath(), null, p.getBasePrice(), null, null, null));
             }
         }
         // Sort by title for consistency
@@ -121,8 +141,12 @@ public class StoreController {
     @GetMapping("/print/{id}")
     public String printDetails(Model model, @PathVariable("id") UUID id, CsrfToken csrfToken) {
         Print print = printService.getPrintById(id);
+        
+        // Get compatible print sizes based on artwork aspect ratio
+        List<PrintSize> compatibleSizes = printService.getCompatiblePrintSizes(print.getAspectRatio());
+        
         model.addAttribute("print", print);
-        model.addAttribute("printSizes", PrintSize.values());
+        model.addAttribute("printSizes", compatibleSizes);
         model.addAttribute("printTypes", PrintType.values());
         model.addAttribute("framings", Framing.values());
         model.addAttribute("_csrf", csrfToken);
@@ -136,29 +160,10 @@ public class StoreController {
                                       @RequestParam("size") PrintSize size,
                                       @RequestParam("framing") Framing framing,
                                       @RequestParam("quantity") int quantity) {
+        
         Print print = printService.getPrintById(printId);
-        double price = print.getBasePrice();
-        switch (size) {
-            case LARGE_60x80: price *= 1.5; break;
-            case LARGE_50x70: price *= 1.35; break;
-            case MEDIUM_40x40: price *= 1.15; break;
-            case MEDIUM_30x40: price *= 1.10; break;
-            case SMALL_20x20: price *= 1.0; break;
-            default: price *= 1.0; break;
-        }
-        switch (type) {
-            case CANVAS: price += 100; break;
-            case FINE_ART_PAPER: price += 50; break;
-            case PHOTO_PAPER: price += 30; break;
-            case VINYL: price += 20; break;
-        }
-        switch (framing) {
-            case BLACK: price += 80; break;
-            case WHITE: price += 80; break;
-            case NONE: break;
-        }
-        double total = price * quantity;
-        return String.format("%.2f DH", total);
+        double totalPrice = printService.calculatePrintPrice(print, size, type, framing, quantity);
+        return String.format("%.2f EUR", totalPrice);
     }
 
     // Helper methods

@@ -29,7 +29,7 @@ public class PrintCartItem {
     private PrintType type;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "size", nullable = false, length = 15)
     private PrintSize size;
 
     @Enumerated(EnumType.STRING)

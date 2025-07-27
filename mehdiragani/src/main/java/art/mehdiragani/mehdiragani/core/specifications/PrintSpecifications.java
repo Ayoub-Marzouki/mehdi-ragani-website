@@ -1,19 +1,13 @@
 package art.mehdiragani.mehdiragani.core.specifications;
 
-import java.math.BigDecimal;
 import org.springframework.data.jpa.domain.Specification;
 import art.mehdiragani.mehdiragani.core.models.Print;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkFeel;
 import art.mehdiragani.mehdiragani.core.models.enums.ArtworkTheme;
 
 public class PrintSpecifications {
-    public static Specification<Print> basePriceGreaterOrEqual(BigDecimal minPrice) {
-        return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("basePrice"), minPrice);
-    }
-
-    public static Specification<Print> basePriceLessOrEqual(BigDecimal maxPrice) {
-        return (root, query, cb) -> cb.lessThanOrEqualTo(root.get("basePrice"), maxPrice);
-    }
+    // Note: basePrice filtering removed since pricing is now based on print size
+    // Price filtering would need to be implemented differently if needed
 
     public static Specification<Print> widthGreaterOrEqual(Double minWidth) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("width"), minWidth);

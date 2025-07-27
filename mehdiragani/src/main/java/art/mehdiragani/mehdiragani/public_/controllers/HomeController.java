@@ -38,10 +38,30 @@ public class HomeController {
         // Combine artworks and prints into a single products list
         List<ProductDTO> products = new ArrayList<>();
         for (Artwork a : artworks) {
-            products.add(new ProductDTO("ARTWORK", a.getId(), a.getTitle(), a.getMainImagePath(), a.getPrice(), null, a.getStatus() != null ? a.getStatus().name() : null, a.getYear()));
+            products.add(new ProductDTO(
+                "ARTWORK",
+                a.getId(),
+                a.getTitle(),
+                a.getMainImagePath(),
+                a.getPrice(),
+                null,
+                a.getStatus() != null ? a.getStatus().name() : null,
+                a.getStatus() != null ? a.getStatus().getDisplayName() : null,
+                a.getYear()
+            ));
         }
         for (Print p : prints) {
-            products.add(new ProductDTO("PRINT", p.getId(), p.getTitle(), p.getMainImagePath(), null, p.getBasePrice(), null, null));
+            products.add(new ProductDTO(
+                "PRINT",
+                p.getId(),
+                p.getTitle(),
+                p.getMainImagePath(),
+                null,
+                p.getBasePrice(),
+                null,
+                null,
+                null
+            ));
         }
         model.addAttribute("products", products);
         // Add cart data for header

@@ -21,6 +21,7 @@ public class ProductDTO {
     private String mainImagePath;
     private Double price; // for artworks
     private Double basePrice; // for prints
-    private String status; // for artworks
+    private String status; // for artworks (enum name)
+    private String statusDisplayName; // for artworks (display name)
     private Integer year; // for artworks
 } 

@@ -61,7 +61,7 @@ public class Print {
     private PrintType printType;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "print_size", nullable = false, length = 15)
     private PrintSize printSize;
 
     @Enumerated(EnumType.STRING)

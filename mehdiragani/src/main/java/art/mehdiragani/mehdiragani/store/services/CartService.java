@@ -126,28 +126,9 @@ public class CartService {
     public void addPrintToCart(UUID printId, PrintType type, PrintSize size, Framing framing, int quantity, HttpSession session, Authentication auth) {
         Cart cart = getOrCreateCart(session, auth);
         Print print = printService.getPrintById(printId);
-        // Price calculation logic (sensible defaults, can be adjusted)
-        double price = print.getBasePrice();
-        // Example multipliers (customize as needed)
-        switch (size) {
-            case LARGE_60x80: price *= 1.5; break;
-            case LARGE_50x70: price *= 1.35; break;
-            case MEDIUM_40x40: price *= 1.15; break;
-            case MEDIUM_30x40: price *= 1.10; break;
-            case SMALL_20x20: price *= 1.0; break;
-            default: price *= 1.0; break;
-        }
-        switch (type) {
-            case CANVAS: price += 100; break;
-            case FINE_ART_PAPER: price += 50; break;
-            case PHOTO_PAPER: price += 30; break;
-            case VINYL: price += 20; break;
-        }
-        switch (framing) {
-            case BLACK: price += 80; break;
-            case WHITE: price += 80; break;
-            case NONE: break;
-        }
+        
+        // Calculate price using the print service
+        double price = printService.calculatePrintPrice(print, size, type, framing, 1); // Price per unit
         PrintCartItem item = new PrintCartItem();
         item.setPrint(print);
         item.setType(type);
@@ -169,8 +150,13 @@ public class CartService {
      * @param user    authenticated user into whose cart items are merged
      */
     public void mergeCarts(HttpSession session, User user) {
-        String sessionId = session.getId();
-        cartRepository.findBySessionId(sessionId).ifPresent(guestCart -> {
+        String currentSessionId = session.getId();
+        String preAuthSessionId = (String) session.getAttribute("PRE_AUTH_SESSION_ID");
+        
+        // Try to find guest cart with pre-authentication session ID first
+        String sessionIdToUse = preAuthSessionId != null ? preAuthSessionId : currentSessionId;
+        
+        cartRepository.findBySessionId(sessionIdToUse).ifPresent(guestCart -> {
             Cart userCart = cartRepository.findByUserId(user.getId())
                 .orElseGet(() -> {
                     Cart newCart = new Cart();
@@ -178,14 +164,31 @@ public class CartService {
                     return cartRepository.save(newCart);
                 });
             
-            // Transfer items
+            // Transfer artwork items
             guestCart.getItems().forEach(item -> 
                 userCart.addItem(item.getArtwork(), item.getQuantity())
             );
             
+            // Transfer print items
+            guestCart.getPrintItems().forEach(printItem -> {
+                PrintCartItem newPrintItem = new PrintCartItem();
+                newPrintItem.setPrint(printItem.getPrint());
+                newPrintItem.setType(printItem.getType());
+                newPrintItem.setSize(printItem.getSize());
+                newPrintItem.setFraming(printItem.getFraming());
+                newPrintItem.setQuantity(printItem.getQuantity());
+                newPrintItem.setUnitPrice(printItem.getUnitPrice());
+                newPrintItem.setLineTotal(printItem.getLineTotal());
+                newPrintItem.setCart(userCart);
+                userCart.getPrintItems().add(newPrintItem);
+            });
+            
             cartRepository.save(userCart);
             cartRepository.delete(guestCart);
         });
+        
+        // Clean up the stored session ID
+        session.removeAttribute("PRE_AUTH_SESSION_ID");
     }
 
     /**
