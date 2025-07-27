@@ -40,6 +40,10 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // Unique session ID for guest orders (similar to Cart model)
+    @Column(name = "session_id", unique = true)
+    private String sessionId;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private OffsetDateTime createdAt = OffsetDateTime.now();
 
@@ -50,7 +54,7 @@ public class Order {
     private BigDecimal total;
 
     @Column(nullable = false, length = 3)
-    private String currency = "USD";
+    private String currency = "EUR";
 
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)

@@ -13,6 +13,9 @@ import art.mehdiragani.mehdiragani.payment.models.Order;
 public interface OrderRepository extends JpaRepository<Order, UUID> {
     List<Order> findByUserIdOrderByCreatedAtDesc(UUID userId);
 
+    // For guest orders
+    List<Order> findBySessionIdOrderByCreatedAtDesc(String sessionId);
+
     @Query("SELECT o FROM Order o LEFT JOIN FETCH o.items WHERE o.id = :id")
     Optional<Order> findByIdWithItems(@Param("id") UUID id);
 }

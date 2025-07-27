@@ -117,6 +117,46 @@ public class OrderService {
         return orderRepository.findByUserIdOrderByCreatedAtDesc(user.getId());
     }
 
+    /**
+     * Find guest orders by session ID (for order merging)
+     */
+    public List<Order> findGuestOrdersBySessionId(String sessionId) {
+        return orderRepository.findBySessionIdOrderByCreatedAtDesc(sessionId);
+    }
+
+    /**
+     * Merges guest orders into a user's account upon registration/login.
+     * Similar to cart merging, but for completed orders.
+     *
+     * @param session HTTP session containing the guest session ID
+     * @param user    authenticated user to merge orders into
+     */
+    public void mergeOrders(HttpSession session, User user) {
+        String sessionId = session.getId();
+        String preAuthSessionId = (String) session.getAttribute("PRE_AUTH_SESSION_ID");
+        
+        System.out.println("=== ORDER MERGING DEBUG ===");
+        System.out.println("Current Session ID: " + sessionId);
+        System.out.println("Pre-Auth Session ID: " + preAuthSessionId);
+        System.out.println("User: " + user.getUsername());
+        
+        // Try to find guest orders with pre-authentication session ID first
+        String sessionIdToUse = preAuthSessionId != null ? preAuthSessionId : sessionId;
+        List<Order> guestOrders = findGuestOrdersBySessionId(sessionIdToUse);
+        
+        System.out.println("Found " + guestOrders.size() + " guest orders for session ID: " + sessionIdToUse);
+        
+        for (Order guestOrder : guestOrders) {
+            System.out.println("Merging order: " + guestOrder.getId() + " (Total: " + guestOrder.getTotal() + ")");
+            // Update the order to belong to the user
+            guestOrder.setUser(user);
+            orderRepository.save(guestOrder);
+            System.out.println("Order merged successfully");
+        }
+        
+        System.out.println("=== END ORDER MERGING DEBUG ===");
+    }
+
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
     }
@@ -131,13 +171,20 @@ public class OrderService {
      * The order is saved with status Pending, and payment status Pending.
      *
      * @param cart the current Cart
+     * @param session HTTP session for guest identification
+     * @param auth Spring Security authentication for user identification
      * @return the saved pending Order
      */
-    public Order createPendingOrder(Cart cart) {
+    public Order createPendingOrder(Cart cart, HttpSession session, Authentication auth) {
         Order order = new Order();
         order.setUser(cart.getUser());
         order.setTotal(cart.getTotalPrice());
-        order.setCurrency("USD");  // PayPal supported currency
+        order.setCurrency("EUR");  // PayPal supported currency
+
+        // Set sessionId for guest orders
+        if (cart.getUser() == null) {
+            order.setSessionId(session.getId());
+        }
 
         // Artworks
         cart.getItems().forEach(cartItem -> {
