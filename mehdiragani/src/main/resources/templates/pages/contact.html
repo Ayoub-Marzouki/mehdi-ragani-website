@@ -14,13 +14,14 @@
 <body th:replace="layouts/main-layout :: main-layout(~{::body/content()})">
     <main>
         <header>
-            <p>Your questions and comments are important to us! Please use the form below or send us an email, and note that the more information you provide, the better we can serve you.</p>
+            <p>Your questions and comments are important to us! Please send us an email, and note that the more information you provide, the better we can serve you.</p>
             <br>
             <div class="contact-container">
                 <!-- Combined Problem/Comment Form -->
-                <details>
+                <details open>
                     <summary>Have Feedback or an Issue? Let Us Know!</summary>
-                    <section id="feedback">
+                    <p>Please contact us via our email <a href="mailto:mehdirg165@gmail.com">here</a> or <a href="mailto:ayoubma321@gmail.com">here</a>.</p>
+                    <!-- <section id="feedback">
                         <form id="feedback-form">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                             <label for="inquiry-type">Inquiry Type *</label>
@@ -35,27 +36,27 @@
                         </form>
                         <br>
                         <p>(Or contact us via our email : test@gmail.com)</p>
-                    </section>
+                    </section> -->
                     <br><br>
                 </details>
                 
                 <!-- Find Us Section -->
-                <details>
+                <details open>
                     <summary>Where can you find us?</summary>
                     <p>We're currently located here : <br> <br>
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3306.129508682563!2d-5.0143111177123965!3d34.0405488491638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd9f8b2f9d46585f%3A0xf1b710775053bbc6!2sFlamenco%20cafe!5e0!3m2!1sen!2sma!4v1691324448356!5m2!1sen!2sma" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3146.8760133730316!2d-5.014704435975088!3d34.03984318909299!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd9f8b248f2bd559%3A0x5e9ffe5758589096!2sParc%20Champ%20de%20Course%20Park!5e1!3m2!1sen!2sma!4v1753552989468!5m2!1sen!2sma" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>                        
                         
-                        <br><br>We also have several social media pages. <br> Feel free to take a tour!
+                        <br><br>We also have our instagram page. <br> Feel free to take a tour!
                     </p>
-                    <header>
-                        <a href="https://www.facebook.com/elkharbili1/" target="_blank" title="Facebook page"><img class="icons" th:src="@{images/icons/facebook-icon.png}" alt="Facebook Link"></a>
-                        <a href="" title="Instagram page"><img class="icons" th:src="@{images/icons/instagram-icon.png}" alt="Instagram Link"></a>
+                    <header id="social-media-icons">
+                        <!-- <a href="https://www.facebook.com/Mehdi.RG17" target="_blank" title="Facebook page"><img class="icons" th:src="@{images/icons/facebook-icon.png}" alt="Facebook Link"></a> -->
+                        <a href="https://www.instagram.com/mehdi.ragani/" title="Instagram page"><img class="icons" th:src="@{images/icons/instagram-icon.png}" alt="Instagram Link"></a>
                     </header>
                     <br><br>
                 </details>
                 
                 <!-- Newsletter Signup Section -->
-                <details open>
+                <!-- <details open>
                     <summary>Stay Informed with Our Newsletter</summary>
                     <section id="newsletter-signup">
                         <p>Get the latest on new artworks, artist features, and exclusive offers.</p>
@@ -67,7 +68,7 @@
                         </form>
                     </section>
                     <br><br>
-                </details>
+                </details> -->
                 <br><br>
             </div>    
         </header>

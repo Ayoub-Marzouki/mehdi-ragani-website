@@ -65,11 +65,11 @@
                             </a>
                         </figure>
                         <div class="print-details">
-                            <p><b>Type:</b> <span th:text="${item.type}"></span></p>
-                            <p><b>Size:</b> <span th:text="${item.size}"></span></p>
-                            <p><b>Framing:</b> <span th:text="${item.framing}"></span></p>
+                            <p><b>Type:</b> <span th:text="${item.type.displayName}"></span></p>
+                            <p><b>Size:</b> <span th:text="${item.size.displayName}"></span></p>
+                            <p><b>Framing:</b> <span th:text="${item.framing.displayName}"></span></p>
                             <p><b>Quantity:</b> <span th:text="${item.quantity}"></span></p>
-                            <h3 th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')} + ' DH'"></h3>
+                            <h3 th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')} + ' EUR'"></h3>
                         </div>
                         <form th:action="@{/cart/remove-print/{id}(id=${item.id})}" method="post">
                             <button type="submit" class="remove">
@@ -89,13 +89,9 @@
         <br><br>
     
         <div th:if="${!cart.isEmpty()}" id="checkout-section">
-            <section class="total">
-                <h3>Total (in dh)</h3>
-                <h2 id="total-price" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2> 
-            </section>
             <header id="checkout">
                 <section class="total">
-                    <h3>Total (in dh)</h3>
+                    <h3>Total (in EUR)</h3>
                     <h2 id="total-price" th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2>
                 </section>
     

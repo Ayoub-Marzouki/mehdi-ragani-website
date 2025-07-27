@@ -29,8 +29,8 @@
                         <li>Dimensions : <span th:text="${print.width}"></span> W x <span th:text="${print.height}"></span> H cm</li>
                     </div>
                     <div>
-                        <li>Theme : <span th:text="${print.theme}"></span></li>
-                        <li>Feel : <span th:text="${print.feel}"></span></li>
+                        <li>Theme : <span th:text="${print.theme.displayName}"></span></li>
+                        <li>Feel : <span th:text="${print.feel.displayName}"></span></li>
                     </div>
                 </ul>
             </div>
@@ -42,29 +42,31 @@
                     <div class="print-option-group">
                         <label for="printType">Type:</label>
                         <select id="printType" name="type" required>
-                            <option th:each="type : ${printTypes}" th:value="${type}" th:text="${type}"></option>
+                            <option th:each="type : ${printTypes}" th:value="${type}" th:text="${type.displayName}"></option>
                         </select>
                     </div>
                     <div class="print-option-group">
                         <label for="printSize">Size:</label>
                         <select id="printSize" name="size" required>
-                            <option th:each="size : ${printSizes}" th:value="${size}" th:text="${size}"></option>
+                            <option th:each="size : ${printSizes}" th:value="${size}" th:text="${size.displayName}"></option>
                         </select>
                     </div>
                     <div class="print-option-group">
                         <label for="framing">Framing:</label>
                         <select id="framing" name="framing" required>
-                            <option th:each="f : ${framings}" th:value="${f}" th:text="${f}"></option>
+                            <option th:each="f : ${framings}" th:value="${f}" th:text="${f.displayName}"></option>
                         </select>
                     </div>
                     <div class="print-option-group">
                         <label for="quantity">Quantity:</label>
-                        <input type="number" name="quantity" id="quantity" value="1" min="1" th:attr="max=${print.stock != null ? print.stock : null}" required />
+                        <input type="number" name="quantity" id="quantity" value="1" min="1" step="1" pattern="[0-9]*" inputmode="numeric" th:attr="max=${print.stock != null ? print.stock : null}" required />
                     </div>
                     <div class="print-price-display">
-                        <span id="print-price-text" th:text="${print.basePrice} + ' DH (base price, final price may vary)'">Price will be calculated</span>
+                        <span id="print-price-text" th:text="${print.basePrice} + ' EUR (base price, final price may vary)'">Price will be calculated</span>
                     </div>
                 </div>
+                <br>
+                <p>(<span th:text="${print.basePrice}"></span> EUR is the base price for a 50x50cm print)</p>
                 <br>
                 <button type="submit" id="cart-button" class="button">
                     <img class="icons" th:src="@{/images/icons/white-cart.png}" alt="Cart">

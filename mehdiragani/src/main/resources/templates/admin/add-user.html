@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/admin-add-edit-artwork.css}">
     <script th:src="@{/js/admin-add-edit-artwork.js}" defer></script>
+    <script th:src='@{/js/messages.js}' defer></script>
     <title>Add a user</title>
 </head>
 <body>
@@ -17,25 +18,25 @@
             <div class="field">
                 <label for="username">Username: <span class="star">*</span></label>
                 <input type="text" th:field="*{username}" id="username"/>
-                <div class="error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Error</div>
+                <div th:if="${#fields.hasErrors('username')}" class="field-error" th:errors="*{username}">Error</div>
             </div>
     
             <div class="field">
                 <label for="email">Email: <span class="star">*</span></label>
                 <input type="email" th:field="*{email}" id="email"/>
-                <div class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
+                <div th:if="${#fields.hasErrors('email')}" class="field-error" th:errors="*{email}">Error</div>
             </div>
     
             <div class="field">
                 <label for="firstName">First Name:</label>
                 <input type="text" th:field="*{firstName}" id="firstName"/>
-                <div class="error" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Error</div>
+                <div th:if="${#fields.hasErrors('firstName')}" class="field-error" th:errors="*{firstName}">Error</div>
             </div>
     
             <div class="field">
                 <label for="lastName">Last Name:</label>
                 <input type="text" th:field="*{lastName}" id="lastName"/>
-                <div class="error" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Error</div>
+                <div th:if="${#fields.hasErrors('lastName')}" class="field-error" th:errors="*{lastName}">Error</div>
             </div>
     
             <div class="field">

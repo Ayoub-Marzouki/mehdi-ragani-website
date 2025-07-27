@@ -39,14 +39,14 @@
                             <li>Dimensions : <span th:text="${artwork.width}"></span> W x <span th:text="${artwork.height}"></span> H cm</li>
                         </div>
                         <div>
-                            <li>Theme : <span th:text="${artwork.theme}"></span></li>
-                            <li>Feel : <span th:text="${artwork.feel}"></span></li>
+                            <li>Theme : <span th:text="${artwork.theme.displayName}"></span></li>
+                            <li>Feel : <span th:text="${artwork.feel.displayName}"></span></li>
                         </div>
                     </ul>
                 </div>
                 <br><br><br>
                 <div class="info-sections" id="price-section">
-                    <h3 class="price"><span th:text="${artwork.price}"></span> DH</h3>
+                    <h3 class="price"><span th:text="${artwork.price}"></span> EUR</h3>
                     <br>
                 </div>
                 <!-- Only show Add to Cart if artwork is available -->

@@ -27,7 +27,7 @@
                 </figure>
                 <div class="cart-item-details">
                     <h3>Price <span class="shipping">Shipping Included</span></h3>
-                    <div th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')} + ' DH'"></div>
+                    <div th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')} + ' EUR'"></div>
                     <div><b>Quantity:</b> <span th:text="${item.quantity}"></span></div>
                 </div>
             </div>
@@ -46,12 +46,12 @@
                     <div><b>Size:</b> <span th:text="${item.size}"></span></div>
                     <div><b>Framing:</b> <span th:text="${item.framing}"></span></div>
                     <div><b>Quantity:</b> <span th:text="${item.quantity}"></span></div>
-                    <div th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')} + ' DH'"></div>
+                    <div th:text="${#numbers.formatDecimal(item.lineTotal, 1, 'COMMA', 2, 'POINT')} + ' EUR'"></div>
                 </div>
             </div>
         </div>
         <div th:if="${cart != null && (!cart.items.empty || !cart.printItems.empty)}" class="cart-total-section">
-            <h3>Total (in dh)</h3>
+            <h3>Total (in EUR)</h3>
             <h2 th:text="${#numbers.formatDecimal(cart.totalPrice, 1, 'COMMA', 2, 'POINT')}">0.00</h2> 
         </div>
         <a th:href="@{/admin/carts}" class="back-link">&larr; Back to Carts</a>

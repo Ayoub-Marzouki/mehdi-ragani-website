@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/admin-add-edit-artwork.css}">
     <script th:src="@{/js/admin-add-edit-artwork.js}" defer></script>
+    <script th:src='@{/js/messages.js}' defer></script>
     <title>Edit an artwork</title>
 </head>
 <body>
@@ -43,8 +44,7 @@
             <div class="field">
                 <label for="height">Height: <span class="star">*</span></label>
                 <input type="number" th:field="*{height}" id="height"/>
-                <div class="error" th:if="${#fields.hasErrors('height')}"
-                th:errors="*{height}">Error</div>
+                <div th:if="${#fields.hasErrors('height')}" class="field-error" th:errors="*{height}">Error</div>
             </div>
 
             <div class="field">
@@ -55,8 +55,7 @@
                             th:text="${t.displayName}">
                     </option>
                 </select>
-                <div class="error" th:if="${#fields.hasErrors('theme')}"
-                th:errors="*{theme}">Error</div>
+                <div th:if="${#fields.hasErrors('theme')}" class="field-error" th:errors="*{theme}">Error</div>
             </div>
 
             <div class="field">
@@ -67,8 +66,7 @@
                             th:text="${f.displayName}">
                     </option>
                 </select>
-                <div class="error" th:if="${#fields.hasErrors('feel')}"
-                    th:errors="*{feel}">Error</div>
+                <div th:if="${#fields.hasErrors('feel')}" class="field-error" th:errors="*{feel}">Error</div>
             </div>
 
             <div class="field">

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" th:href="@{/css/admin-add-edit-artwork.css}">
     <script th:src="@{/js/admin-add-edit-artwork.js}" defer></script>
+    <script th:src='@{/js/messages.js}' defer></script>
     <title>Add an artwork</title>
 </head>
 <body>
@@ -17,35 +18,31 @@
             <div class="field">
                 <label for="title">Title: <span class="star">*</span></label>
                 <input type="text" th:field="*{title}" id="title"/>
-                <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">Error</div>
+                <div th:if="${#fields.hasErrors('title')}" class="field-error" th:errors="*{title}">Error</div>
             </div>
     
             <div class="field">
                 <label for="price">Price: <span class="star">*</span></label>
                 <input type="number" th:field="*{price}" id="price"/>
-                <div class="error" th:if="${#fields.hasErrors('price')}"
-                th:errors="*{price}">Error</div>
+                <div th:if="${#fields.hasErrors('price')}" class="field-error" th:errors="*{price}">Error</div>
             </div>
 
             <div class="field">
                 <label for="year">Year: <span class="star">*</span></label>
                 <input type="number" th:field="*{year}" id="year"/>
-                <div class="error" th:if="${#fields.hasErrors('year')}"
-                th:errors="*{year}">Error</div>
+                <div th:if="${#fields.hasErrors('year')}" class="field-error" th:errors="*{year}">Error</div>
             </div>
 
             <div class="field">
                 <label for="width">Width: <span class="star">*</span></label>
                 <input type="number" th:field="*{width}" id="width"/>
-                <div class="error" th:if="${#fields.hasErrors('width')}"
-                th:errors="*{width}">Error</div>
+                <div th:if="${#fields.hasErrors('width')}" class="field-error" th:errors="*{width}">Error</div>
             </div>
 
             <div class="field">
                 <label for="height">Height: <span class="star">*</span></label>
                 <input type="number" th:field="*{height}" id="height"/>
-                <div class="error" th:if="${#fields.hasErrors('height')}"
-                th:errors="*{height}">Error</div>
+                <div th:if="${#fields.hasErrors('height')}" class="field-error" th:errors="*{height}">Error</div>
             </div>
 
             <div class="field">
@@ -56,8 +53,7 @@
                             th:text="${t.displayName}">
                     </option>
                 </select>
-                <div class="error" th:if="${#fields.hasErrors('theme')}"
-                th:errors="*{theme}">Error</div>
+                <div th:if="${#fields.hasErrors('theme')}" class="field-error" th:errors="*{theme}">Error</div>
             </div>
 
             <div class="field">
@@ -68,8 +64,7 @@
                             th:text="${f.displayName}">
                     </option>
                 </select>
-                <div class="error" th:if="${#fields.hasErrors('feel')}"
-                    th:errors="*{feel}">Error</div>
+                <div th:if="${#fields.hasErrors('feel')}" class="field-error" th:errors="*{feel}">Error</div>
             </div>
 
             <div class="field">
@@ -80,15 +75,13 @@
                             th:text="${s.displayName}">
                     </option>
                 </select>
-                <div class="error" th:if="${#fields.hasErrors('status')}"
-                    th:errors="*{status}">Error</div>
+                <div th:if="${#fields.hasErrors('status')}" class="field-error" th:errors="*{status}">Error</div>
             </div>
 
             <div class="field">
                 <label for="mainImagePath">Main Image Path: <span class="star">*</span></label>
                 <input type="text" th:field="*{mainImagePath}" id="mainImagePath"  placeholder="/images/artworks/..."/>
-                <div class="error" th:if="${#fields.hasErrors('mainImagePath')}"
-                th:errors="*{mainImagePath}">Error</div>
+                <div th:if="${#fields.hasErrors('mainImagePath')}" class="field-error" th:errors="*{mainImagePath}">Error</div>
             </div>
 
             <div id="secondary-images">

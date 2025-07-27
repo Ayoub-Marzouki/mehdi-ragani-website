@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/images/logos/r-logo.png}" type="image/png">
+    <link rel="shortcut icon" th:href="@{/images/logos/r-logo.png}" type="image/png">
+    <link rel="apple-touch-icon" th:href="@{/images/logos/r-logo.png}">
+    <meta name="msapplication-TileImage" th:content="@{/images/logos/r-logo.png}">
     <link rel="stylesheet" th:href="@{/css/sharedstyle.css}">
     <link rel="stylesheet" th:href="@{/css/artworks.css}">
     <script th:src="@{/js/shared-js.js}" defer></script>
@@ -196,10 +201,11 @@
                     </a>
                     <div class="artwork-type-badge" th:text="${item.type == 'ARTWORK' ? 'One of a kind' : 'Print'}"></div>
                     <p class="artwork-title" th:text="${item.title}">Title</p>
-                    <p th:if="${item.type == 'ARTWORK'}"> <span th:text="${item.status}"></span> | <span th:text="${item.price}"></span> DH</p>
-                    <p th:if="${item.type == 'PRINT'}"> <span th:text="${item.basePrice}"></span> DH</p>
+                    <p th:if="${item.type == 'ARTWORK'}"> <span th:text="${item.statusDisplayName}"></span> | <span th:text="${item.price}"></span> EUR</p>
+                    <p th:if="${item.type == 'PRINT'}"> <span th:text="${item.basePrice}"></span> EUR</p>
                 </div>
             </section>
+            <!-- For phone screens, we don't use the columns, we just display the artworks in a list -->
             <section id="phone-artworks">
                 <div class="artwork-block" th:each="item : ${artworks}">
                     <a th:if="${item.type == 'ARTWORK'}" th:href="@{/store/{id}(id=${item.id})}">
@@ -210,8 +216,8 @@
                     </a>
                     <div class="artwork-type-badge" th:text="${item.type == 'ARTWORK' ? 'One of a kind' : 'Print'}"></div>
                     <p class="artwork-title" th:text="${item.title}">Title</p>
-                    <p th:if="${item.type == 'ARTWORK'}"> <span th:text="${item.status}"></span> | <span th:text="${item.price}"></span> DH</p>
-                    <p th:if="${item.type == 'PRINT'}"> <span th:text="${item.basePrice}"></span> DH</p>
+                    <p th:if="${item.type == 'ARTWORK'}"> <span th:text="${item.statusDisplayName}"></span> | <span th:text="${item.price}"></span> EUR</p>
+                    <p th:if="${item.type == 'PRINT'}"> <span th:text="${item.basePrice}"></span> EUR</p>
                     <br><br>
                 </div>
             </section>
