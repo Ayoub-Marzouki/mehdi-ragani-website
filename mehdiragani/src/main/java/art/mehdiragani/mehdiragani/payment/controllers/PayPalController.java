@@ -45,7 +45,7 @@ public class PayPalController {
             if (cart.getTotalPrice() == null || cart.getTotalPrice().doubleValue() <= 0) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("error", "Cart total must be greater than zero."));
             }
-            Order order = orderService.createPendingOrder(cart);
+            Order order = orderService.createPendingOrder(cart, session, auth);
             String paypalOrderId = paypalService.createOrder(order.getTotal(), order.getCurrency());
             orderService.updatePaymentStatus(order.getId(), PaymentStatus.PENDING, paypalOrderId);
             return ResponseEntity.ok(Map.of(

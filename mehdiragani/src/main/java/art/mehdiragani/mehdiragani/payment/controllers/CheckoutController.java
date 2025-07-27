@@ -30,7 +30,7 @@ public class CheckoutController {
         model.addAttribute("cart", cart);
         model.addAttribute("total", cart.getTotalPrice());
         model.addAttribute("paypalClientId", payPalConfig.getId());
-        model.addAttribute("currency","USD");
+        model.addAttribute("currency","EUR");
 
         return "payment/checkout";
     }

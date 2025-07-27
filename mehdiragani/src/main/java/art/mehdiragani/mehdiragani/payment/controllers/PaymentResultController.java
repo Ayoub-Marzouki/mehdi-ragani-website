@@ -3,6 +3,7 @@ package art.mehdiragani.mehdiragani.payment.controllers;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +26,18 @@ public class PaymentResultController {
     }
     
     @GetMapping("/payment-completed")
-    public String paymentCompleted(@RequestParam("orderId") UUID orderId, Model model) {
+    public String paymentCompleted(@RequestParam("orderId") UUID orderId, Model model, Authentication auth) {
         Optional<Order> orderOpt = orderService.getOrder(orderId);
         
         if (orderOpt.isPresent()) {
             Order order = orderOpt.get();
             model.addAttribute("order", order);
             model.addAttribute("orderId", orderId);
+            
+            // Check if user is authenticated or guest
+            boolean isAuthenticated = auth != null && auth.isAuthenticated();
+            model.addAttribute("isAuthenticated", isAuthenticated);
+            
             return "payment/payment-completed";
         } else {
             // Order not found - redirect to error page or show error
