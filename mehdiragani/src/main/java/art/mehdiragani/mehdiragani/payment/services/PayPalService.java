@@ -16,9 +16,12 @@ import java.time.temporal.ChronoUnit;
 import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class PayPalService {
+    private static final Logger logger = LoggerFactory.getLogger(PayPalService.class);
     private final PayPalConfig payPalConfig;
     private final RestTemplate restTemplate;
     // Cache for access token to avoid fetching it multiple times
@@ -35,7 +38,7 @@ public class PayPalService {
     public synchronized String getAccessToken() {
         try {
             if (accessToken == null || Instant.now().isAfter(tokenExpiration.minus(1, ChronoUnit.MINUTES))) {
-                System.out.println("Fetching new PayPal access token...");
+                logger.debug("Fetching new PayPal access token...");
                 String url = payPalConfig.getApiBaseUrl() + "/v1/oauth2/token";
                 String credentials = payPalConfig.getId() + ":" + payPalConfig.getSecret();
                 String encodedCredentials = Base64.getEncoder().encodeToString(credentials.getBytes(StandardCharsets.UTF_8));
@@ -80,10 +83,7 @@ public class PayPalService {
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String,Object>> request = new HttpEntity<>(orderRequest, headers);
             ResponseEntity<Map> resp = restTemplate.postForEntity(url, request, Map.class);
-            System.out.println("Posting to: " + url);
-            System.out.println("Access Token: " + getAccessToken());
-            System.out.println("Headers: " + headers);
-            System.out.println("Body: " + orderRequest);
+            logger.debug("Creating PayPal order with amount: {} {}", formattedAmount, currency);
             if (resp.getStatusCode() == HttpStatus.CREATED) {
                 return ((Map)resp.getBody()).get("id").toString();
             }

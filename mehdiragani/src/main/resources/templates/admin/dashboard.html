@@ -15,7 +15,9 @@
     <br>
     <section id="tables">
         <div class="table" th:each="table : ${tables}">
-            <a class="table-name" th:href="@{|/admin/${table}s|}" th:text="${table}"></a>
+            <a class="table-name" 
+               th:href="${table.equals('orders')} ? @{|/admin/${table}|} : @{|/admin/${table}s|}" 
+               th:text="${table}"></a>
             <a class="add" th:href="@{|/admin/${table}s/add|}">Add</a>
             <a class="change" th:href="@{|/admin/${table}s|}">Change</a>
         </div>    

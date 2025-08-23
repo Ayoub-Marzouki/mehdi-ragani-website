@@ -3,6 +3,8 @@ package art.mehdiragani.mehdiragani.payment.services;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,7 @@ import art.mehdiragani.mehdiragani.core.models.Artwork;
 @Service
 @Transactional
 public class OrderService {
+    private static final Logger logger = LoggerFactory.getLogger(OrderService.class);
     private final OrderRepository orderRepository;
     // Can use service instead of repo here, no circular dependency (OrderService doesn't depend on user or cart services)
     private final CartService cartService;
@@ -135,26 +138,22 @@ public class OrderService {
         String sessionId = session.getId();
         String preAuthSessionId = (String) session.getAttribute("PRE_AUTH_SESSION_ID");
         
-        System.out.println("=== ORDER MERGING DEBUG ===");
-        System.out.println("Current Session ID: " + sessionId);
-        System.out.println("Pre-Auth Session ID: " + preAuthSessionId);
-        System.out.println("User: " + user.getUsername());
+        logger.debug("Merging orders for user: {}", user.getUsername());
         
         // Try to find guest orders with pre-authentication session ID first
         String sessionIdToUse = preAuthSessionId != null ? preAuthSessionId : sessionId;
         List<Order> guestOrders = findGuestOrdersBySessionId(sessionIdToUse);
         
-        System.out.println("Found " + guestOrders.size() + " guest orders for session ID: " + sessionIdToUse);
+        logger.debug("Found {} guest orders to merge", guestOrders.size());
         
         for (Order guestOrder : guestOrders) {
-            System.out.println("Merging order: " + guestOrder.getId() + " (Total: " + guestOrder.getTotal() + ")");
+            logger.debug("Merging order: {} (Total: {})", guestOrder.getId(), guestOrder.getTotal());
             // Update the order to belong to the user
             guestOrder.setUser(user);
             orderRepository.save(guestOrder);
-            System.out.println("Order merged successfully");
         }
         
-        System.out.println("=== END ORDER MERGING DEBUG ===");
+        logger.debug("Order merging completed for user: {}", user.getUsername());
     }
 
     public List<Order> getAllOrders() {
