@@ -54,13 +54,13 @@ public class PayPalService {
                     this.accessToken = tokenResponse.getAccessToken();
                     this.tokenExpiration = Instant.now().plusSeconds(tokenResponse.getExpiresIn());
                 } else {
-                    System.err.println("Failed to get PayPal access token: " + response.getStatusCode() + " - " + response.getBody());
+                    logger.error("Failed to get PayPal access token: {} - {}", response.getStatusCode(), response.getBody());
                     throw new RuntimeException("Failed to get PayPal access token: " + response.getStatusCode() + " - " + response.getBody());
                 }
             }
             return accessToken;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception while getting PayPal access token", e);
             throw new RuntimeException("Exception while getting PayPal access token: " + e.getMessage(), e);
         }
     }
@@ -87,10 +87,10 @@ public class PayPalService {
             if (resp.getStatusCode() == HttpStatus.CREATED) {
                 return ((Map)resp.getBody()).get("id").toString();
             }
-            System.err.println("Failed to create PayPal order: " + resp.getStatusCode() + " - " + resp.getBody());
+            logger.error("Failed to create PayPal order: {} - {}", resp.getStatusCode(), resp.getBody());
             throw new RuntimeException("Failed to create PayPal order: " + resp.getStatusCode() + " - " + resp.getBody());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception while creating PayPal order", e);
             throw new RuntimeException("Exception while creating PayPal order: " + e.getMessage(), e);
         }
     }
@@ -106,10 +106,10 @@ public class PayPalService {
             if (resp.getStatusCode() == HttpStatus.CREATED) {
                 return resp.getBody();
             }
-            System.err.println("Failed to capture PayPal order: " + resp.getStatusCode() + " - " + resp.getBody());
+            logger.error("Failed to capture PayPal order: {} - {}", resp.getStatusCode(), resp.getBody());
             throw new RuntimeException("Failed to capture PayPal order: " + resp.getStatusCode() + " - " + resp.getBody());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception while capturing PayPal order", e);
             throw new RuntimeException("Exception while capturing PayPal order: " + e.getMessage(), e);
         }
     }

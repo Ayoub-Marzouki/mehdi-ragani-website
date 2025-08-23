@@ -3,6 +3,8 @@ package art.mehdiragani.mehdiragani.payment.controllers;
 import java.util.Map;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,6 +25,7 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @RequestMapping("/api/paypal")
 public class PayPalController {
+    private static final Logger logger = LoggerFactory.getLogger(PayPalController.class);
     private final PayPalService paypalService;
     private final CartService cartService;
     private final OrderService orderService;
@@ -53,7 +56,7 @@ public class PayPalController {
                 "ourOrderId", order.getId().toString()
             ));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to create PayPal order", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Failed to create PayPal order: " + e.getMessage()));
         }
     }
@@ -72,7 +75,7 @@ public class PayPalController {
                 "captureId", captureId
             ));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to capture PayPal order", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("error", "Failed to capture PayPal order: " + e.getMessage()));
         }
     }
