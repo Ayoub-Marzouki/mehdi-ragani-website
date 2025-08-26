@@ -640,10 +640,6 @@ sudo journalctl -u mehdiragani.service -f</code></pre>
 </ul>
 </section>
 
-<section id="additional-resources">
-<h2>📚 Additional Resources</h2>
-
-
 <section id="conclusion">
 <h2>🎉 Conclusion</h2>
 
