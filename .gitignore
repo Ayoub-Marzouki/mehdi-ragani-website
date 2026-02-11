@@ -1,0 +1,14 @@
+# IDE folders
+.idea/
+.vscode/
+
+# Local assets (stored elsewhere)
+images/
+
+# Documentation files (not needed in repo)
+r.docx
+Website Overview.docx
+
+# OS files
+.DS_Store
+Thumbs.db

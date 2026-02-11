@@ -417,7 +417,7 @@ sudo journalctl -u mehdiragani.service -f</code></pre>
 <ul>
 <li><code>GET /</code> - Homepage</li>
 <li><code>GET /store</code> - Artwork gallery</li>
-<li><code>GET /store/artwork/{id}</code> - Artwork details</li>
+<li><code>GET /store/{id}</code> - Artwork details</li>
 <li><code>GET /store/print/{id}</code> - Print details</li>
 <li><code>GET /about</code> - About page</li>
 <li><code>GET /contact</code> - Contact page</li>
@@ -431,16 +431,18 @@ sudo journalctl -u mehdiragani.service -f</code></pre>
 <li><code>GET /user/register</code> - Registration page</li>
 <li><code>POST /user/register</code> - Registration processing</li>
 <li><code>GET /user/logout</code> - Logout</li>
-<li><code>GET /user/account</code> - User account</li>
+<li><code>GET /account</code> - User account overview</li>
+<li><code>GET /account/orders</code> - User orders history</li>
+<li><code>GET /account/orders/{id}</code> - User order details</li>
 </ul>
 
 <h3>Cart & Shopping Endpoints</h3>
 <ul>
-<li><code>POST /cart/add-artwork</code> - Add artwork to cart</li>
+<li><code>POST /cart/add</code> - Add artwork to cart</li>
 <li><code>POST /cart/add-print</code> - Add print to cart</li>
 <li><code>GET /cart</code> - View cart</li>
-<li><code>POST /cart/update</code> - Update cart items</li>
-<li><code>POST /cart/remove</code> - Remove cart items</li>
+<li><code>POST /cart/remove/{artworkId}</code> - Remove artwork from cart</li>
+<li><code>POST /cart/remove-print/{id}</code> - Remove print from cart</li>
 </ul>
 
 <h3>Payment Endpoints</h3>
