@@ -1,0 +1,181 @@
+name: Build, Test & Deploy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mehdiragani/src/**'
+      - 'mehdiragani/pom.xml'
+      - '.github/workflows/**'
+  
+  workflow_dispatch:
+    inputs:
+      skip_tests:
+        description: 'Skip tests (emergency only)'
+        required: false
+        default: false
+        type: boolean
+
+env:
+  JAVA_VERSION: '23'
+  APP_DIR: /home/deployer/mehdiragani-app
+  JAR_NAME: mehdiragani-0.0.1-SNAPSHOT.jar
+  BACKUP_DIR: /home/deployer/backups
+
+jobs:
+  # ════════════════════════════════════════════════════════════════
+  # BUILD & TEST
+  # ════════════════════════════════════════════════════════════════
+  build:
+    name: Build & Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./mehdiragani
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK ${{ env.JAVA_VERSION }}
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run tests
+        if: ${{ github.event.inputs.skip_tests != 'true' }}
+        run: mvn test --batch-mode
+
+      - name: Build JAR
+        run: mvn package -DskipTests --batch-mode
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-jar
+          path: mehdiragani/target/*.jar
+          retention-days: 5
+
+  # ════════════════════════════════════════════════════════════════
+  # DEPLOY
+  # ════════════════════════════════════════════════════════════════
+  deploy:
+    name: Deploy to Production
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: app-jar
+          path: ./artifact
+
+      - name: Deploy - Backup & Transfer
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          script: |
+            set -e
+            TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+            
+            echo "═══════════════════════════════════════"
+            echo "Deployment started: $TIMESTAMP"
+            echo "═══════════════════════════════════════"
+            
+            # Backup current JAR
+            if [ -f "${{ env.APP_DIR }}/${{ env.JAR_NAME }}" ]; then
+              echo "→ Creating backup..."
+              cp "${{ env.APP_DIR }}/${{ env.JAR_NAME }}" "${{ env.BACKUP_DIR }}/${{ env.JAR_NAME }}.backup_$TIMESTAMP"
+              # Keep only last 5 backups
+              ls -t ${{ env.BACKUP_DIR }}/*.backup_* 2>/dev/null | tail -n +6 | xargs -r rm
+            fi
+            
+            # Create temp directory
+            mkdir -p /home/deployer/temp_deploy
+
+      - name: Transfer JAR
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          source: "artifact/*.jar"
+          target: "/home/deployer/temp_deploy"
+          strip_components: 1
+          overwrite: true
+
+      - name: Deploy - Install & Restart
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          script: |
+            set -e
+            
+            echo "→ Stopping service..."
+            sudo systemctl stop mehdiragani || true
+            
+            echo "→ Installing new JAR..."
+            mv /home/deployer/temp_deploy/*.jar ${{ env.APP_DIR }}/${{ env.JAR_NAME }}
+            rm -rf /home/deployer/temp_deploy
+            
+            echo "→ Starting service..."
+            sudo systemctl start mehdiragani
+
+      - name: Health Check (with rollback)
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.DO_HOST }}
+          username: ${{ secrets.DO_USERNAME }}
+          key: ${{ secrets.DO_SSH_KEY }}
+          script: |
+            MAX_ATTEMPTS=40
+            ATTEMPT=1
+            
+            echo "→ Running health check..."
+            
+            while [ $ATTEMPT -le $MAX_ATTEMPTS ]; do
+              sleep 3
+              
+              if ! sudo systemctl is-active --quiet mehdiragani; then
+                echo "  Attempt $ATTEMPT/$MAX_ATTEMPTS: Service not running yet..."
+                ATTEMPT=$((ATTEMPT + 1))
+                continue
+              fi
+              
+              HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/ --max-time 5 2>/dev/null || echo "000")
+              
+              if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "302" ]; then
+                echo "═══════════════════════════════════════"
+                echo "✓ Deployment successful (HTTP $HTTP_CODE)"
+                echo "═══════════════════════════════════════"
+                exit 0
+              fi
+              
+              echo "  Attempt $ATTEMPT/$MAX_ATTEMPTS: HTTP $HTTP_CODE"
+              ATTEMPT=$((ATTEMPT + 1))
+            done
+            
+            # ROLLBACK
+            echo "═══════════════════════════════════════"
+            echo "✗ Health check failed - ROLLING BACK"
+            echo "═══════════════════════════════════════"
+            
+            LATEST_BACKUP=$(ls -t ${{ env.BACKUP_DIR }}/*.backup_* 2>/dev/null | head -1)
+            
+            if [ -n "$LATEST_BACKUP" ]; then
+              sudo systemctl stop mehdiragani || true
+              cp "$LATEST_BACKUP" "${{ env.APP_DIR }}/${{ env.JAR_NAME }}"
+              sudo systemctl start mehdiragani
+              echo "→ Restored: $LATEST_BACKUP"
+            else
+              echo "✗ No backup found!"
+            fi
+            
+            exit 1
